@@ -93,6 +93,11 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 a {
