@@ -35,6 +35,10 @@
   .desktop-only {
     display: none !important;
   }
+
+  .page {
+    padding: 36px 24px 0;
+  }
 }
 
 /* Header */
@@ -55,14 +59,19 @@
   flex-wrap: wrap;
   border-radius: var(--radius-md);
   border: 3px solid transparent;
-  background: var(--bg-page);
+  background: color-mix(in srgb, var(--bg-page) 75%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-none);
   transition:
     border-color var(--dur) var(--ease-out),
-    background-color var(--dur) var(--ease-out);
+    background-color var(--dur) var(--ease-out),
+    box-shadow var(--dur) var(--ease-out);
 }
 .site-header.is-scrolled .bar {
   border-color: var(--line);
-  background: var(--bg-surface);
+  background: color-mix(in srgb, var(--bg-surface) 95%, transparent);
+  box-shadow: var(--shadow);
 }
 .site-header.is-scrolled .loam-tabs {
   border-color: transparent;

@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=../../.astro/collections/site.schema.json#/definitions/site/additionalProperties
 name: Andy Pyle
-role: Frontend engineer
-description: Andy Pyle — frontend engineer working where design meets engineering.
+role: Frontend Engineer
+description: Andy Pyle - Frontend software engineer working where design meets engineering.
 email: hello@andypyle.com
 links:
   linkedin: https://www.linkedin.com/in/andrew-pyle-dev
