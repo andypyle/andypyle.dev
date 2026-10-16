@@ -1,0 +1,60 @@
+---
+title: 'Blog Migration'
+summary: "Took full ownership of migrating Vimeo's blog from a legacy WordPress setup to a modern headless CMS. Consolidated two separate content management systems into one, improved the content-editor experience, and reduced annual operating costs."
+role: 'Software Engineer III'
+year: '2024/2025'
+tags:
+  ['Data Migration', 'Legacy Systems', 'Headless CMS', 'Tech Debt Reduction']
+order: 2
+featured: true
+company: 'Vimeo'
+team: '1 eng · 1 designer'
+timeline: '~4 months'
+hero: './blog-migration/blog-home-after.png'
+---
+
+import oldBlogHome from './blog-migration/blog-home-before.png'
+import newBlogHome from './blog-migration/blog-home-after.png'
+import oldBlogPost from './blog-migration/blog-post-before.png'
+import newBlogPost from './blog-migration/blog-post-after.png'
+import Figure from '../../components/Figure.astro'
+import FigureGroup from '../../components/FigureGroup.astro'
+import Callout from '../../components/Callout.astro'
+
+## Problem
+
+Vimeo's blog hosted thousands of posts dating back to the early 2000s and ran on a legacy WordPress instance maintained by an outside contractor. It was completely separate from the rest of the marketing codebase — expensive to operate, difficult to maintain, and visually out of step with a company-wide rebranding effort underway at the time.
+
+<Figure
+  src={oldBlogHome}
+  alt="Old Vimeo Blog home"
+  caption="Before: Blog home"
+/>
+<Figure
+  src={newBlogHome}
+  alt="New Vimeo Blog home"
+  caption="After: Blog home"
+/>
+
+## Approach
+
+I took on the migration end to end. The first step was a thorough audit of every custom block type in WordPress, mapping each one to an equivalent React component in the new headless CMS. The goal wasn't just a technical lift-and-shift — the new components also needed to align with Vimeo's updated design language and use the same component library as the rest of the marketing site.
+
+<Figure
+  src={oldBlogPost}
+  alt="Old Vimeo Blog post"
+  caption="Before: Blog post"
+/>
+<Figure
+  src={newBlogPost}
+  alt="New Vimeo Blog post"
+  caption="After: Blog post"
+/>
+
+Once the component mapping was complete, I wrote a data migration script to convert the full archive of posts to the new format. With thousands of posts and varying block configurations, content integrity was a primary concern throughout.
+
+I also coordinated across multiple stakeholders: design, marketing, and the content team, keeping everyone aligned on scope and decisions as the project progressed.
+
+## Outcome
+
+The migration successfully moved Vimeo's entire blog archive to the headless CMS, consolidating two separate content management systems into one. Content editors gained a significantly improved authoring experience, the blog now shares the same component library as the rest of the marketing site, and annual operating costs were reduced.
