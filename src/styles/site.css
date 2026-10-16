@@ -100,6 +100,16 @@
     display: block;
   }
 }
+/* Faint shade along the bottom edge so the menu toggle reads over page content */
+.mnav::before {
+  content: '';
+  position: fixed;
+  inset: auto 0 0;
+  height: 128px;
+  z-index: 39;
+  pointer-events: none;
+  background: linear-gradient(to top, rgb(26 31 36 / 0.2), transparent);
+}
 .mnav-backdrop,
 .mnav-sheet {
   display: none;
@@ -192,6 +202,12 @@
   min-width: 124px;
   height: 54px;
   font-size: 17px;
+  background: var(--slate-700);
+  color: var(--slate-50);
+}
+.mnav-toggle:hover {
+  background: var(--slate-500);
+  color: var(--slate-50);
 }
 .glyph {
   position: relative;
