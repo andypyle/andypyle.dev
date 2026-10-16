@@ -73,9 +73,17 @@
   background: color-mix(in srgb, var(--bg-surface) 95%, transparent);
   box-shadow: var(--shadow);
 }
+.site-header .loam-tabs {
+  box-shadow: var(--shadow);
+  transition:
+    border-color var(--dur) var(--ease-out),
+    background-color var(--dur) var(--ease-out),
+    box-shadow var(--dur) var(--ease-out);
+}
 .site-header.is-scrolled .loam-tabs {
   border-color: transparent;
   background: transparent;
+  box-shadow: var(--shadow-none);
 }
 .wordmark {
   font-family: var(--font-display);
@@ -302,7 +310,7 @@
 }
 @media (max-width: 720px) {
   .site-footer .inner {
-    padding-bottom: 120px;
+    padding-bottom: 40px;
   }
 }
 

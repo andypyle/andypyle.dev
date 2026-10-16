@@ -27,7 +27,7 @@ const meta = [
   ...(d.tags ? [['Focus', d.tags.join(', ')]] : []),
 ];
 ---
-<BaseLayout title={d.title} description={d.summary}>
+<BaseLayout title={d.title} description={d.summary} image={d.hero} type="article">
   <article class="case">
     <Button variant="ghost" size="sm" icon="arrow-left" href="/case-studies/">All case studies</Button>
     <h1 style="margin-top:28px">{d.title}</h1>

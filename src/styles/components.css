@@ -212,4 +212,8 @@
 :hover > .loam-anim-hop circle, :focus-visible > .loam-anim-hop circle { animation: loam-hop 520ms var(--ease-out); }
 :hover > .loam-anim-hop rect, :focus-visible > .loam-anim-hop rect { animation: loam-squash 420ms var(--ease-bounce); }
 :hover > .loam-anim-hop path, :focus-visible > .loam-anim-hop path { animation: loam-squash 420ms var(--ease-bounce) 70ms; }
-@media (prefers-reduced-motion: reduce) { .loam-anim-write svg, .loam-anim-write path, .loam-anim-hop circle, .loam-anim-hop rect, .loam-anim-hop path { animation: none !important; } }
+
+/* Micro-interaction: arrow dashes off to the right and slides back in from the left (arrow-right icon) */
+@keyframes loam-dash { 0% { transform: translateX(0); opacity: 1; } 28% { transform: translateX(9px); opacity: 0; } 29% { transform: translateX(-9px); opacity: 0; } 55% { transform: translateX(4px); opacity: 1; } 72% { transform: translateX(-2px); } 86% { transform: translateX(1px); } 100% { transform: translateX(0); } }
+:hover > .loam-anim-dash svg, :focus-visible > .loam-anim-dash svg { animation: loam-dash 640ms var(--ease-out); }
+@media (prefers-reduced-motion: reduce) { .loam-anim-write svg, .loam-anim-write path, .loam-anim-hop circle, .loam-anim-hop rect, .loam-anim-hop path, .loam-anim-dash svg { animation: none !important; } }

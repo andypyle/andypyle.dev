@@ -10,11 +10,13 @@ interface Props {
   iconRight?: string;
   /** Extra class on the leading icon, e.g. "loam-anim-hop" */
   iconClass?: string;
+  /** Extra class on the trailing icon, e.g. "loam-anim-dash" */
+  iconRightClass?: string;
   type?: 'button' | 'submit';
   class?: string;
   [key: string]: any;
 }
-const { variant = 'primary', size = 'md', href, external = false, icon, iconRight, iconClass, type = 'button', class: cls, ...rest } = Astro.props;
+const { variant = 'primary', size = 'md', href, external = false, icon, iconRight, iconClass, iconRightClass, type = 'button', class: cls, ...rest } = Astro.props;
 const is = size === 'sm' ? 16 : size === 'lg' ? 22 : 18;
 const Tag = href ? 'a' : 'button';
 const attrs = href ? { href, ...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {}) } : { type };
@@ -22,5 +24,5 @@ const attrs = href ? { href, ...(external ? { target: '_blank', rel: 'noopener n
 <Tag class:list={['loam-btn', 'loam-btn--' + variant, 'loam-btn--' + size, cls]} {...attrs} {...rest}>
   {icon && <Icon name={icon} size={is} class={iconClass} />}
   <slot />
-  {iconRight && <Icon name={iconRight} size={is} />}
+  {iconRight && <Icon name={iconRight} size={is} class={iconRightClass} />}
 </Tag>
