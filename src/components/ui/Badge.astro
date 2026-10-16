@@ -1,0 +1,6 @@
+---
+import Icon from './Icon.astro';
+interface Props { tone?: 'sage' | 'mist' | 'moss' | 'lichen' | 'dusk' | 'paper' | 'ink'; icon?: string }
+const { tone = 'sage', icon } = Astro.props;
+---
+<span class:list={['loam-badge', 'loam-badge--' + tone]}>{icon && <Icon name={icon} size={13} />}<slot /></span>

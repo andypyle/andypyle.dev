@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+import headshot from '../assets/andy-pyle-headshot.jpg';
+import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
+import Tag from '../components/ui/Tag.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getExperience, getSite, getSkills } from '../lib/data';
+
+const [site, experience, skills] = await Promise.all([getSite(), getExperience(), getSkills()]);
+---
+<BaseLayout title="About">
+  <div class="about">
+    <div class="about-side">
+      <Image class="about-photo" src={headshot} alt="Andy Pyle" widths={[270, 380, 684]} sizes="(max-width: 720px) 270px, 380px" loading="eager" />
+      <Card tone="lichen">
+        <h4>Get in touch</h4>
+        <p style="font-size:15px;color:var(--fg-2);margin:8px 0 16px">The best way to reach me is a message on LinkedIn.</p>
+        <Button href={site.links.linkedin} external icon="linkedin" iconClass="loam-anim-hop">Message me on LinkedIn</Button>
+      </Card>
+    </div>
+    <div class="about-main">
+      <h1>About</h1>
+      <p>I got into engineering through design. I studied graphic design first, and somewhere along the way realized I was more interested in how interfaces were built than how they were printed. That curiosity pulled me toward code, and I've been chasing that overlap ever since.</p>
+      <p>These days I work primarily in React and TypeScript, with a lot of recent focus on design systems. I care about the person on the other side of the screen, but just as much about the engineers building alongside me. Good developer experience and good user experience aren't that different, really.</p>
+      <p>When I'm not at a keyboard, you'll find me at a campsite, tending a barbecue, or making music. I live on the Central Coast of California with my wife and our cat, who has strong opinions about my work-from-home setup.</p>
+      <div style="margin-top:12px">
+        <h3 style="margin-bottom:16px">Experience</h3>
+        <Card padding="none">
+          {experience.map((x) => (
+            <div class="xp-row">
+              <span class="meta" style="padding-top:3px">{x.when}</span>
+              <div><div class="role">{x.role}</div><div class="org">{x.org}</div></div>
+            </div>
+          ))}
+        </Card>
+      </div>
+
+      <div style="margin-top:12px">
+        <h3 style="margin-bottom:16px">What I work with</h3>
+        <div class="row" style="gap:10px">{skills.map((s) => <Tag>{s}</Tag>)}</div>
+      </div>
+
+      <div class="row" style="padding-top:12px">
+        <Button variant="secondary" iconRight="arrow-right" href="/case-studies/">See case studies</Button>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

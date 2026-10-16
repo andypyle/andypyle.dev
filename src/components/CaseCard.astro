@@ -1,0 +1,23 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Card from './ui/Card.astro';
+import Placeholder from './ui/Placeholder.astro';
+import { Image } from 'astro:assets';
+import Icon from './ui/Icon.astro';
+interface Props { entry: CollectionEntry<'case-studies'> }
+const { entry } = Astro.props;
+const d = entry.data;
+---
+<Card class="case-card" href={'/case-studies/' + entry.id + '/'} interactive padding="none">
+  <div class="inner">
+    {d.hero
+      ? <Image src={d.hero} alt="" widths={[480, 960]} sizes="(max-width: 600px) 100vw, 480px" class="case-card__img" />
+      : <Placeholder label={d.company.toLowerCase() + ' · hero shot'} ratio="16/10" />}
+    <div class="body">
+      <h3>{d.title}</h3>
+      <p>{d.summary}</p>
+      <span class="meta">{d.company} · {d.year}</span>
+      <span class="more">Read case study <Icon name="arrow-right" size={18} /></span>
+    </div>
+  </div>
+</Card>

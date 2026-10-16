@@ -1,0 +1,32 @@
+---
+import Button from './ui/Button.astro';
+import { getSite } from '../lib/data';
+
+const site = await getSite();
+const { nav } = site;
+const path = Astro.url.pathname;
+const current = nav.find((n) => (n.href === '/' ? path === '/' : path.startsWith(n.href)))?.id;
+---
+<header class="site-header" data-header>
+  <div class="bar">
+    <a class="wordmark" href="/">{site.name}</a>
+    <nav class="loam-tabs loam-tabs--view desktop-only" aria-label="Main">
+      {nav.map((n) => (
+        <a class:list={['loam-tab', { 'is-active': n.id === current }]} href={n.href} aria-current={n.id === current ? 'page' : undefined}>
+          {n.id === current && <span class="loam-tab-pill" aria-hidden="true" />}
+          <span class="loam-tab-label" style={'view-transition-name: loam-tab-' + n.id}>{n.label}</span>
+        </a>
+      ))}
+    </nav>
+    <Button class="desktop-only" variant="secondary" size="sm" href={site.links.linkedin} external icon="linkedin" iconClass="loam-anim-hop">LinkedIn</Button>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector('[data-header]');
+  if (header) {
+    const update = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+  }
+</script>

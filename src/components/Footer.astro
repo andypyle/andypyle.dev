@@ -1,0 +1,42 @@
+---
+import IconButton from './ui/IconButton.astro';
+import Icon from './ui/Icon.astro';
+import { getSite } from '../lib/data';
+
+const site = await getSite();
+---
+<footer class="site-footer">
+  <div class="inner">
+    <div class="stack" style="gap:4px">
+      <span class="name">{site.name}</span>
+      <span class="line">{site.role} · Built with love on the Central Coast of California · © {new Date().getFullYear()}</span>
+    </div>
+    <div class="row" style="gap:12px">
+      <span class="loam-tooltip"><IconButton icon="linkedin" label="LinkedIn" size="sm" href={site.links.linkedin} external /><span class="loam-tooltip-bubble" role="tooltip">LinkedIn</span></span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast-wrap" data-toast hidden>
+  <div class="loam-toast loam-toast--success" role="status">
+    <span class="loam-toast-icon"><Icon name="check" size={18} /></span>
+    <div class="loam-toast-text">
+      <div class="loam-toast-title">Email copied</div>
+      <div class="loam-toast-msg">{site.email}</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const toast = document.querySelector<HTMLElement>('[data-toast]');
+  let t: number | undefined;
+  document.querySelectorAll<HTMLElement>('[data-copy-email]').forEach((el) => {
+    el.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(el.dataset.copyEmail || ''); } catch {}
+      if (!toast) return;
+      toast.hidden = false;
+      window.clearTimeout(t);
+      t = window.setTimeout(() => { toast.hidden = true; }, 3500);
+    });
+  });
+</script>

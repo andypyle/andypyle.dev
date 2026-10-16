@@ -1,0 +1,28 @@
+:root {
+  --font-display: 'Fredoka', ui-rounded, 'Arial Rounded MT Bold', system-ui, sans-serif;
+  --font-body: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, monospace;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Scale (px) */
+  --text-display: 72px;
+  --text-h1: 52px;
+  --text-h2: 38px;
+  --text-h3: 28px;
+  --text-h4: 22px;
+  --text-lg: 19px;
+  --text-md: 17px;
+  --text-sm: 15px;
+  --text-xs: 13px;
+
+  --leading-tight: 1.05;
+  --leading-snug: 1.2;
+  --leading-body: 1.6;
+
+  --tracking-display: -0.02em;
+  --tracking-caps: 0.08em;
+}

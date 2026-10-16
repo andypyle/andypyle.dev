@@ -1,0 +1,66 @@
+---
+// Routed to /case-studies/[slug]/ via injectRoute in astro.config.mjs
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
+import Placeholder from '../components/ui/Placeholder.astro';
+
+export async function getStaticPaths() {
+  const cases = (await getCollection('case-studies')).sort((a, b) => a.data.order - b.data.order);
+  return cases.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: { entry, next: cases[(i + 1) % cases.length] },
+  }));
+}
+
+const { entry, next } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+const meta = [
+  ['Company', d.company + ', ' + d.year],
+  ['Role', d.role],
+  ['Team', d.team],
+  ['Timeline', d.timeline],
+  ...(d.stack ? [['Stack', d.stack.join(', ')]] : []),
+  ...(d.tags ? [['Focus', d.tags.join(', ')]] : []),
+];
+---
+<BaseLayout title={d.title} description={d.summary}>
+  <article class="case">
+    <Button variant="ghost" size="sm" icon="arrow-left" href="/case-studies/">All case studies</Button>
+    <h1 style="margin-top:28px">{d.title}</h1>
+    <p class="lead" style="font-size:21px;margin-top:16px;max-width:680px">{d.summary}</p>
+
+    <Card tone="sunken" flat class="case-meta">
+      {meta.map(([k, v]) => <div><div class="caps">{k}</div><div class="val">{v}</div></div>)}
+    </Card>
+
+    {d.hero
+      ? <Image src={d.hero} alt="" widths={[880, 1760]} sizes="(max-width: 880px) 100vw, 880px" loading="eager" class="case-hero case-hero--img" />
+      : <Placeholder label="hero shot · before / after" ratio="16/9" framed class="case-hero" />}
+
+    <div class="loam-prose">
+      <Content />
+      {d.outcome && <h2>Outcome</h2>}
+    </div>
+    {d.outcome && (
+      <div class="outcomes">
+        {d.outcome.map((o) => <Card tone={d.tone} padding="sm"><div class="num">{o.value}</div><div class="lbl">{o.label}</div></Card>)}
+      </div>
+    )}
+
+    {next.id !== entry.id && (
+      <Card class="next-case" href={'/case-studies/' + next.id + '/'} interactive>
+        <div class="title">{next.data.title}</div>
+        <span class="loam-btn loam-btn--primary loam-btn--sm">Next case study</span>
+      </Card>
+    )}
+  </article>
+</BaseLayout>
+
+<style is:global>
+  .case-hero { margin-top: 40px; box-shadow: var(--shadow-lg); }
+  .case-hero--img { display: block; width: 100%; height: auto; border: var(--border) solid var(--line); border-radius: var(--radius-lg); }
+</style>

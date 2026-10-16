@@ -1,0 +1,5 @@
+---
+interface Props { selected?: boolean; as?: 'span' | 'button'; class?: string; [key: string]: any }
+const { selected = false, as: Tag = 'span', class: cls, ...rest } = Astro.props;
+---
+<Tag class:list={['loam-tag', { 'is-selected': selected, 'is-clickable': Tag === 'button' }, cls]} aria-pressed={Tag === 'button' ? String(selected) : undefined} {...rest}><slot /></Tag>

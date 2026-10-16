@@ -1,0 +1,23 @@
+---
+import type { Project } from '../lib/data';
+import Card from './ui/Card.astro';
+import Placeholder from './ui/Placeholder.astro';
+import Button from './ui/Button.astro';
+interface Props { p: Project }
+const { p: entry } = Astro.props;
+const p = entry.data;
+---
+<Card class="project-card" padding="none" data-kind={p.kind}>
+  <Placeholder label={p.title.toLowerCase() + ' · screenshot'} ratio="16/10" />
+  <div class="body">
+    <h4>{p.title}</h4>
+    <p>{p.blurb}</p>
+    <div class="foot">
+      <span class="meta">{p.year} · {p.stack.join(' · ')}</span>
+      <div class="row" style="gap:8px">
+        {p.code && <Button size="sm" variant="secondary" icon="github" href={p.code} external>Code</Button>}
+        {p.live && <Button size="sm" iconRight="arrow-up-right" href={p.live} external>Live</Button>}
+      </div>
+    </div>
+  </div>
+</Card>

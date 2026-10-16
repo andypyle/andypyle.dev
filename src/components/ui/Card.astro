@@ -1,0 +1,8 @@
+---
+interface Props { tone?: 'surface' | 'sunken' | 'sage' | 'mist' | 'moss' | 'lichen' | 'dusk' | 'ink'; padding?: 'none' | 'sm' | 'md' | 'lg'; interactive?: boolean; flat?: boolean; href?: string; class?: string; [key: string]: any }
+const { tone = 'surface', padding = 'md', interactive = false, flat = false, href, class: cls, ...rest } = Astro.props;
+const Tag = href ? 'a' : 'div';
+---
+<Tag href={href} class:list={['loam-card', 'loam-card--' + tone, 'loam-card--pad-' + padding, { 'loam-card--interactive': interactive, 'loam-card--flat': flat }, cls]} {...rest}>
+  <slot />
+</Tag>

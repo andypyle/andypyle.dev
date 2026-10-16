@@ -1,0 +1,215 @@
+/* Loam component styles — consumed by the React primitives in components/ */
+
+/* Icon (Lucide via CSS mask, inherits currentColor) */
+.loam-icon { display: inline-flex; flex: none; line-height: 0; color: inherit; }
+.loam-icon svg { display: block; width: 100%; height: 100%; }
+
+/* Button */
+.loam-btn { font-family: var(--font-body); font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: var(--border) solid var(--line); border-radius: var(--radius-pill); box-shadow: var(--shadow); color: var(--fg-1); cursor: pointer; text-decoration: none; line-height: 1; white-space: nowrap; transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out); }
+.loam-btn:hover { transform: translate(-2px, -2px); box-shadow: var(--shadow-lg); color: var(--fg-1); }
+.loam-btn:active { transform: translate(4px, 4px); box-shadow: var(--shadow-none); }
+.loam-btn:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 4px; }
+.loam-btn--sm { height: 36px; padding: 0 14px; font-size: 14px; border-width: var(--border-thin); box-shadow: var(--shadow-sm); }
+.loam-btn--sm:hover { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 0 var(--line); }
+.loam-btn--sm:active { transform: translate(2px, 2px); box-shadow: var(--shadow-none); }
+.loam-btn--md { height: 46px; padding: 0 20px; font-size: 16px; }
+.loam-btn--lg { height: 58px; padding: 0 28px; font-size: 18px; }
+.loam-btn--primary { background: var(--sage-500); color: var(--on-fill); }
+.loam-btn--primary:hover { background: var(--sage-300); color: var(--on-fill); }
+.loam-btn--secondary { background: var(--bg-surface); }
+.loam-btn--secondary:hover { background: var(--mist-100); }
+.loam-btn--dark { background: var(--bg-inverse); color: var(--fg-inverse); box-shadow: none; }
+.loam-btn--dark:hover { color: var(--fg-inverse); background: var(--bg-inverse-hover); transform: none; box-shadow: none; }
+.loam-btn--dark:active { transform: translate(1px, 1px); }
+.loam-btn--ghost { background: transparent; border-color: transparent; box-shadow: none; }
+.loam-btn--ghost:hover { background: var(--bg-sunken); transform: none; box-shadow: none; }
+.loam-btn--ghost:active { transform: translate(1px, 1px); }
+.loam-btn--icon { padding: 0; }
+.loam-btn--icon.loam-btn--sm { width: 36px; }
+.loam-btn--icon.loam-btn--md { width: 46px; }
+.loam-btn--icon.loam-btn--lg { width: 58px; }
+.loam-btn:disabled, .loam-btn[aria-disabled="true"] { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; pointer-events: none; }
+
+/* Fields */
+.loam-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.loam-label { font-weight: 700; font-size: 14px; color: var(--fg-1); }
+.loam-hint { font-size: 13px; color: var(--fg-3); }
+.loam-field--error .loam-hint { color: var(--danger); font-weight: 600; }
+.loam-input-wrap { position: relative; display: flex; }
+.loam-input { width: 100%; height: 48px; padding: 0 14px; font: 500 16px/1.4 var(--font-body); color: var(--fg-1); background: var(--bg-surface); border: var(--border) solid var(--line); border-radius: var(--radius-md); outline: none; appearance: none; transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out); }
+.loam-input::placeholder { color: var(--slate-400); }
+.loam-input:focus { transform: translate(-2px, -2px); box-shadow: var(--shadow); }
+.loam-input--multi { height: auto; min-height: 128px; padding: 12px 14px; resize: vertical; }
+.loam-input--icon { padding-left: 44px; }
+.loam-input-icon { position: absolute; left: 14px; top: 15px; color: var(--fg-2); pointer-events: none; }
+.loam-field--error .loam-input { border-color: var(--danger); background: var(--danger-soft); }
+.loam-input:disabled { background: var(--bg-sunken); color: var(--fg-3); cursor: not-allowed; }
+.loam-select { padding-right: 44px; cursor: pointer; }
+.loam-select-chev { position: absolute; right: 14px; top: 14px; pointer-events: none; }
+
+/* Checkbox + Radio */
+.loam-check, .loam-radio { position: relative; display: inline-flex; align-items: center; gap: 10px; font-weight: 500; font-size: 16px; cursor: pointer; user-select: none; }
+.loam-check input, .loam-radio input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.loam-check-box, .loam-radio-box { width: 24px; height: 24px; flex: none; display: grid; place-items: center; background: var(--bg-surface); border: var(--border) solid var(--line); border-radius: var(--radius-sm); transition: background-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast); }
+.loam-radio-box { border-radius: 50%; }
+.loam-check-box .loam-icon { opacity: 0; transform: scale(.3); transition: transform var(--dur) var(--ease-bounce), opacity var(--dur-fast); }
+.loam-radio-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--on-fill); transform: scale(0); transition: transform var(--dur) var(--ease-bounce); }
+.loam-check:hover .loam-check-box, .loam-radio:hover .loam-radio-box { box-shadow: var(--shadow-sm); }
+.loam-check input:checked + .loam-check-box, .loam-radio input:checked + .loam-radio-box { background: var(--sage-500); }
+.loam-check input:checked + .loam-check-box .loam-icon { opacity: 1; transform: scale(1); }
+.loam-radio input:checked + .loam-radio-box .loam-radio-dot { transform: scale(1); }
+.loam-check input:focus-visible + .loam-check-box, .loam-radio input:focus-visible + .loam-radio-box, .loam-switch input:focus-visible + .loam-switch-track { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
+.is-disabled { opacity: .45; cursor: not-allowed; }
+
+/* Switch */
+.loam-switch { position: relative; display: inline-flex; align-items: center; gap: 12px; font-weight: 500; font-size: 16px; cursor: pointer; user-select: none; }
+.loam-switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.loam-switch-track { position: relative; width: 54px; height: 30px; flex: none; background: var(--bg-sunken); border: var(--border) solid var(--line); border-radius: var(--radius-pill); transition: background-color var(--dur) var(--ease-out); }
+.loam-switch-thumb { position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--fg-1); transition: transform var(--dur-slow) var(--ease-bounce), background-color var(--dur); }
+.loam-switch input:checked + .loam-switch-track { background: var(--moss-500); }
+.loam-switch input:checked + .loam-switch-track .loam-switch-thumb { transform: translateX(24px); background: var(--bg-surface); box-shadow: 0 0 0 2px var(--line); }
+
+/* Card */
+.loam-card { display: block; color: var(--fg-1); background: var(--bg-surface); border: var(--border) solid var(--line); border-radius: var(--radius-lg); box-shadow: var(--shadow); overflow: hidden; text-decoration: none; transition: transform var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out); }
+.loam-card--pad-none { padding: 0; }
+.loam-card--pad-sm { padding: 16px; }
+.loam-card--pad-md { padding: 24px; }
+.loam-card--pad-lg { padding: 36px; }
+.loam-card--flat { box-shadow: none; }
+.loam-card--sage { background: var(--sage-100); }
+.loam-card--moss { background: var(--moss-100); }
+.loam-card--mist { background: var(--mist-100); }
+.loam-card--lichen { background: var(--lichen-100); }
+.loam-card--dusk { background: var(--dusk-100); }
+.loam-card--sunken { background: var(--bg-sunken); }
+.loam-card--ink { background: var(--bg-inverse); color: var(--fg-inverse); box-shadow: none; }
+.loam-card--interactive { cursor: pointer; }
+.loam-card--interactive:hover { transform: translate(-3px, -3px); box-shadow: var(--shadow-xl); color: var(--fg-1); }
+.loam-card--interactive:active { transform: translate(2px, 2px); box-shadow: var(--shadow-sm); }
+
+/* Badge */
+.loam-badge { display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 10px; border: var(--border-thin) solid var(--line); border-radius: var(--radius-pill); font: 700 12px/1 var(--font-body); letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-1); white-space: nowrap; }
+.loam-badge--sage { background: var(--sage-100); }
+.loam-badge--moss { background: var(--moss-100); }
+.loam-badge--mist { background: var(--mist-100); }
+.loam-badge--lichen { background: var(--lichen-100); }
+.loam-badge--dusk { background: var(--dusk-100); }
+.loam-badge--paper { background: var(--bg-surface); }
+.loam-badge--ink { background: var(--bg-inverse); color: var(--fg-inverse); }
+
+/* Tag */
+.loam-tag { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 16px; background: var(--bg-surface); border: var(--border-thin) solid var(--line); border-radius: var(--radius-pill); font: 600 14px/1 var(--font-body); color: var(--fg-1); white-space: nowrap; transition: background-color var(--dur-fast), transform var(--dur-fast) var(--ease-out); }
+.loam-tag.is-clickable { cursor: pointer; }
+.loam-tag.is-clickable:hover { background: var(--mist-100); }
+.loam-tag.is-clickable:active { transform: scale(.96); }
+.loam-tag.is-selected { background: var(--bg-inverse); color: var(--fg-inverse); }
+.loam-tag-x { display: grid; place-items: center; width: 22px; height: 22px; margin-right: -8px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; }
+.loam-tag-x:hover { background: var(--bg-sunken); color: var(--fg-1); }
+
+/* Placeholder (imagery stand-in) */
+.loam-placeholder { position: relative; display: grid; place-items: center; width: 100%; background: repeating-linear-gradient(135deg, var(--bg-sunken) 0 10px, var(--bg-page) 10px 20px); color: var(--fg-2); font: 500 12px/1.3 var(--font-mono); text-align: center; padding: 12px; }
+.loam-placeholder--framed { border: var(--border) solid var(--line); border-radius: var(--radius-lg); }
+.loam-placeholder span { background: var(--bg-surface); padding: 4px 8px; border-radius: 4px; border: 2px solid var(--line); }
+
+/* Tabs */
+.loam-tabs { display: inline-flex; gap: 4px; padding: 4px; background: var(--bg-surface); border: var(--border) solid var(--line); border-radius: var(--radius-pill); max-width: 100%; overflow-x: auto; transition: border-color var(--dur) var(--ease-out), background-color var(--dur) var(--ease-out); }
+.loam-tabs--bare { border-color: transparent; background: transparent; }
+.loam-tab { display: inline-flex; align-items: center; text-decoration: none; height: 38px; padding: 0 16px; border: var(--border-thin) solid transparent; border-radius: var(--radius-pill); background: transparent; color: var(--fg-2); font: 700 15px/1 var(--font-body); cursor: pointer; white-space: nowrap; transition: background-color var(--dur-fast), color var(--dur-fast); }
+.loam-tab:hover { color: var(--fg-1); background: var(--bg-sunken); }
+.loam-tab.is-active { background: var(--mist-500); color: var(--on-fill); border-color: var(--fg-1); }
+.loam-tabs--sliding { position: relative; }
+.loam-tabs--sliding .loam-tab { position: relative; z-index: 1; }
+.loam-tabs--sliding .loam-tab.is-active { background: transparent; border-color: transparent; }
+.loam-tabs--sliding .loam-tab:not(.is-active):hover { background: var(--bg-sunken); }
+.loam-tab-indicator { position: absolute; top: 4px; left: 0; height: 38px; background: var(--mist-500); border: var(--border-thin) solid var(--line); border-radius: var(--radius-pill); pointer-events: none; z-index: 0; }
+.loam-tab-indicator.is-ready { transition: transform var(--dur-slow) var(--ease-bounce), width var(--dur-slow) var(--ease-bounce), opacity var(--dur-fast); }
+@media (prefers-reduced-motion: reduce) { .loam-tab-indicator.is-ready { transition: none; } }
+
+/* Tabs — "view" mode: active pill is real markup (works in static HTML) and morphs between pages via View Transitions */
+@view-transition { navigation: auto; }
+.loam-tabs--view .loam-tab { position: relative; isolation: isolate; }
+.loam-tabs--view .loam-tab.is-active { background: transparent; border-color: transparent; }
+.loam-tab-pill { position: absolute; inset: -2px; z-index: -1; background: var(--mist-500); border: var(--border-thin) solid var(--line); border-radius: var(--radius-pill); view-transition-name: loam-tab-pill; }
+.loam-tab-label { position: relative; }
+::view-transition-group(loam-tab-pill) { animation-duration: 340ms; animation-timing-function: cubic-bezier(.34, 1.4, .64, 1); background: var(--mist-500); border: 2px solid var(--line); border-radius: 999px; box-sizing: border-box; }
+::view-transition-old(loam-tab-pill), ::view-transition-new(loam-tab-pill) { display: none; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 180ms; }
+@media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; } }
+
+/* Tooltip */
+.loam-tooltip { position: relative; display: inline-flex; }
+.loam-tooltip-bubble { position: absolute; left: 50%; bottom: calc(100% + 12px); transform: translate(-50%, 4px); background: var(--bg-inverse); color: var(--fg-inverse); font: 600 13px/1.3 var(--font-body); padding: 7px 11px; border-radius: 8px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity var(--dur-fast), transform var(--dur) var(--ease-bounce); z-index: 20; }
+.loam-tooltip-bubble::after { content: ''; position: absolute; left: 50%; top: 100%; width: 10px; height: 10px; background: var(--bg-inverse); transform: translate(-50%, -6px) rotate(45deg); border-radius: 2px; }
+.loam-tooltip--bottom .loam-tooltip-bubble { bottom: auto; top: calc(100% + 12px); transform: translate(-50%, -4px); }
+.loam-tooltip--bottom .loam-tooltip-bubble::after { top: auto; bottom: 100%; transform: translate(-50%, 6px) rotate(45deg); }
+.loam-tooltip:hover .loam-tooltip-bubble, .loam-tooltip:focus-within .loam-tooltip-bubble, .loam-tooltip.is-open .loam-tooltip-bubble { opacity: 1; transform: translate(-50%, 0); }
+
+/* Dialog */
+@keyframes loam-pop { from { opacity: 0; transform: scale(.9) translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes loam-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes loam-fade-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes loam-pop-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: scale(.9) translateY(12px); } }
+@keyframes loam-slide-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(10px); } }
+.loam-overlay { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 24px; background: var(--overlay); animation: loam-fade var(--dur) var(--ease-out); }
+.loam-dialog { width: 100%; max-width: 480px; background: var(--bg-surface); border: var(--border) solid var(--line); border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); padding: 28px; display: flex; flex-direction: column; gap: 16px; animation: loam-pop var(--dur-slow) var(--ease-bounce); }
+.loam-dialog-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.loam-dialog-title { font: 600 26px/1.15 var(--font-display); margin: 0; }
+.loam-dialog-body { color: var(--fg-2); display: flex; flex-direction: column; gap: 14px; }
+.loam-dialog-actions { display: flex; justify-content: flex-end; gap: 12px; flex-wrap: wrap; padding-top: 4px; }
+
+/* Toast */
+@keyframes loam-slide { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.loam-toast { display: flex; align-items: flex-start; gap: 12px; width: 100%; max-width: 380px; padding: 14px 14px 14px 16px; background: var(--bg-surface); border: var(--border) solid var(--line); border-radius: var(--radius-lg); box-shadow: var(--shadow); animation: loam-slide var(--dur-slow) var(--ease-bounce); }
+.loam-toast-icon { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border: var(--border-thin) solid var(--line); border-radius: 50%; color: var(--on-fill); }
+.loam-toast--success .loam-toast-icon { background: var(--moss-300); }
+.loam-toast--info .loam-toast-icon { background: var(--dusk-300); }
+.loam-toast--warning .loam-toast-icon { background: var(--amber-300); }
+.loam-toast--danger .loam-toast-icon { background: var(--rust-300); }
+.loam-toast-text { flex: 1; min-width: 0; padding-top: 2px; }
+.loam-toast-title { font-weight: 700; font-size: 15px; line-height: 1.3; }
+.loam-toast-msg { font-size: 14px; color: var(--fg-2); line-height: 1.45; margin-top: 2px; }
+
+/* Prose (long-form writing) */
+.loam-prose { max-width: var(--content-width); font-size: var(--text-lg); line-height: 1.7; color: var(--fg-1); }
+.loam-prose > * + * { margin-top: 1.1em; }
+.loam-prose h2 { font-size: 30px; margin-top: 1.8em; }
+.loam-prose h3 { font-size: 24px; margin-top: 1.6em; }
+.loam-prose blockquote { margin: 1.6em 0; padding: 0; font: 500 28px/1.3 var(--font-display); color: var(--accent-strong); letter-spacing: -0.01em; }
+.loam-prose code { background: var(--bg-sunken); border: 2px solid var(--border-subtle); border-radius: 6px; padding: 1px 6px; font-size: .85em; }
+.loam-prose pre { background: var(--code-bg); color: var(--code-fg); border-radius: var(--radius-lg); padding: 20px 22px; overflow-x: auto; font-size: 15px; line-height: 1.6; }
+.loam-prose pre code { background: none; border: 0; padding: 0; font-size: inherit; }
+.loam-prose ul, .loam-prose ol { padding-left: 1.3em; }
+.loam-prose li + li { margin-top: .4em; }
+.loam-prose li::marker { color: var(--sage-500); font-weight: 700; }
+.loam-prose hr { border: 0; border-top: var(--border) dashed var(--border-subtle); margin: 2.4em 0; }
+
+/* Figures + callouts (case-study MDX) */
+.loam-figure { margin: 0; }
+.loam-prose > .loam-figure, .loam-prose > .loam-figure-group { margin-top: 2em; margin-bottom: 2em; }
+.loam-figure img { display: block; width: 100%; height: auto; border: var(--border) solid var(--line); border-radius: var(--radius-lg); box-shadow: var(--shadow); background: var(--bg-surface); }
+.loam-figure figcaption, .loam-figure-group > figcaption { margin-top: 12px; font-size: 14px; line-height: 1.4; color: var(--fg-2); text-align: center; }
+.loam-figure-group { margin: 0; }
+.loam-figure-group__items { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; }
+.loam-figure-group__items > .loam-figure { flex: 1 1 220px; max-width: 320px; }
+.loam-callout { padding: 20px 24px; background: var(--accent-soft); border: var(--border) solid var(--line); border-radius: var(--radius-lg); font-size: var(--text-md); line-height: 1.6; }
+.loam-callout__title { font: 600 18px/1.3 var(--font-display); margin-bottom: 6px; }
+.loam-callout__body > * + * { margin-top: .8em; }
+
+/* Micro-interaction: document "writes" its lines when the parent button/card is hovered (file-text icon) */
+@keyframes loam-write { 0% { stroke-dashoffset: 9; } 100% { stroke-dashoffset: 0; } }
+@keyframes loam-nudge { 0%, 100% { transform: rotate(0); } 40% { transform: rotate(-8deg); } 70% { transform: rotate(4deg); } }
+.loam-anim-write svg { transform-origin: 50% 90%; }
+.loam-anim-write path:nth-child(n+3) { stroke-dasharray: 9; stroke-dashoffset: 0; }
+:hover > .loam-anim-write svg, :focus-visible > .loam-anim-write svg { animation: loam-nudge 420ms var(--ease-bounce); }
+:hover > .loam-anim-write path:nth-child(n+3), :focus-visible > .loam-anim-write path:nth-child(n+3) { animation: loam-write 360ms var(--ease-out) both; }
+:hover > .loam-anim-write path:nth-child(4) { animation-delay: 110ms; }
+:hover > .loam-anim-write path:nth-child(5) { animation-delay: 220ms; }
+
+/* Micro-interaction: LinkedIn icon — the "i" dot hops, the stem and "n" give a little squash (linkedin icon) */
+@keyframes loam-hop { 0%, 100% { transform: translateY(0); } 35% { transform: translateY(-4px); } 60% { transform: translateY(0.5px); } 80% { transform: translateY(-1px); } }
+@keyframes loam-squash { 0%, 100% { transform: scaleY(1); } 30% { transform: scaleY(.88); } 60% { transform: scaleY(1.04); } }
+.loam-anim-hop rect, .loam-anim-hop path { transform-box: fill-box; transform-origin: 50% 100%; }
+:hover > .loam-anim-hop circle, :focus-visible > .loam-anim-hop circle { animation: loam-hop 520ms var(--ease-out); }
+:hover > .loam-anim-hop rect, :focus-visible > .loam-anim-hop rect { animation: loam-squash 420ms var(--ease-bounce); }
+:hover > .loam-anim-hop path, :focus-visible > .loam-anim-hop path { animation: loam-squash 420ms var(--ease-bounce) 70ms; }
+@media (prefers-reduced-motion: reduce) { .loam-anim-write svg, .loam-anim-write path, .loam-anim-hop circle, .loam-anim-hop rect, .loam-anim-hop path { animation: none !important; } }

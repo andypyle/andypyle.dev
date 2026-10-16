@@ -1,0 +1,9 @@
+---
+// Aside box for tips and notes inside prose.
+interface Props { title?: string; class?: string }
+const { title, class: cls } = Astro.props;
+---
+<aside class:list={['loam-callout', cls]}>
+  {title && <div class="loam-callout__title">{title}</div>}
+  <div class="loam-callout__body"><slot /></div>
+</aside>

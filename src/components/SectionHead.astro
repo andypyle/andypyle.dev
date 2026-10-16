@@ -1,0 +1,9 @@
+---
+import Button from './ui/Button.astro';
+interface Props { title: string; action?: string; href?: string }
+const { title, action, href } = Astro.props;
+---
+<div class="section-head">
+  <h2>{title}</h2>
+  {action && href && <Button variant="ghost" iconRight="arrow-right" href={href}>{action}</Button>}
+</div>

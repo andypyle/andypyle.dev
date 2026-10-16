@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Tag from '../components/ui/Tag.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getProjects } from '../lib/data';
+
+const projects = await getProjects();
+
+const filters = [
+  { id: 'All', label: 'All' },
+  { id: 'App', label: 'Apps' },
+  { id: 'Library', label: 'Libraries' },
+  { id: 'Experiment', label: 'Experiments' },
+];
+---
+<BaseLayout title="Projects">
+  <h1>Projects</h1>
+  <p class="lead" style="margin-top:16px">Side projects, open-source bits, and experiments. Smaller, faster, and where I try new things.</p>
+  <div class="row" style="gap:10px;margin:32px 0" data-filters>
+    {filters.map((f, i) => <Tag as="button" type="button" selected={i === 0} data-filter={f.id}>{f.label}</Tag>)}
+  </div>
+  <div class="grid-cards" data-projects>
+    {projects.map((p) => <ProjectCard p={p} />)}
+  </div>
+</BaseLayout>
+
+<script>
+  const bar = document.querySelector('[data-filters]');
+  const cards = document.querySelectorAll<HTMLElement>('[data-projects] [data-kind]');
+  bar?.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-filter]');
+    if (!btn) return;
+    const f = btn.dataset.filter;
+    bar.querySelectorAll<HTMLElement>('[data-filter]').forEach((b) => {
+      const on = b === btn;
+      b.classList.toggle('is-selected', on);
+      b.setAttribute('aria-pressed', String(on));
+    });
+    cards.forEach((c) => { c.hidden = !(f === 'All' || c.dataset.kind === f); });
+  });
+</script>

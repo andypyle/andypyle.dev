@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=../../.astro/collections/site.schema.json#/definitions/site/additionalProperties
+name: Andy Pyle
+role: Frontend engineer
+description: Andy Pyle — frontend engineer working where design meets engineering.
+email: hello@andypyle.com
+links:
+  linkedin: https://www.linkedin.com/in/andrew-pyle-dev
+  github: '#' # add your GitHub URL
+
+# Switch whole sections of the site on/off. A disabled feature's page isn't built and its nav item is hidden.
+features:
+  projects: false
+
+nav:
+  - { id: home, label: Home, href: / }
+  - { id: about, label: About, href: /about/ }
+  - { id: cases, label: Case Studies, href: /case-studies/ }
+  - { id: projects, label: Projects, href: /projects/ }

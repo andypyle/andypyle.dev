@@ -1,0 +1,59 @@
+---
+title: 'Global Navigation System'
+summary: "Redesigned Vimeo's global navigation as a controlled A/B test. Collaborated cross-functionally to resolve a mobile conversion regression, delivering a net lift to the primary conversion funnel."
+role: 'Software Engineer III'
+year: '2025/2026'
+tags: ['UI', 'UX', 'Navigation']
+order: 1
+featured: true
+company: 'Vimeo'
+team: '2 eng · 1 designer'
+timeline: '4 months'
+hero: './global-navigation/new-nav-open.png'
+---
+
+import oldNavOpen from './global-navigation/old-nav-open.png'
+import newNavOpen from './global-navigation/new-nav-open.png'
+import newNavMobile from './global-navigation/new-nav-mobile.png'
+import newNavMobileOpen from './global-navigation/new-nav-mobile-open.png'
+import Figure from '../../components/Figure.astro'
+import FigureGroup from '../../components/FigureGroup.astro'
+import Callout from '../../components/Callout.astro'
+
+## Problem
+
+Vimeo needed a redesigned global navigation as part of a broader UX overhaul. Navigation sits at the top of every marketing page and has a direct relationship with conversion, so the stakes for getting it right were high, both visually and technically.
+
+<Figure src={oldNavOpen} alt="Old Vimeo navigation" caption="Before" />
+<Figure src={newNavOpen} alt="New Vimeo navigation" caption="After" />
+
+## Approach
+
+I built the navigation as one of the first major components within Vimeo's new marketing design system, working closely with the UX designer throughout. One intentional decision that shaped the mobile implementation: rather than placing the navigation toggle at the top of the screen, the designer anchored it at the bottom. This was a deliberate ergonomic choice that makes one-handed use on a real device significantly more comfortable.
+
+<FigureGroup caption="New Vimeo mobile navigation">
+  <Figure
+    src={newNavMobile}
+    alt="New Vimeo mobile navigation"
+    containerClassName="text-center"
+  />
+  <Figure
+    src={newNavMobileOpen}
+    alt="New Vimeo mobile navigation with menu open"
+    containerClassName="text-center"
+  />
+</FigureGroup>
+
+We launched as a controlled A/B test, starting with roughly 10% of traffic to limit risk. A stakeholder monitoring the results flagged a significant drop in mobile traffic to Vimeo's join page. I was brought into the cross-functional response, organizing a brainstorm sync with the UX designer, UI designer, and project manager. Rather than debating a single fix, we rapidly generated three distinct design directions to narrow faster. I implemented the winning approach, making the join button significantly more prominent on mobile, which not only recovered the lost traffic but produced a net lift to traffic on the primary conversion page.
+
+Separately, after launch, a stakeholder flagged a performance issue: hovering over top-level navigation items caused a noticeable delay before dropdown menus appeared. I used Chrome's performance monitor to record and trace the interaction down the component tree. The culprit was a `useWindowResize` hook relying on a resize event handler, with many instances mounted simultaneously throughout the navigation. I replaced it with a new hook built on the browser's native `matchMedia` API, hoisted the listener to a single point higher in the tree, and passed the result down via React Context. This eliminated the delay entirely.
+
+<Callout title="Did you know?">
+  You can export the Chrome Performance profile and hand it to your AI tool of
+  choice (mine's Claude). It's surprisingly good at narrowing down what's
+  actually causing a slowdown like this.
+</Callout>
+
+## Outcome
+
+The navigation launched successfully and now serves as a foundational piece of Vimeo's marketing UX. The A/B test process kept the initial blast radius small, the cross-functional collaboration turned a regression into a measurable win, and the performance fix removed a user-facing latency issue across the entire navigation surface.

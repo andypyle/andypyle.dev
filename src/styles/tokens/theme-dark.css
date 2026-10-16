@@ -1,0 +1,82 @@
+/* Dark mode. Follows the OS setting (prefers-color-scheme) automatically.
+   Force a mode with data-theme="dark" or data-theme="light" on <html>.
+   Surfaces lift off a deep slate page; outlines + offset shadows stay near-black. */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* 100-level tints become deep, low-light versions of each hue */
+  --sage-100: #253222;
+  --mist-100: #222C37;
+  --moss-100: #1F3029;
+  --lichen-100: #262D24;
+  --dusk-100: #232A3A;
+  --amber-100: #3A2F17;
+  --rust-100: #3D211B;
+
+  --bg-page: #14181C;
+  --bg-surface: #1D2227;
+  --bg-sunken: #262C32;
+  --bg-inverse: #E6EAEE;
+  --bg-inverse-hover: #C3CAD1;
+  --fg-1: #E9EDF0;
+  --fg-2: #B6BFC8;
+  --fg-3: #8D97A1;
+  --fg-inverse: #14181C;
+  --border-subtle: #353D45;
+  --line: #07090B;
+  --on-fill: #1A1F24;
+
+  --accent-strong: var(--sage-300);
+  --link: var(--sage-300);
+  --link-hover: #E9EDF0;
+  --focus-ring: var(--dusk-300);
+  --selection: var(--mist-500);
+
+  --code-bg: #0C0F12;
+  --code-fg: #DFE3E7;
+  --footer-bg: #0C0F12;
+  --footer-fg: #E9EDF0;
+  --footer-muted: #8D97A1;
+  --overlay: rgba(5, 7, 9, .6);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    /* 100-level tints become deep, low-light versions of each hue */
+    --sage-100: #253222;
+    --mist-100: #222C37;
+    --moss-100: #1F3029;
+    --lichen-100: #262D24;
+    --dusk-100: #232A3A;
+    --amber-100: #3A2F17;
+    --rust-100: #3D211B;
+
+    --bg-page: #14181C;
+    --bg-surface: #1D2227;
+    --bg-sunken: #262C32;
+    --bg-inverse: #E6EAEE;
+    --bg-inverse-hover: #C3CAD1;
+    --fg-1: #E9EDF0;
+    --fg-2: #B6BFC8;
+    --fg-3: #8D97A1;
+    --fg-inverse: #14181C;
+    --border-subtle: #353D45;
+    --line: #07090B;
+    --on-fill: #1A1F24;
+
+    --accent-strong: var(--sage-300);
+    --link: var(--sage-300);
+    --link-hover: #E9EDF0;
+    --focus-ring: var(--dusk-300);
+    --selection: var(--mist-500);
+
+    --code-bg: #0C0F12;
+    --code-fg: #DFE3E7;
+    --footer-bg: #0C0F12;
+    --footer-fg: #E9EDF0;
+    --footer-muted: #8D97A1;
+    --overlay: rgba(5, 7, 9, .6);
+  }
+}

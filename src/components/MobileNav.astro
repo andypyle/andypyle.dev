@@ -1,0 +1,56 @@
+---
+import Icon from './ui/Icon.astro';
+import Button from './ui/Button.astro';
+import { getSite } from '../lib/data';
+
+const site = await getSite();
+const { nav } = site;
+const path = Astro.url.pathname;
+const current = nav.find((n) => (n.href === '/' ? path === '/' : path.startsWith(n.href)))?.id;
+---
+<div class="mnav" data-mnav>
+  <div class="mnav-backdrop" data-mnav-close></div>
+  <nav class="mnav-sheet" aria-label="Main">
+    {nav.map((n, i) => (
+      <a class:list={['mnav-link', { 'is-active': n.id === current }]} href={n.href} aria-current={n.id === current ? 'page' : undefined} style={'--i:' + i}>
+        {n.label}
+        <Icon name="arrow-right" size={22} />
+      </a>
+    ))}
+    <div class="mnav-foot" style={'--i:' + nav.length}>
+      <Button variant="secondary" href={site.links.linkedin} external icon="linkedin" iconClass="loam-anim-hop">LinkedIn</Button>
+    </div>
+  </nav>
+  <button type="button" class="loam-btn loam-btn--md loam-btn--primary mnav-toggle" aria-expanded="false" aria-label="Open menu" data-mnav-toggle>
+    <span class="glyph" aria-hidden="true"><span></span><span></span><span></span></span>
+    <span data-mnav-label>Menu</span>
+  </button>
+</div>
+
+<script>
+  const root = document.querySelector('[data-mnav]');
+  if (root) {
+    const btn = root.querySelector('[data-mnav-toggle]')!;
+    const label = root.querySelector('[data-mnav-label]')!;
+    let timer: number | undefined;
+    const isShown = () => root.classList.contains('is-open') && !root.classList.contains('is-closing');
+    const set = (open: boolean) => {
+      window.clearTimeout(timer);
+      if (open) {
+        root.classList.remove('is-closing');
+        root.classList.add('is-open');
+      } else if (root.classList.contains('is-open')) {
+        root.classList.add('is-closing');
+        timer = window.setTimeout(() => root.classList.remove('is-open', 'is-closing'), 260);
+      }
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      label.textContent = open ? 'Close' : 'Menu';
+      btn.classList.toggle('loam-btn--primary', !open);
+      btn.classList.toggle('loam-btn--secondary', open);
+    };
+    btn.addEventListener('click', () => set(!isShown()));
+    root.querySelector('[data-mnav-close]')?.addEventListener('click', () => set(false));
+    window.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+  }
+</script>

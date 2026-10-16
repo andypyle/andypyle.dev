@@ -1,0 +1,9 @@
+---
+// Lays out several <Figure>s side by side (stacks on narrow screens) under one shared caption.
+interface Props { caption?: string; class?: string }
+const { caption, class: cls } = Astro.props;
+---
+<figure class:list={['loam-figure-group', cls]}>
+  <div class="loam-figure-group__items"><slot /></div>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
