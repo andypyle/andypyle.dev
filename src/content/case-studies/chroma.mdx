@@ -1,0 +1,115 @@
+---
+title: 'Chroma'
+summary: "Led the architecture of Vimeo's company-wide marketing design system, keeping Figma, Storybook, and the CMS in sync and building a TDD-first foundation that other engineers could build on."
+role: 'Software Engineer III'
+year: '2025/2026'
+tags: ['UI', 'UX', 'Design System', 'Component Architecture']
+order: 1
+featured: true
+company: 'Vimeo'
+team: '2 eng · 1 designer'
+timeline: '~4 months'
+hero: './chroma/chroma-feature-page.png'
+---
+
+import chromaFlow from './chroma/chroma-flow.svg'
+import Figure from '../../components/Figure.astro'
+
+## Problem
+
+Vimeo's marketing site had no unified component system. Design worked in Figma, engineering worked in code, and the CMS had its own set of components, with nothing guaranteeing the three matched. The result was UI inconsistency, slower development, and no shared testing baseline for the components every marketing page depended on.
+
+## Approach
+
+Aligning on architecture before writing code. Before any implementation, I wrote a proposal comparing two structures: a colocated "capsule" approach, where each component owns its parts and variants in its own folder, and an atomic approach organized into atoms, molecules, and organisms. I presented both to the team to surface current pain points rather than push a single answer. We chose a mostly atomic structure because it mirrored how our designers organized components in Figma, which made parity between design and code far easier to maintain. From the capsule approach, we kept one idea: an optional `parts/` folder for pieces of a component that didn't warrant becoming an atom of their own.
+
+```txt title="Capsule (colocated)"
+Button/
+├── Button.tsx
+├── Button.stories.tsx
+├── parts/
+│   └── ButtonIcon.tsx
+└── variants/
+    └── PrimaryButton.tsx
+```
+
+```txt title="Atomic"
+chroma/
+├── atoms/
+│   ├── Button/
+│   └── Icon/
+├── molecules/
+│   └── SearchField/
+└── organisms/
+    └── Header/
+```
+
+```txt title="Hybrid (shipped)" mark={5,9,13} ins={14-15}
+chroma/
+├── atoms/
+│   └── Button/
+│       ├── Button.tsx
+│       └── Button.stories.tsx
+├── molecules/
+│   └── SearchField/
+│       ├── SearchField.tsx
+│       └── SearchField.stories.tsx
+└── organisms/
+    └── Header/
+        ├── Header.tsx
+        ├── Header.stories.tsx
+        └── parts/
+            └── HeaderLogoLockup.tsx
+```
+
+#### One source of truth across three tools
+
+I worked in lockstep with Design to keep Figma specs, Storybook documentation, and Builder.io CMS components in parity, and overhauled our Storybook setup so it reflected exactly what designers specified and what marketers could use. I championed a test-driven approach, writing component tests directly in Storybook stories and running them with Storybook's built-in test runner. That made the documentation and the test suite the same artifact: every documented state was also a tested one, so the two could never drift apart.
+
+#### Decisions that keep a system healthy
+
+Some of the most important work was deciding what not to do. As a team, we discussed whether to use barrel exports, since they make import paths much cleaner. Because Chroma lived in a monorepo, though, we decided against them over concerns about circular dependencies and bundle size, and relied on monorepo path aliases instead to keep imports readable. We added an ESLint rule to catch barrel exports early, so the decision would hold as more contributors joined.
+
+```ts title="atoms/index.ts" caption="asdf"
+export * from './Button/Button'
+export * from './Icon/Icon'
+export * from './Link/Link'
+```
+
+<small style="margin-top:-8px">Barrel exports</small>
+
+```tsx title="atoms/Button/Button.tsx" del={1}
+import { Icon } from '..' // resolves to atoms/index.ts, which re-exports Button itself
+```
+
+<small style="margin-top:-8px">Barrel imports</small>
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "paths": {
+      "@chroma/*": ["packages/chroma/src/*"]
+    }
+  }
+}
+```
+
+<small style="margin-top:-8px">Path aliases</small>
+
+#### Scaling the people, not just the code
+
+As other engineers joined, I onboarded them, guided them through component implementation, and served as the technical point of contact for the initiative.
+
+#### Bringing AI into the workflow
+
+Later, I integrated the Figma MCP server so components could be scaffolded directly from design files, tightening design-engineering parity further. I also authored Claude Code rules files that encoded our coding standards, so AI-assisted contributions followed the same conventions as everything else in the system.
+
+<Figure src={chromaFlow} alt="Chroma workflow" />
+
+#### Governance built into creation
+
+As more people, and more agents, contributed to Chroma, consistency couldn't depend on everyone remembering the conventions. I set up a Plop.js generator that scaffolded every new component the same way: placing it in the right atomic tier, creating its Storybook stories file, and generating the registration file that made it available in the CMS. To make sure AI contributions followed the same path, our CLAUDE.md rules file required agents to use the scaffolder rather than creating files by hand. Whether an engineer or an agent started a component, it was correct from the first commit, which kept code review focused on the component itself instead of catching drift.
+
+## Outcome
+
+Chroma became the foundation of Vimeo's marketing site: a single source of truth across design and engineering that improved component consistency, increased development velocity, and reduced UI defects. The [redesigned global navigation](/case-studies/global-navigation/) was one of the first major components built on it.

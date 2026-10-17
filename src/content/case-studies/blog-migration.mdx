@@ -5,8 +5,8 @@ role: 'Software Engineer III'
 year: '2024/2025'
 tags:
   ['Data Migration', 'Legacy Systems', 'Headless CMS', 'Tech Debt Reduction']
-order: 2
-featured: true
+order: 3
+featured: false
 company: 'Vimeo'
 team: '1 eng · 1 designer'
 timeline: '~4 months'
@@ -23,7 +23,7 @@ import Callout from '../../components/Callout.astro'
 
 ## Problem
 
-Vimeo's blog hosted thousands of posts dating back to the early 2000s and ran on a legacy WordPress instance maintained by an outside contractor. It was completely separate from the rest of the marketing codebase — expensive to operate, difficult to maintain, and visually out of step with a company-wide rebranding effort underway at the time.
+Vimeo's blog hosted thousands of posts dating back to the early 2000s and ran on a legacy WordPress instance maintained by an outside contractor. It was completely separate from the rest of the marketing codebase - expensive to operate, difficult to maintain, and visually out of step with a company-wide rebranding effort underway at the time.
 
 <Figure
   src={oldBlogHome}
@@ -38,7 +38,7 @@ Vimeo's blog hosted thousands of posts dating back to the early 2000s and ran on
 
 ## Approach
 
-I took on the migration end to end. The first step was a thorough audit of every custom block type in WordPress, mapping each one to an equivalent React component in the new headless CMS. The goal wasn't just a technical lift-and-shift — the new components also needed to align with Vimeo's updated design language and use the same component library as the rest of the marketing site.
+I took on the migration end to end. The first step was a thorough audit of every custom block type in WordPress, mapping each one to an equivalent React component in the new headless CMS. The goal wasn't just a technical lift-and-shift, the new components also needed to align with Vimeo's updated design language and use the same component library as the rest of the marketing site.
 
 <Figure
   src={oldBlogPost}

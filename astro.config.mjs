@@ -1,7 +1,10 @@
-import { defineConfig } from 'astro/config'
 import mdx from '@astrojs/mdx'
+import { defineConfig } from 'astro/config'
 import { readFileSync } from 'node:fs'
 import { parse } from 'yaml'
+
+import expressiveCode from 'astro-expressive-code'
+import mermaid from 'astro-mermaid'
 
 const siteFile = new URL('./src/data/site.yaml', import.meta.url)
 
@@ -18,14 +21,28 @@ const routes = {
         entrypoint: './src/routes/case-study.astro',
       })
       if (features.projects !== false) {
-        injectRoute({ pattern: '/projects', entrypoint: './src/routes/projects.astro' })
+        injectRoute({
+          pattern: '/projects',
+          entrypoint: './src/routes/projects.astro',
+        })
       }
     },
   },
 }
 
 export default defineConfig({
-  integrations: [mdx(), routes],
+  integrations: [
+    mermaid({
+      theme: 'default',
+      autoTheme: true,
+    }),
+    expressiveCode({
+      themes: ['catppuccin-frappe'],
+      langs: [],
+    }),
+    mdx(),
+    routes,
+  ],
   site: 'https://andypyle.dev', // update to your real domain
   trailingSlash: 'always',
   markdown: {
