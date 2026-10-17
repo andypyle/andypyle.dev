@@ -36,7 +36,7 @@ const og = image
   : { src: '/og.png', attributes: { width: 1200, height: 630 } };
 const ogImage = new URL(og.src, Astro.site);
 // Escape `<` so content can't close the script tag early
-const jsonLd = schema.length && JSON.stringify({ '@context': 'https://schema.org', '@graph': schema }).replace(/</g, '\\u003c');
+const jsonLd = schema.length > 0 && JSON.stringify({ '@context': 'https://schema.org', '@graph': schema }).replace(/</g, '\\u003c');
 ---
 <!doctype html>
 <html lang="en">
