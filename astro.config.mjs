@@ -1,4 +1,5 @@
 import mdx from '@astrojs/mdx'
+import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'astro/config'
 import { readFileSync } from 'node:fs'
 import { parse } from 'yaml'
@@ -43,6 +44,9 @@ export default defineConfig({
     mdx(),
     routes,
   ],
+  vite: {
+    plugins: [tailwindcss()],
+  },
   site: 'https://andypyle.dev', // update to your real domain
   trailingSlash: 'always',
   markdown: {

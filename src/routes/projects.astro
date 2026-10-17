@@ -15,11 +15,11 @@ const filters = [
 ---
 <BaseLayout title="Projects">
   <h1>Projects</h1>
-  <p class="lead" style="margin-top:16px">Side projects, open-source bits, and experiments. Smaller, faster, and where I try new things.</p>
-  <div class="row" style="gap:10px;margin:32px 0" data-filters>
+  <p class="mt-4 max-w-155 text-xl text-fg-2">Side projects, open-source bits, and experiments. Smaller, faster, and where I try new things.</p>
+  <div class="my-8 flex flex-wrap gap-2.5" data-filters>
     {filters.map((f, i) => <Tag as="button" type="button" selected={i === 0} data-filter={f.id}>{f.label}</Tag>)}
   </div>
-  <div class="grid-cards" data-projects>
+  <div class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-7" data-projects>
     {projects.map((p) => <ProjectCard p={p} />)}
   </div>
 </BaseLayout>
@@ -33,7 +33,6 @@ const filters = [
     const f = btn.dataset.filter;
     bar.querySelectorAll<HTMLElement>('[data-filter]').forEach((b) => {
       const on = b === btn;
-      b.classList.toggle('is-selected', on);
       b.setAttribute('aria-pressed', String(on));
     });
     cards.forEach((c) => { c.hidden = !(f === 'All' || c.dataset.kind === f); });

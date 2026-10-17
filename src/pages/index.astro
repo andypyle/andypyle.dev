@@ -12,26 +12,35 @@ const cases = (await getCollection('case-studies')).sort((a, b) => a.data.order 
 const featured = cases.filter((c) => c.data.featured).slice(0, 2);
 ---
 <BaseLayout>
-  <section class="hero">
-    <h1>I build careful, considered interfaces, for the person tapping the screen and the teammate reading the code.</h1>
-    <p class="lead">Frontend engineer with eight years of experience in React, TypeScript, and design systems.</p>
-    <div class="row" style="padding-top:4px">
+  <section
+    class:list={[
+      // Layout
+      'flex flex-col items-start gap-6',
+      // Sizing
+      'max-w-205',
+      // Spacing
+      'py-6',
+    ]}
+  >
+    <h1 class="text-[clamp(44px,6vw,60px)]">I build careful, considered interfaces, for the person tapping the screen and the teammate reading the code.</h1>
+    <p class="max-w-150 text-xl text-fg-2">Frontend engineer with eight years of experience in React, TypeScript, and design systems.</p>
+    <div class="flex flex-wrap gap-3.5 pt-1">
       <Button size="lg" iconRight="arrow-right" iconRightClass="loam-anim-dash" href="/case-studies/">Read case studies</Button>
       <Button size="lg" variant="secondary" href={site.links.linkedin} external icon="linkedin" iconClass="loam-anim-hop">LinkedIn</Button>
     </div>
   </section>
 
-  <section class="section" style="margin-top:112px">
+  <section class="mt-28">
     <SectionHead title="Case studies" action="View all" href="/case-studies/" />
-    <div class="stack" style="gap:28px">
+    <div class="flex flex-col gap-7">
       {featured.map((entry) => <CaseCard entry={entry} />)}
     </div>
   </section>
 
   {site.features.projects && (
-    <section class="section">
+    <section class="mt-24">
       <SectionHead title="Projects" action="All projects" href="/projects/" />
-      <div class="grid-cards">
+      <div class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-7">
         {projects.slice(0, 3).map((p) => <ProjectCard p={p} />)}
       </div>
     </section>

@@ -6,26 +6,111 @@ const site = await getSite();
 const { nav } = site;
 const path = Astro.url.pathname;
 const current = nav.find((n) => (n.href === '/' ? path === '/' : path.startsWith(n.href)))?.id;
+const settle = 'transition-[border-color,background-color,box-shadow] duration-200 ease-out';
 ---
-<header class="site-header" data-header>
-  <div class="bar">
-    <a class="wordmark" href="/">{site.name}</a>
-    <nav class="loam-tabs loam-tabs--view desktop-only" aria-label="Main">
+<header
+  class:list={[
+    // Group
+    'group/header',
+    // Layout
+    'sticky top-4 z-10',
+    // Spacing
+    'mt-4 px-4',
+  ]}
+  data-header
+>
+  <div class:list={[
+    // Layout
+    'flex flex-wrap items-center gap-5 max-md:justify-center',
+    // Sizing
+    'max-w-[calc(var(--container-page)-16px)]',
+    // Spacing
+    'mx-auto py-2.5 pr-3 pl-5 max-md:px-5 max-md:py-4.5',
+    // Borders
+    'rounded-md border-3 border-transparent group-data-scrolled/header:border-line',
+    // Colors
+    'bg-page/75 group-data-scrolled/header:bg-surface/95',
+    // Effects
+    'shadow-none backdrop-blur-sm group-data-scrolled/header:shadow-md',
+    // Transitions
+    settle,
+  ]}>
+    <a
+      class:list={[
+        // Spacing
+        'mr-auto max-md:mr-0',
+        // Colors
+        'text-fg-1',
+        // Typography
+        'font-display text-h3 leading-none font-semibold tracking-display no-underline',
+      ]}
+      href="/"
+    >{site.name}</a>
+    <nav class:list={[
+      // Layout
+      'inline-flex gap-1 overflow-x-auto max-md:hidden',
+      // Sizing
+      'max-w-full',
+      // Spacing
+      'p-1',
+      // Borders
+      'rounded-full border-3 border-line group-data-scrolled/header:border-transparent',
+      // Colors
+      'bg-surface group-data-scrolled/header:bg-transparent',
+      // Effects
+      'shadow-md group-data-scrolled/header:shadow-none',
+      // Transitions
+      settle,
+    ]} aria-label="Main">
       {nav.map((n) => (
-        <a class:list={['loam-tab', { 'is-active': n.id === current }]} href={n.href} aria-current={n.id === current ? 'page' : undefined}>
-          {n.id === current && <span class="loam-tab-pill" aria-hidden="true" />}
-          <span class="loam-tab-label" style={'view-transition-name: loam-tab-' + n.id}>{n.label}</span>
+        <a
+          class:list={[
+            // Layout
+            'relative isolate inline-flex items-center',
+            // Sizing
+            'h-9.5',
+            // Spacing
+            'px-4',
+            // Borders
+            'rounded-full border-2 border-transparent',
+            // Colors
+            n.id === current ? 'text-on-fill' : 'text-fg-2 hover:bg-sunken hover:text-fg-1',
+            // Typography
+            'font-body text-[15px] leading-none font-bold whitespace-nowrap no-underline',
+            // Transitions
+            'transition-colors duration-120',
+          ]}
+          href={n.href}
+          aria-current={n.id === current ? 'page' : undefined}
+        >
+          {/* The pill morphs between pages via View Transitions (see global.css) */}
+          {n.id === current && (
+            <span
+              class:list={[
+                // Layout
+                'absolute -inset-0.5 -z-10',
+                // Borders
+                'rounded-full border-2 border-line',
+                // Colors
+                'bg-mist-500',
+                // Transitions
+                '[view-transition-name:loam-tab-pill]',
+              ]}
+              aria-hidden="true"
+            />
+          )}
+          <span class="relative" style={'view-transition-name: loam-tab-' + n.id}>{n.label}</span>
         </a>
       ))}
     </nav>
-    <Button class="desktop-only" variant="secondary" size="sm" href={site.links.linkedin} external icon="linkedin" iconClass="loam-anim-hop">LinkedIn</Button>
+    <Button class="max-md:hidden" variant="secondary" size="sm" href={site.links.linkedin} external icon="linkedin" iconClass="loam-anim-hop">LinkedIn</Button>
   </div>
 </header>
 
 <script>
   const header = document.querySelector('[data-header]');
   if (header) {
-    const update = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+    const update = () => header.toggleAttribute('data-scrolled', window.scrollY > 8);
     update();
     window.addEventListener('scroll', update, { passive: true });
   }
