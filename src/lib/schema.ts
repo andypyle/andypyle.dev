@@ -45,6 +45,7 @@ export async function profilePage(site: URL, url: URL): Promise<Schema> {
 
 export async function article(entry: CollectionEntry<'case-studies'>, site: URL, url: URL): Promise<Schema> {
   const d = entry.data;
+  const { name } = await getSite();
   const hero = d.hero ? await getImage({ src: d.hero, width: 1200, format: 'jpg' }) : undefined;
   return {
     '@type': 'Article',
@@ -52,10 +53,12 @@ export async function article(entry: CollectionEntry<'case-studies'>, site: URL,
     description: d.summary,
     url: url.href,
     mainEntityOfPage: url.href,
-    datePublished: d.published.toISOString().slice(0, 10),
+    // Full ISO timestamp; Google flags a bare date as missing a timezone
+    datePublished: d.published.toISOString(),
     image: absolute(hero?.src ?? '/og.png', site),
     keywords: d.tags,
-    author: { '@id': absolute('/#person', site) },
+    // Google doesn't resolve @id across pages, so the author needs its own name and url
+    author: { '@type': 'Person', '@id': absolute('/#person', site), name, url: site.href },
     isPartOf: { '@id': absolute('/#website', site) },
   };
 }
