@@ -5,7 +5,10 @@ import CaseCard from '../../components/CaseCard.astro';
 
 const cases = (await getCollection('case-studies')).sort((a, b) => a.data.order - b.data.order);
 ---
-<BaseLayout title="Case studies">
+<BaseLayout
+  title="Case studies"
+  description="Longer write-ups of frontend projects I've led: the problem, what I built, and what changed. Design systems, navigation, and CMS migrations."
+>
   <h1>Case studies</h1>
   <p class="mt-4 max-w-155 text-xl text-fg-2">Longer write-ups of work I've led: what the problem was, what I built, and what changed.</p>
   <div class="mt-10 flex flex-col gap-7">

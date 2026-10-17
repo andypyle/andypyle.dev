@@ -6,12 +6,14 @@ import SectionHead from '../components/SectionHead.astro';
 import Button from '../components/ui/Button.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getProjects, getSite } from '../lib/data';
+import { person, website } from '../lib/schema';
 
 const [site, projects] = await Promise.all([getSite(), getProjects()]);
+const schema = await Promise.all([website(Astro.site!), person(Astro.site!)]);
 const cases = (await getCollection('case-studies')).sort((a, b) => a.data.order - b.data.order);
 const featured = cases.filter((c) => c.data.featured).slice(0, 2);
 ---
-<BaseLayout>
+<BaseLayout schema={schema}>
   <section
     class:list={[
       // Layout

@@ -57,7 +57,7 @@ const site = await getSite();
   </div>
 </footer>
 
-<div
+{site.email && <div
   class:list={[
     // Layout
     'fixed right-6 bottom-6 z-120 max-md:inset-x-4 max-md:bottom-26',
@@ -101,7 +101,7 @@ const site = await getSite();
       <div class="mt-0.5 text-sm leading-[1.45] text-fg-2">{site.email}</div>
     </div>
   </div>
-</div>
+</div>}
 
 <script>
   const toast = document.querySelector<HTMLElement>('[data-toast]');

@@ -25,6 +25,22 @@
         "timeline": {
           "type": "string"
         },
+        "published": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "integer",
+              "format": "unix-time"
+            }
+          ]
+        },
         "stack": {
           "type": "array",
           "items": {
@@ -38,6 +54,9 @@
           }
         },
         "hero": {
+          "type": "string"
+        },
+        "heroAlt": {
           "type": "string"
         },
         "tone": {
@@ -89,7 +108,8 @@
         "summary",
         "role",
         "team",
-        "timeline"
+        "timeline",
+        "published"
       ],
       "additionalProperties": false
     }

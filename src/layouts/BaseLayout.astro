@@ -12,6 +12,7 @@ import Header from '../components/Header.astro';
 import MobileNav from '../components/MobileNav.astro';
 import { getImage } from 'astro:assets';
 import { getSite } from '../lib/data';
+import type { Schema } from '../lib/schema';
 import '../styles/global.css';
 
 const site = await getSite();
@@ -22,14 +23,20 @@ interface Props {
   /** Share image for Open Graph / Twitter cards; defaults to /og.png */
   image?: ImageMetadata;
   type?: 'website' | 'article';
+  /** schema.org JSON-LD entities for this page (see src/lib/schema.ts) */
+  schema?: Schema[];
+  /** Keep this page out of search results (and skip its canonical URL) */
+  noindex?: boolean;
 }
-const { title, description = site.description, image, type = 'website' } = Astro.props;
+const { title, description = site.description, image, type = 'website', schema = [], noindex = false } = Astro.props;
 const fullTitle = title ? title + ' | Andy Pyle' : 'Andy Pyle | ' + site.role;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const og = image
   ? await getImage({ src: image, width: 1200, format: 'jpg' })
   : { src: '/og.png', attributes: { width: 1200, height: 630 } };
 const ogImage = new URL(og.src, Astro.site);
+// Escape `<` so content can't close the script tag early
+const jsonLd = schema.length && JSON.stringify({ '@context': 'https://schema.org', '@graph': schema }).replace(/</g, '\\u003c');
 ---
 <!doctype html>
 <html lang="en">
@@ -39,12 +46,13 @@ const ogImage = new URL(og.src, Astro.site);
     <meta name="color-scheme" content="light dark" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <meta property="og:type" content={type} />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
@@ -53,6 +61,9 @@ const ogImage = new URL(og.src, Astro.site);
     <meta property="og:image:width" content={String(og.attributes.width)} />
     <meta property="og:image:height" content={String(og.attributes.height)} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    {jsonLd && <script is:inline type="application/ld+json" set:html={jsonLd} />}
   </head>
   <body>
     <Header />

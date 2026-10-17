@@ -35,8 +35,7 @@
               }
             },
             "required": [
-              "linkedin",
-              "github"
+              "linkedin"
             ],
             "additionalProperties": false
           },
@@ -79,7 +78,6 @@
           "name",
           "role",
           "description",
-          "email",
           "links",
           "nav"
         ],

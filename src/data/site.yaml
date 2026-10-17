@@ -1,11 +1,9 @@
 # yaml-language-server: $schema=../../.astro/collections/site.schema.json#/definitions/site/additionalProperties
 name: Andy Pyle
 role: Frontend Engineer
-description: Andy Pyle - Frontend software engineer working where design meets engineering.
-email: hello@andypyle.com
+description: Andy Pyle is a frontend engineer building careful, considered interfaces in React and TypeScript, with a focus on design systems and accessibility.
 links:
   linkedin: https://www.linkedin.com/in/andrew-pyle-dev
-  github: '#' # add your GitHub URL
 
 # Switch whole sections of the site on/off. A disabled feature's page isn't built and its nav item is hidden.
 features:

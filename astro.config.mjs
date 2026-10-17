@@ -1,4 +1,5 @@
 import mdx from '@astrojs/mdx'
+import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'astro/config'
 import { readFileSync } from 'node:fs'
@@ -42,6 +43,7 @@ export default defineConfig({
       langs: [],
     }),
     mdx(),
+    sitemap(),
     routes,
   ],
   vite: {

@@ -6,10 +6,16 @@ import Card from '../components/ui/Card.astro';
 import Tag from '../components/ui/Tag.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getExperience, getSite, getSkills } from '../lib/data';
+import { profilePage } from '../lib/schema';
 
 const [site, experience, skills] = await Promise.all([getSite(), getExperience(), getSkills()]);
+const schema = [await profilePage(Astro.site!, new URL(Astro.url.pathname, Astro.site))];
 ---
-<BaseLayout title="About">
+<BaseLayout
+  title="About"
+  description="I'm a frontend engineer on California's Central Coast who came to code through design. I work in React and TypeScript, with a focus on design systems."
+  schema={schema}
+>
   <div class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] items-start gap-14">
     <div class="flex flex-col gap-8">
       <Image
