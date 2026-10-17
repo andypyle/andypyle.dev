@@ -35,11 +35,41 @@ const meta = [
     <p class="mt-4 max-w-content text-[21px] text-fg-2">{d.summary}</p>
 
     <Card tone="sunken" flat class="mt-8 grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-5">
-      {meta.map(([k, v]) => <div><div class="font-body text-xs leading-none font-bold tracking-caps text-fg-3 uppercase">{k}</div><div class="mt-2 font-semibold">{v}</div></div>)}
+      {meta.map(([k, v]) => (
+        <div>
+          <div
+            class:list={[
+              // Colors
+              'text-fg-3',
+              // Typography
+              'font-body text-xs leading-none font-bold tracking-caps uppercase',
+            ]}
+          >{k}</div>
+          <div class="mt-2 font-semibold">{v}</div>
+        </div>
+      ))}
     </Card>
 
     {d.hero
-      ? <Image src={d.hero} alt="" widths={[880, 1760]} sizes="(max-width: 880px) 100vw, 880px" loading="eager" class="mt-10 block h-auto w-full rounded-lg border-3 border-line shadow-lg" />
+      ? <Image
+          src={d.hero}
+          alt=""
+          widths={[880, 1760]}
+          sizes="(max-width: 880px) 100vw, 880px"
+          loading="eager"
+          class:list={[
+            // Layout
+            'block',
+            // Sizing
+            'h-auto w-full',
+            // Spacing
+            'mt-10',
+            // Borders
+            'rounded-lg border-3 border-line',
+            // Effects
+            'shadow-lg',
+          ]}
+        />
       : <Placeholder label="hero shot · before / after" ratio="16/9" framed class="mt-10 shadow-lg" />}
 
     <div class="loam-prose mx-auto mt-12">
@@ -47,7 +77,16 @@ const meta = [
       {d.outcome && <h2>Outcome</h2>}
     </div>
     {d.outcome && (
-      <div class="mx-auto mt-5 grid max-w-content grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-5">
+      <div
+        class:list={[
+          // Layout
+          'grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-5',
+          // Sizing
+          'max-w-content',
+          // Spacing
+          'mx-auto mt-5',
+        ]}
+      >
         {d.outcome.map((o) => <Card tone={d.tone} padding="sm"><div class="font-display text-4xl leading-none font-semibold">{o.value}</div><div class="mt-1.5 text-sm text-fg-2">{o.label}</div></Card>)}
       </div>
     )}

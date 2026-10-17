@@ -12,11 +12,31 @@ const [site, experience, skills] = await Promise.all([getSite(), getExperience()
 <BaseLayout title="About">
   <div class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] items-start gap-14">
     <div class="flex flex-col gap-8">
-      <Image class="block aspect-4/5 h-auto w-full -rotate-2 rounded-lg border-3 border-line object-cover object-top shadow-lg max-md:my-2 max-md:max-w-67.5 max-md:-rotate-[1.5deg] max-md:self-center" src={headshot} alt="Andy Pyle" widths={[270, 380, 684]} sizes="(max-width: 720px) 270px, 380px" loading="eager" />
+      <Image
+        class:list={[
+          // Layout
+          'block object-cover object-top max-md:self-center',
+          // Sizing
+          'aspect-4/5 h-auto w-full max-md:max-w-67.5',
+          // Spacing
+          'max-md:my-2',
+          // Borders
+          'rounded-lg border-3 border-line',
+          // Effects
+          'shadow-lg',
+          // Transforms
+          '-rotate-2 max-md:rotate-[-1.5deg]',
+        ]}
+        src={headshot}
+        alt="Andy Pyle"
+        widths={[270, 380, 684]}
+        sizes="(max-width: 720px) 270px, 380px"
+        loading="eager"
+      />
       <Card tone="lichen">
         <h4>Get in touch</h4>
         <p class="mt-2 mb-4 text-[15px] text-fg-2">The best way to reach me is a message on LinkedIn.</p>
-        <Button href={site.links.linkedin} external icon="linkedin" iconClass="loam-anim-hop">Message me on LinkedIn</Button>
+        <Button class="rounded-lg!" href={site.links.linkedin} external icon="linkedin" iconClass="loam-anim-hop">Message me on LinkedIn</Button>
       </Card>
     </div>
     <div class="flex flex-col gap-5.5">
@@ -29,7 +49,7 @@ const [site, experience, skills] = await Promise.all([getSite(), getExperience()
         <Card padding="none" class="divide-y-2 divide-dashed divide-subtle">
           {experience.map((x) => (
             <div class="grid grid-cols-[130px_1fr] gap-4 px-5.5 py-4">
-              <span class="pt-[3px] font-mono text-[13px] text-fg-3">{x.when}</span>
+              <span class="pt-0.75 font-mono text-[13px] text-fg-3">{x.when}</span>
               <div><div class="font-display text-xl font-semibold">{x.role}</div><div class="text-[15px] text-fg-2">{x.org}</div></div>
             </div>
           ))}

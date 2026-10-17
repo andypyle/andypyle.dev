@@ -8,16 +8,51 @@ interface Props { entry: CollectionEntry<'case-studies'> }
 const { entry } = Astro.props;
 const d = entry.data;
 ---
-<Card href={'/case-studies/' + entry.id + '/'} interactive padding="none">
+<Card href={'/case-studies/' + entry.id + '/'} interactive padding="none" class="group">
   <div class="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))]">
     {d.hero
-      ? <Image src={d.hero} alt="" widths={[480, 960]} sizes="(max-width: 600px) 100vw, 480px" class="block h-full min-h-55 w-full object-cover object-top-left" />
-      : <Placeholder label={d.company.toLowerCase() + ' · hero shot'} ratio="16/10" class="h-full min-h-55" />}
-    <div class="flex flex-col justify-center gap-3 px-6.5 py-6">
+      ? <Image
+          src={d.hero}
+          alt=""
+          widths={[480, 960]}
+          sizes="(max-width: 600px) 100vw, 480px"
+          class:list={[
+            // Layout
+            'block object-cover object-top-left',
+            // Sizing
+            'aspect-[14/8] w-full',
+            // Effects (dimmed in dark mode only)
+            'grayscale-50 dark:brightness-80',
+            'group-hover:grayscale-0 group-hover:brightness-100',
+            'group-focus-visible:grayscale-0 group-focus-visible:brightness-100',
+            // Transitions
+            'transition-[filter] duration-300 ease-out',
+          ]}
+        />
+      : <Placeholder label={d.company.toLowerCase() + ' · hero shot'} ratio="14/8" />}
+    <div
+      class:list={[
+        // Layout
+        'flex flex-col justify-center gap-3',
+        // Spacing
+        'px-6.5 py-6',
+      ]}
+    >
       <h3>{d.title}</h3>
       <p class="text-base text-fg-2">{d.summary}</p>
       <span class="font-mono text-[13px] text-fg-3">{d.company} · {d.year}</span>
-      <span class="mt-1 inline-flex items-center gap-2 text-[15px] font-bold text-link">Read case study <Icon name="arrow-right" size={18} /></span>
+      <span
+        class:list={[
+          // Layout
+          'inline-flex items-center gap-2',
+          // Spacing
+          'mt-1',
+          // Colors
+          'text-link',
+          // Typography
+          'text-[15px] font-bold',
+        ]}
+      >Read case study <Icon name="arrow-right" size={18} /></span>
     </div>
   </div>
 </Card>

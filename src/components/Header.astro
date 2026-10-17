@@ -8,29 +8,97 @@ const path = Astro.url.pathname;
 const current = nav.find((n) => (n.href === '/' ? path === '/' : path.startsWith(n.href)))?.id;
 const settle = 'transition-[border-color,background-color,box-shadow] duration-200 ease-out';
 ---
-<header class="group/header sticky top-4 z-10 mt-4 px-4" data-header>
+<header
+  class:list={[
+    // Group
+    'group/header',
+    // Layout
+    'sticky top-4 z-10',
+    // Spacing
+    'mt-4 px-4',
+  ]}
+  data-header
+>
   <div class:list={[
-    'mx-auto flex max-w-[calc(var(--container-page)-16px)] flex-wrap items-center gap-5 rounded-md border-3 border-transparent bg-page/75 py-2.5 pr-3 pl-5 shadow-none backdrop-blur-[8px] max-md:justify-center max-md:px-5 max-md:py-4.5',
-    'group-data-scrolled/header:border-line group-data-scrolled/header:bg-surface/95 group-data-scrolled/header:shadow-md',
+    // Layout
+    'flex flex-wrap items-center gap-5 max-md:justify-center',
+    // Sizing
+    'max-w-[calc(var(--container-page)-16px)]',
+    // Spacing
+    'mx-auto py-2.5 pr-3 pl-5 max-md:px-5 max-md:py-4.5',
+    // Borders
+    'rounded-md border-3 border-transparent group-data-scrolled/header:border-line',
+    // Colors
+    'bg-page/75 group-data-scrolled/header:bg-surface/95',
+    // Effects
+    'shadow-none backdrop-blur-sm group-data-scrolled/header:shadow-md',
+    // Transitions
     settle,
   ]}>
-    <a class="mr-auto font-display text-[28px] leading-none font-semibold tracking-display text-fg-1 no-underline max-md:mr-0" href="/">{site.name}</a>
+    <a
+      class:list={[
+        // Spacing
+        'mr-auto max-md:mr-0',
+        // Colors
+        'text-fg-1',
+        // Typography
+        'font-display text-h3 leading-none font-semibold tracking-display no-underline',
+      ]}
+      href="/"
+    >{site.name}</a>
     <nav class:list={[
-      'inline-flex max-w-full gap-1 overflow-x-auto rounded-full border-3 border-line bg-surface p-1 shadow-md max-md:hidden',
-      'group-data-scrolled/header:border-transparent group-data-scrolled/header:bg-transparent group-data-scrolled/header:shadow-none',
+      // Layout
+      'inline-flex gap-1 overflow-x-auto max-md:hidden',
+      // Sizing
+      'max-w-full',
+      // Spacing
+      'p-1',
+      // Borders
+      'rounded-full border-3 border-line group-data-scrolled/header:border-transparent',
+      // Colors
+      'bg-surface group-data-scrolled/header:bg-transparent',
+      // Effects
+      'shadow-md group-data-scrolled/header:shadow-none',
+      // Transitions
       settle,
     ]} aria-label="Main">
       {nav.map((n) => (
         <a
           class:list={[
-            'relative isolate inline-flex h-9.5 items-center rounded-full border-2 border-transparent px-4 font-body text-[15px] leading-none font-bold whitespace-nowrap no-underline transition-colors duration-120',
+            // Layout
+            'relative isolate inline-flex items-center',
+            // Sizing
+            'h-9.5',
+            // Spacing
+            'px-4',
+            // Borders
+            'rounded-full border-2 border-transparent',
+            // Colors
             n.id === current ? 'text-on-fill' : 'text-fg-2 hover:bg-sunken hover:text-fg-1',
+            // Typography
+            'font-body text-[15px] leading-none font-bold whitespace-nowrap no-underline',
+            // Transitions
+            'transition-colors duration-120',
           ]}
           href={n.href}
           aria-current={n.id === current ? 'page' : undefined}
         >
           {/* The pill morphs between pages via View Transitions (see global.css) */}
-          {n.id === current && <span class="absolute -inset-0.5 -z-10 rounded-full border-2 border-line bg-mist-500 [view-transition-name:loam-tab-pill]" aria-hidden="true" />}
+          {n.id === current && (
+            <span
+              class:list={[
+                // Layout
+                'absolute -inset-0.5 -z-10',
+                // Borders
+                'rounded-full border-2 border-line',
+                // Colors
+                'bg-mist-500',
+                // Transitions
+                '[view-transition-name:loam-tab-pill]',
+              ]}
+              aria-hidden="true"
+            />
+          )}
           <span class="relative" style={'view-transition-name: loam-tab-' + n.id}>{n.label}</span>
         </a>
       ))}

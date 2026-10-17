@@ -13,4 +13,19 @@ const tones: Record<Tone, string> = {
   ink: 'bg-inverse text-fg-inverse',
 };
 ---
-<span class:list={['inline-flex h-6.5 items-center gap-1.25 whitespace-nowrap rounded-full border-2 border-line px-2.5 font-body text-xs leading-none font-bold tracking-caps uppercase', tones[tone]]}>{icon && <Icon name={icon} size={13} />}<slot /></span>
+<span
+  class:list={[
+    // Layout
+    'inline-flex items-center gap-1.25',
+    // Sizing
+    'h-6.5',
+    // Spacing
+    'px-2.5',
+    // Borders
+    'rounded-full border-2 border-line',
+    // Colors
+    tones[tone],
+    // Typography
+    'font-body text-xs leading-none font-bold tracking-caps uppercase whitespace-nowrap',
+  ]}
+>{icon && <Icon name={icon} size={13} />}<slot /></span>

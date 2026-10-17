@@ -6,10 +6,27 @@ const clickable = Tag === 'button';
 ---
 <Tag
   class:list={[
-    'inline-flex h-9 items-center gap-1.5 whitespace-nowrap rounded-full border-2 border-line px-4 font-body text-sm leading-none font-semibold transition-[background-color,scale] duration-120 ease-out',
+    // Layout
+    'inline-flex items-center gap-1.5',
+    // Sizing
+    'h-9',
+    // Spacing
+    'px-4',
+    // Borders
+    'rounded-full border-2 border-line',
+    // Colors
     clickable
-      ? 'cursor-pointer bg-surface text-fg-1 hover:not-aria-pressed:bg-mist-100 active:scale-96 aria-pressed:bg-inverse aria-pressed:text-fg-inverse'
+      ? 'bg-surface text-fg-1 hover:not-aria-pressed:bg-mist-100 aria-pressed:bg-inverse aria-pressed:text-fg-inverse'
       : selected ? 'bg-inverse text-fg-inverse' : 'bg-surface text-fg-1',
+    // Typography
+    'font-body text-sm leading-none font-semibold whitespace-nowrap',
+    // Transforms
+    clickable && 'active:scale-96',
+    // Transitions
+    'transition-[background-color,scale] duration-120 ease-out',
+    // Interaction
+    clickable && 'cursor-pointer',
+    // Overrides
     cls,
   ]}
   aria-pressed={clickable ? String(selected) : undefined}

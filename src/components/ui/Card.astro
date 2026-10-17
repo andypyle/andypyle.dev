@@ -20,11 +20,27 @@ const paddings = { none: 'p-0', sm: 'p-4', md: 'p-6', lg: 'p-9' };
 <Tag
   href={href}
   class:list={[
-    'overflow-hidden rounded-lg border-3 border-line no-underline transition-[translate,box-shadow] duration-200 ease-out',
-    tones[tone],
+    // Layout
+    'overflow-hidden',
+    href && 'block',
+    // Spacing
     paddings[padding],
-    { block: href, 'shadow-md': !flat && tone !== 'ink' },
-    interactive && 'cursor-pointer hover:-translate-[3px] hover:shadow-xl active:translate-0.5 active:shadow-sm',
+    // Borders
+    'rounded-lg border-3 border-line',
+    // Colors
+    tones[tone],
+    // Typography
+    'no-underline',
+    // Effects
+    !flat && tone !== 'ink' && 'shadow-md',
+    interactive && 'hover:shadow-xl active:shadow-sm',
+    // Transforms
+    interactive && 'hover:-translate-0.75 active:translate-0.5',
+    // Transitions
+    'transition-[translate,box-shadow] duration-200 ease-out',
+    // Interaction
+    interactive && 'cursor-pointer',
+    // Overrides
     cls,
   ]}
   {...rest}

@@ -12,7 +12,16 @@ const cases = (await getCollection('case-studies')).sort((a, b) => a.data.order 
 const featured = cases.filter((c) => c.data.featured).slice(0, 2);
 ---
 <BaseLayout>
-  <section class="flex max-w-205 flex-col items-start gap-6 py-6">
+  <section
+    class:list={[
+      // Layout
+      'flex flex-col items-start gap-6',
+      // Sizing
+      'max-w-205',
+      // Spacing
+      'py-6',
+    ]}
+  >
     <h1 class="text-[clamp(44px,6vw,60px)]">I build careful, considered interfaces, for the person tapping the screen and the teammate reading the code.</h1>
     <p class="max-w-150 text-xl text-fg-2">Frontend engineer with eight years of experience in React, TypeScript, and design systems.</p>
     <div class="flex flex-wrap gap-3.5 pt-1">

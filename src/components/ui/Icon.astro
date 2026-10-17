@@ -14,7 +14,14 @@ const svg = raw
   .replace(/\sclass="[^"]*"/, '');
 ---
 <span
-  class:list={['inline-flex flex-none leading-none', cls]}
+  class:list={[
+    // Layout
+    'inline-flex flex-none',
+    // Typography
+    'leading-none',
+    // Overrides
+    cls,
+  ]}
   style={'width:' + size + 'px;height:' + size + 'px'}
   role={label ? 'img' : undefined}
   aria-label={label}
