@@ -8,16 +8,16 @@ interface Props { entry: CollectionEntry<'case-studies'> }
 const { entry } = Astro.props;
 const d = entry.data;
 ---
-<Card class="case-card" href={'/case-studies/' + entry.id + '/'} interactive padding="none">
-  <div class="inner">
+<Card href={'/case-studies/' + entry.id + '/'} interactive padding="none">
+  <div class="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))]">
     {d.hero
-      ? <Image src={d.hero} alt="" widths={[480, 960]} sizes="(max-width: 600px) 100vw, 480px" class="case-card__img" />
-      : <Placeholder label={d.company.toLowerCase() + ' · hero shot'} ratio="16/10" />}
-    <div class="body">
+      ? <Image src={d.hero} alt="" widths={[480, 960]} sizes="(max-width: 600px) 100vw, 480px" class="block h-full min-h-55 w-full object-cover object-top-left" />
+      : <Placeholder label={d.company.toLowerCase() + ' · hero shot'} ratio="16/10" class="h-full min-h-55" />}
+    <div class="flex flex-col justify-center gap-3 px-6.5 py-6">
       <h3>{d.title}</h3>
-      <p>{d.summary}</p>
-      <span class="meta">{d.company} · {d.year}</span>
-      <span class="more">Read case study <Icon name="arrow-right" size={18} /></span>
+      <p class="text-base text-fg-2">{d.summary}</p>
+      <span class="font-mono text-[13px] text-fg-3">{d.company} · {d.year}</span>
+      <span class="mt-1 inline-flex items-center gap-2 text-[15px] font-bold text-link">Read case study <Icon name="arrow-right" size={18} /></span>
     </div>
   </div>
 </Card>

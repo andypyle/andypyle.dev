@@ -6,26 +6,43 @@ const site = await getSite();
 const { nav } = site;
 const path = Astro.url.pathname;
 const current = nav.find((n) => (n.href === '/' ? path === '/' : path.startsWith(n.href)))?.id;
+const settle = 'transition-[border-color,background-color,box-shadow] duration-200 ease-out';
 ---
-<header class="site-header" data-header>
-  <div class="bar">
-    <a class="wordmark" href="/">{site.name}</a>
-    <nav class="loam-tabs loam-tabs--view desktop-only" aria-label="Main">
+<header class="group/header sticky top-4 z-10 mt-4 px-4" data-header>
+  <div class:list={[
+    'mx-auto flex max-w-[calc(var(--container-page)-16px)] flex-wrap items-center gap-5 rounded-md border-3 border-transparent bg-page/75 py-2.5 pr-3 pl-5 shadow-none backdrop-blur-[8px] max-md:justify-center max-md:px-5 max-md:py-4.5',
+    'group-data-scrolled/header:border-line group-data-scrolled/header:bg-surface/95 group-data-scrolled/header:shadow-md',
+    settle,
+  ]}>
+    <a class="mr-auto font-display text-[28px] leading-none font-semibold tracking-display text-fg-1 no-underline max-md:mr-0" href="/">{site.name}</a>
+    <nav class:list={[
+      'inline-flex max-w-full gap-1 overflow-x-auto rounded-full border-3 border-line bg-surface p-1 shadow-md max-md:hidden',
+      'group-data-scrolled/header:border-transparent group-data-scrolled/header:bg-transparent group-data-scrolled/header:shadow-none',
+      settle,
+    ]} aria-label="Main">
       {nav.map((n) => (
-        <a class:list={['loam-tab', { 'is-active': n.id === current }]} href={n.href} aria-current={n.id === current ? 'page' : undefined}>
-          {n.id === current && <span class="loam-tab-pill" aria-hidden="true" />}
-          <span class="loam-tab-label" style={'view-transition-name: loam-tab-' + n.id}>{n.label}</span>
+        <a
+          class:list={[
+            'relative isolate inline-flex h-9.5 items-center rounded-full border-2 border-transparent px-4 font-body text-[15px] leading-none font-bold whitespace-nowrap no-underline transition-colors duration-120',
+            n.id === current ? 'text-on-fill' : 'text-fg-2 hover:bg-sunken hover:text-fg-1',
+          ]}
+          href={n.href}
+          aria-current={n.id === current ? 'page' : undefined}
+        >
+          {/* The pill morphs between pages via View Transitions (see global.css) */}
+          {n.id === current && <span class="absolute -inset-0.5 -z-10 rounded-full border-2 border-line bg-mist-500 [view-transition-name:loam-tab-pill]" aria-hidden="true" />}
+          <span class="relative" style={'view-transition-name: loam-tab-' + n.id}>{n.label}</span>
         </a>
       ))}
     </nav>
-    <Button class="desktop-only" variant="secondary" size="sm" href={site.links.linkedin} external icon="linkedin" iconClass="loam-anim-hop">LinkedIn</Button>
+    <Button class="max-md:hidden" variant="secondary" size="sm" href={site.links.linkedin} external icon="linkedin" iconClass="loam-anim-hop">LinkedIn</Button>
   </div>
 </header>
 
 <script>
   const header = document.querySelector('[data-header]');
   if (header) {
-    const update = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+    const update = () => header.toggleAttribute('data-scrolled', window.scrollY > 8);
     update();
     window.addEventListener('scroll', update, { passive: true });
   }

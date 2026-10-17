@@ -3,9 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/ui/Button.astro';
 ---
 <BaseLayout title="Not found">
-  <section class="hero">
-    <h1>That page wandered off.</h1>
-    <p class="lead">It might have moved, or never existed. Let's get you back on the trail.</p>
+  <section class="flex max-w-205 flex-col items-start gap-6 py-6">
+    <h1 class="text-[clamp(44px,6vw,60px)]">That page wandered off.</h1>
+    <p class="max-w-150 text-xl text-fg-2">It might have moved, or never existed. Let's get you back on the trail.</p>
     <Button iconRight="arrow-right" href="/">Back home</Button>
   </section>
 </BaseLayout>

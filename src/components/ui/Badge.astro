@@ -1,6 +1,16 @@
 ---
 import Icon from './Icon.astro';
-interface Props { tone?: 'sage' | 'mist' | 'moss' | 'lichen' | 'dusk' | 'paper' | 'ink'; icon?: string }
+type Tone = 'sage' | 'mist' | 'moss' | 'lichen' | 'dusk' | 'paper' | 'ink';
+interface Props { tone?: Tone; icon?: string }
 const { tone = 'sage', icon } = Astro.props;
+const tones: Record<Tone, string> = {
+  sage: 'bg-sage-100 text-fg-1',
+  mist: 'bg-mist-100 text-fg-1',
+  moss: 'bg-moss-100 text-fg-1',
+  lichen: 'bg-lichen-100 text-fg-1',
+  dusk: 'bg-dusk-100 text-fg-1',
+  paper: 'bg-surface text-fg-1',
+  ink: 'bg-inverse text-fg-inverse',
+};
 ---
-<span class:list={['loam-badge', 'loam-badge--' + tone]}>{icon && <Icon name={icon} size={13} />}<slot /></span>
+<span class:list={['inline-flex h-6.5 items-center gap-1.25 whitespace-nowrap rounded-full border-2 border-line px-2.5 font-body text-xs leading-none font-bold tracking-caps uppercase', tones[tone]]}>{icon && <Icon name={icon} size={13} />}<slot /></span>

@@ -13,12 +13,14 @@
     "@astrojs/mdx": "^4.3.14",
     "@fontsource/figtree": "^5.1.0",
     "@fontsource/fredoka": "^5.1.0",
+    "@tailwindcss/vite": "^4.3.3",
     "astro": "^5.0.0",
     "astro-expressive-code": "^0.44.2",
     "astro-mermaid": "^2.1.0",
     "lucide-static": "0.460.0",
     "mermaid": "^12.2.0",
     "sharp": "^0.35.5",
+    "tailwindcss": "^4.3.3",
     "yaml": "^2.9.1"
   },
   "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319"

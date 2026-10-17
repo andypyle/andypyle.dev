@@ -3,7 +3,7 @@
 interface Props { caption?: string; class?: string }
 const { caption, class: cls } = Astro.props;
 ---
-<figure class:list={['loam-figure-group', cls]}>
-  <div class="loam-figure-group__items"><slot /></div>
-  {caption && <figcaption>{caption}</figcaption>}
+<figure class:list={[cls]}>
+  <div class="flex flex-wrap justify-center gap-6 *:max-w-80 *:flex-[1_1_220px]"><slot /></div>
+  {caption && <figcaption class="mt-3 text-center text-sm leading-[1.4] text-fg-2">{caption}</figcaption>}
 </figure>

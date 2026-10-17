@@ -3,7 +3,7 @@
 interface Props { title?: string; class?: string }
 const { title, class: cls } = Astro.props;
 ---
-<aside class:list={['loam-callout', cls]}>
-  {title && <div class="loam-callout__title">{title}</div>}
-  <div class="loam-callout__body"><slot /></div>
+<aside class:list={['rounded-lg border-3 border-line bg-accent-soft px-6 py-5 text-body leading-body', cls]}>
+  {title && <div class="mb-1.5 font-display text-lg leading-[1.3] font-semibold">{title}</div>}
+  <div class="[&>*+*]:mt-[.8em]"><slot /></div>
 </aside>

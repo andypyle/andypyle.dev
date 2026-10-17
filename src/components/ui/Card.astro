@@ -1,8 +1,33 @@
 ---
-interface Props { tone?: 'surface' | 'sunken' | 'sage' | 'mist' | 'moss' | 'lichen' | 'dusk' | 'ink'; padding?: 'none' | 'sm' | 'md' | 'lg'; interactive?: boolean; flat?: boolean; href?: string; class?: string; [key: string]: any }
+// Outlined surface. Renders an <a> (display: block) when href is set — put any flex/grid layout on an inner element.
+type Tone = 'surface' | 'sunken' | 'sage' | 'mist' | 'moss' | 'lichen' | 'dusk' | 'ink';
+interface Props { tone?: Tone; padding?: 'none' | 'sm' | 'md' | 'lg'; interactive?: boolean; flat?: boolean; href?: string; class?: string; [key: string]: any }
 const { tone = 'surface', padding = 'md', interactive = false, flat = false, href, class: cls, ...rest } = Astro.props;
 const Tag = href ? 'a' : 'div';
+
+const tones: Record<Tone, string> = {
+  surface: 'bg-surface text-fg-1',
+  sunken: 'bg-sunken text-fg-1',
+  sage: 'bg-sage-100 text-fg-1',
+  mist: 'bg-mist-100 text-fg-1',
+  moss: 'bg-moss-100 text-fg-1',
+  lichen: 'bg-lichen-100 text-fg-1',
+  dusk: 'bg-dusk-100 text-fg-1',
+  ink: 'bg-inverse text-fg-inverse',
+};
+const paddings = { none: 'p-0', sm: 'p-4', md: 'p-6', lg: 'p-9' };
 ---
-<Tag href={href} class:list={['loam-card', 'loam-card--' + tone, 'loam-card--pad-' + padding, { 'loam-card--interactive': interactive, 'loam-card--flat': flat }, cls]} {...rest}>
+<Tag
+  href={href}
+  class:list={[
+    'overflow-hidden rounded-lg border-3 border-line no-underline transition-[translate,box-shadow] duration-200 ease-out',
+    tones[tone],
+    paddings[padding],
+    { block: href, 'shadow-md': !flat && tone !== 'ink' },
+    interactive && 'cursor-pointer hover:-translate-[3px] hover:shadow-xl active:translate-0.5 active:shadow-sm',
+    cls,
+  ]}
+  {...rest}
+>
   <slot />
 </Tag>

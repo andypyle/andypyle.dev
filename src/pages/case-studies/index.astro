@@ -7,8 +7,8 @@ const cases = (await getCollection('case-studies')).sort((a, b) => a.data.order 
 ---
 <BaseLayout title="Case studies">
   <h1>Case studies</h1>
-  <p class="lead" style="margin-top:16px">Longer write-ups of work I've led: what the problem was, what I built, and what changed.</p>
-  <div class="stack" style="gap:28px;margin-top:40px">
+  <p class="mt-4 max-w-155 text-xl text-fg-2">Longer write-ups of work I've led: what the problem was, what I built, and what changed.</p>
+  <div class="mt-10 flex flex-col gap-7">
     {cases.map((entry) => <CaseCard entry={entry} />)}
   </div>
 </BaseLayout>

@@ -1,9 +1,10 @@
 ---
 import Icon from './Icon.astro';
+import { buttonClass, type ButtonSize, type ButtonVariant } from './button';
 
 interface Props {
-  variant?: 'primary' | 'secondary' | 'dark' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   href?: string;
   external?: boolean;
   icon?: string;
@@ -21,7 +22,7 @@ const is = size === 'sm' ? 16 : size === 'lg' ? 22 : 18;
 const Tag = href ? 'a' : 'button';
 const attrs = href ? { href, ...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {}) } : { type };
 ---
-<Tag class:list={['loam-btn', 'loam-btn--' + variant, 'loam-btn--' + size, cls]} {...attrs} {...rest}>
+<Tag class:list={[buttonClass({ variant, size }), cls]} {...attrs} {...rest}>
   {icon && <Icon name={icon} size={is} class={iconClass} />}
   <slot />
   {iconRight && <Icon name={iconRight} size={is} class={iconRightClass} />}

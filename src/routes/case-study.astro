@@ -6,6 +6,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/ui/Button.astro';
 import Card from '../components/ui/Card.astro';
 import Placeholder from '../components/ui/Placeholder.astro';
+import { buttonClass } from '../components/ui/button';
 
 export async function getStaticPaths() {
   const cases = (await getCollection('case-studies')).sort((a, b) => a.data.order - b.data.order);
@@ -28,39 +29,36 @@ const meta = [
 ];
 ---
 <BaseLayout title={d.title} description={d.summary} image={d.hero} type="article">
-  <article class="case">
+  <article class="mx-auto max-w-220">
     <Button variant="ghost" size="sm" icon="arrow-left" href="/case-studies/">All case studies</Button>
-    <h1 style="margin-top:28px">{d.title}</h1>
-    <p class="lead" style="font-size:21px;margin-top:16px;max-width:680px">{d.summary}</p>
+    <h1 class="mt-7">{d.title}</h1>
+    <p class="mt-4 max-w-content text-[21px] text-fg-2">{d.summary}</p>
 
-    <Card tone="sunken" flat class="case-meta">
-      {meta.map(([k, v]) => <div><div class="caps">{k}</div><div class="val">{v}</div></div>)}
+    <Card tone="sunken" flat class="mt-8 grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-5">
+      {meta.map(([k, v]) => <div><div class="font-body text-xs leading-none font-bold tracking-caps text-fg-3 uppercase">{k}</div><div class="mt-2 font-semibold">{v}</div></div>)}
     </Card>
 
     {d.hero
-      ? <Image src={d.hero} alt="" widths={[880, 1760]} sizes="(max-width: 880px) 100vw, 880px" loading="eager" class="case-hero case-hero--img" />
-      : <Placeholder label="hero shot · before / after" ratio="16/9" framed class="case-hero" />}
+      ? <Image src={d.hero} alt="" widths={[880, 1760]} sizes="(max-width: 880px) 100vw, 880px" loading="eager" class="mt-10 block h-auto w-full rounded-lg border-3 border-line shadow-lg" />
+      : <Placeholder label="hero shot · before / after" ratio="16/9" framed class="mt-10 shadow-lg" />}
 
-    <div class="loam-prose">
+    <div class="loam-prose mx-auto mt-12">
       <Content />
       {d.outcome && <h2>Outcome</h2>}
     </div>
     {d.outcome && (
-      <div class="outcomes">
-        {d.outcome.map((o) => <Card tone={d.tone} padding="sm"><div class="num">{o.value}</div><div class="lbl">{o.label}</div></Card>)}
+      <div class="mx-auto mt-5 grid max-w-content grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-5">
+        {d.outcome.map((o) => <Card tone={d.tone} padding="sm"><div class="font-display text-4xl leading-none font-semibold">{o.value}</div><div class="mt-1.5 text-sm text-fg-2">{o.label}</div></Card>)}
       </div>
     )}
 
     {next.id !== entry.id && (
-      <Card class="next-case" href={'/case-studies/' + next.id + '/'} interactive>
-        <div class="title">{next.data.title}</div>
-        <span class="loam-btn loam-btn--primary loam-btn--sm">Next case study</span>
+      <Card class="mt-18" href={'/case-studies/' + next.id + '/'} interactive>
+        <div class="flex items-center justify-between gap-4">
+          <div class="font-display text-2xl font-semibold">{next.data.title}</div>
+          <span class={buttonClass({ size: 'sm' })}>Next case study</span>
+        </div>
       </Card>
     )}
   </article>
 </BaseLayout>
-
-<style is:global>
-  .case-hero { margin-top: 40px; box-shadow: var(--shadow-lg); }
-  .case-hero--img { display: block; width: 100%; height: auto; border: var(--border) solid var(--line); border-radius: var(--radius-lg); }
-</style>

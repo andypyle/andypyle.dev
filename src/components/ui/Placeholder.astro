@@ -3,4 +3,12 @@
 interface Props { label?: string; ratio?: string; framed?: boolean; class?: string }
 const { label = 'image', ratio = '4/3', framed = false, class: cls } = Astro.props;
 ---
-<div class:list={['loam-placeholder', { 'loam-placeholder--framed': framed }, cls]} style={'aspect-ratio:' + ratio}><span>{label}</span></div>
+<div
+  class:list={[
+    'relative grid w-full place-items-center p-3 text-center font-mono text-xs leading-[1.3] font-medium text-fg-2',
+    'bg-[repeating-linear-gradient(135deg,var(--color-sunken)_0_10px,var(--color-page)_10px_20px)]',
+    { 'rounded-lg border-3 border-line': framed },
+    cls,
+  ]}
+  style={'aspect-ratio:' + ratio}
+><span class="rounded-[4px] border-2 border-line bg-surface px-2 py-1">{label}</span></div>

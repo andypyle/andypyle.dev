@@ -1,5 +1,17 @@
 ---
+// Pill label. As a button it's a toggle: aria-pressed drives the selected look (see the projects filter).
 interface Props { selected?: boolean; as?: 'span' | 'button'; class?: string; [key: string]: any }
 const { selected = false, as: Tag = 'span', class: cls, ...rest } = Astro.props;
+const clickable = Tag === 'button';
 ---
-<Tag class:list={['loam-tag', { 'is-selected': selected, 'is-clickable': Tag === 'button' }, cls]} aria-pressed={Tag === 'button' ? String(selected) : undefined} {...rest}><slot /></Tag>
+<Tag
+  class:list={[
+    'inline-flex h-9 items-center gap-1.5 whitespace-nowrap rounded-full border-2 border-line px-4 font-body text-sm leading-none font-semibold transition-[background-color,scale] duration-120 ease-out',
+    clickable
+      ? 'cursor-pointer bg-surface text-fg-1 hover:not-aria-pressed:bg-mist-100 active:scale-96 aria-pressed:bg-inverse aria-pressed:text-fg-inverse'
+      : selected ? 'bg-inverse text-fg-inverse' : 'bg-surface text-fg-1',
+    cls,
+  ]}
+  aria-pressed={clickable ? String(selected) : undefined}
+  {...rest}
+><slot /></Tag>

@@ -1,55 +1,83 @@
 ---
 import Icon from './ui/Icon.astro';
 import Button from './ui/Button.astro';
+import { buttonBase, buttonRaised } from './ui/button';
 import { getSite } from '../lib/data';
 
 const site = await getSite();
 const { nav } = site;
 const path = Astro.url.pathname;
 const current = nav.find((n) => (n.href === '/' ? path === '/' : path.startsWith(n.href)))?.id;
+
+// data-state on the root: unset (closed) → "open" → "closing" (while the exit animation plays) → unset.
+// Items stagger in top-down and out bottom-up via --stagger-in / --stagger-out (read by animate-slide-*).
+const animIn = 'group-data-[state=open]/mnav:animate-slide-in group-data-[state=closing]/mnav:animate-slide-out motion-reduce:animate-none!';
+const bar = 'absolute left-px h-[3px] w-4.5 rounded-[2px] bg-current transition-[translate,rotate,scale,opacity] duration-320 ease-bounce motion-reduce:transition-none';
 ---
-<div class="mnav" data-mnav>
-  <div class="mnav-backdrop" data-mnav-close></div>
-  <nav class="mnav-sheet" aria-label="Main">
+<div
+  class="group/mnav md:hidden before:pointer-events-none before:fixed before:bottom-[3px] before:left-1/2 before:z-39 before:h-28 before:w-90 before:-translate-x-1/2 before:bg-[radial-gradient(closest-side,rgb(26_31_36/0.2),rgb(26_31_36/0.08)_60%,transparent)]"
+  data-mnav
+>
+  <!-- The ::before is a faint radial shade behind the toggle so it reads over page content (radial, so iOS Safari's floating toolbar can't expose a hard edge) -->
+  <div class="fixed inset-0 z-40 hidden bg-ink-900/40 backdrop-blur-[3px] group-data-state/mnav:block group-data-[state=open]/mnav:animate-fade-in group-data-[state=closing]/mnav:animate-fade-out motion-reduce:animate-none!" data-mnav-close></div>
+  <nav
+    class="fixed inset-x-4 bottom-26 z-41 hidden origin-bottom flex-col gap-1 rounded-xl border-3 border-line bg-surface p-2.5 shadow-lg group-data-state/mnav:flex group-data-[state=open]/mnav:animate-pop-in group-data-[state=closing]/mnav:animate-pop-out motion-reduce:animate-none!"
+    aria-label="Main"
+  >
     {nav.map((n, i) => (
-      <a class:list={['mnav-link', { 'is-active': n.id === current }]} href={n.href} aria-current={n.id === current ? 'page' : undefined} style={'--i:' + i}>
+      <a
+        class:list={[
+          'flex min-h-14 items-center justify-between rounded-lg border-2 px-4.5 font-display text-[26px] font-semibold tracking-[-0.01em] no-underline',
+          n.id === current ? 'border-line bg-mist-500 text-on-fill' : 'border-transparent text-fg-1 hover:bg-sunken',
+          animIn,
+        ]}
+        href={n.href}
+        aria-current={n.id === current ? 'page' : undefined}
+        style={`--stagger-in:${40 + i * 40}ms;--stagger-out:${(nav.length - i) * 25}ms`}
+      >
         {n.label}
         <Icon name="arrow-right" size={22} />
       </a>
     ))}
-    <div class="mnav-foot" style={'--i:' + nav.length}>
-      <Button variant="secondary" href={site.links.linkedin} external icon="linkedin" iconClass="loam-anim-hop">LinkedIn</Button>
+    <div class:list={['mt-1.5 border-t-2 border-dashed border-subtle px-2 pt-2.5 pb-1.5', animIn]} style={`--stagger-in:${40 + nav.length * 40}ms`}>
+      <Button class="w-full rounded-lg!" variant="secondary" href={site.links.linkedin} external icon="linkedin" iconClass="loam-anim-hop">LinkedIn</Button>
     </div>
   </nav>
-  <button type="button" class="loam-btn loam-btn--md mnav-toggle" aria-expanded="false" aria-label="Open menu" data-mnav-toggle>
-    <span class="glyph" aria-hidden="true"><span></span><span></span><span></span></span>
+  <button
+    type="button"
+    class:list={[buttonBase, buttonRaised.md, 'fixed inset-x-0 bottom-8 z-42 mx-auto h-13.5 w-fit min-w-31 border-3 border-line bg-slate-700 px-5 text-[17px] text-slate-50 hover:bg-slate-500']}
+    aria-expanded="false"
+    aria-label="Open menu"
+    data-mnav-toggle
+  >
+    <span class="relative inline-block size-5 flex-none" aria-hidden="true">
+      <span class:list={[bar, 'top-0.75 group-data-[state=open]/mnav:translate-y-1.5 group-data-[state=open]/mnav:rotate-45']}></span>
+      <span class:list={[bar, 'top-2.25 group-data-[state=open]/mnav:scale-x-0 group-data-[state=open]/mnav:opacity-0']}></span>
+      <span class:list={[bar, 'top-3.75 group-data-[state=open]/mnav:-translate-y-1.5 group-data-[state=open]/mnav:-rotate-45']}></span>
+    </span>
     <span data-mnav-label>Menu</span>
   </button>
 </div>
 
 <script>
-  const root = document.querySelector('[data-mnav]');
+  const root = document.querySelector<HTMLElement>('[data-mnav]');
   if (root) {
     const btn = root.querySelector('[data-mnav-toggle]')!;
     const label = root.querySelector('[data-mnav-label]')!;
     let timer: number | undefined;
-    const isShown = () => root.classList.contains('is-open') && !root.classList.contains('is-closing');
     const set = (open: boolean) => {
       window.clearTimeout(timer);
       if (open) {
-        root.classList.remove('is-closing');
-        root.classList.add('is-open');
-      } else if (root.classList.contains('is-open')) {
-        root.classList.add('is-closing');
-        timer = window.setTimeout(() => root.classList.remove('is-open', 'is-closing'), 260);
+        root.dataset.state = 'open';
+      } else if (root.dataset.state === 'open') {
+        root.dataset.state = 'closing';
+        timer = window.setTimeout(() => delete root.dataset.state, 260);
       }
       btn.setAttribute('aria-expanded', String(open));
       btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       label.textContent = open ? 'Close' : 'Menu';
-      btn.classList.toggle('loam-btn--primary', !open);
-      btn.classList.toggle('loam-btn--secondary', open);
     };
-    btn.addEventListener('click', () => set(!isShown()));
+    btn.addEventListener('click', () => set(root.dataset.state !== 'open'));
     root.querySelector('[data-mnav-close]')?.addEventListener('click', () => set(false));
     window.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
   }

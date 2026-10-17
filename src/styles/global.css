@@ -1,9 +1,105 @@
 /* Fonts are self-hosted via Fontsource (imported in BaseLayout.astro) */
-@import "./tokens/colors.css";
-@import "./tokens/theme-dark.css";
-@import "./tokens/typography.css";
-@import "./tokens/spacing.css";
-@import "./tokens/effects.css";
-@import "./tokens/base.css";
-@import "./components.css";
-@import "./site.css";
+@import "tailwindcss";
+@import "./theme.css";
+
+/* Element defaults. Utilities in markup always win over these. */
+@layer base {
+  body {
+    background: var(--color-page);
+    color: var(--color-fg-1);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-display);
+    text-wrap: balance;
+  }
+  h1 { font-size: var(--text-h1); line-height: var(--leading-tight); }
+  h2 { font-size: var(--text-h2); }
+  h3 { font-size: var(--text-h3); }
+  h4 { font-size: var(--text-h4); }
+  p { text-wrap: pretty; }
+  a {
+    color: var(--color-link);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  a:hover {
+    color: var(--color-link-hover);
+    text-decoration-color: var(--color-accent);
+  }
+  ::selection {
+    background: var(--color-selection);
+    color: var(--color-on-fill);
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+  }
+  code, kbd, pre {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+}
+
+@layer components {
+  /* Prose — long-form case study writing rendered from MDX, where markup can't carry classes */
+  .loam-prose { max-width: var(--container-content); font-size: var(--text-prose); line-height: 1.7; color: var(--color-fg-1); }
+  .loam-prose > * + * { margin-top: 1.1em; }
+  .loam-prose > figure { margin-block: 2em; }
+  .loam-prose h2 { font-size: 30px; margin-top: 1.8em; }
+  .loam-prose h3 { font-size: 24px; margin-top: 1.6em; }
+  .loam-prose blockquote { margin: 1.6em 0; padding: 0; font: 500 28px/1.3 var(--font-display); color: var(--color-accent-strong); letter-spacing: -0.01em; }
+  .loam-prose code { background: var(--color-sunken); border: 2px solid var(--color-subtle); border-radius: 6px; padding: 1px 6px; font-size: .85em; }
+  .loam-prose pre { background: var(--color-code); color: var(--color-code-fg); border-radius: var(--radius-lg); padding: 20px 22px; overflow-x: auto; font-size: 15px; line-height: 1.6; }
+  .loam-prose pre code { background: none; border: 0; padding: 0; font-size: inherit; }
+  .loam-prose ul, .loam-prose ol { padding-left: 1.3em; }
+  .loam-prose ul { list-style: disc; }
+  .loam-prose ol { list-style: decimal; }
+  .loam-prose li + li { margin-top: .4em; }
+  .loam-prose li::marker { color: var(--color-sage-500); font-weight: 700; }
+  .loam-prose hr { border: 0; border-top: 3px dashed var(--color-subtle); margin: 2.4em 0; }
+  .loam-prose small { font-size: smaller; } /* code-block captions; Preflight's 80% is a touch smaller */
+
+  /* Page transitions: the active nav pill (Header.astro) morphs between pages via View Transitions */
+  @view-transition { navigation: auto; }
+  ::view-transition-group(loam-tab-pill) { animation-duration: 340ms; animation-timing-function: cubic-bezier(.34, 1.4, .64, 1); background: var(--color-mist-500); border: 2px solid var(--color-line); border-radius: 999px; box-sizing: border-box; }
+  ::view-transition-old(loam-tab-pill), ::view-transition-new(loam-tab-pill) { display: none; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 180ms; }
+  @media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; } }
+
+  /* Icon micro-interactions, played when the parent button/card is hovered. Pass via Button's iconClass.
+     They target parts of specific Lucide SVGs, so they stay as CSS. */
+
+  /* loam-anim-write: document "writes" its lines (file-text icon) */
+  @keyframes loam-write { 0% { stroke-dashoffset: 9; } 100% { stroke-dashoffset: 0; } }
+  @keyframes loam-nudge { 0%, 100% { transform: rotate(0); } 40% { transform: rotate(-8deg); } 70% { transform: rotate(4deg); } }
+  .loam-anim-write svg { transform-origin: 50% 90%; }
+  .loam-anim-write path:nth-child(n+3) { stroke-dasharray: 9; stroke-dashoffset: 0; }
+  :hover > .loam-anim-write svg, :focus-visible > .loam-anim-write svg { animation: loam-nudge 420ms var(--ease-bounce); }
+  :hover > .loam-anim-write path:nth-child(n+3), :focus-visible > .loam-anim-write path:nth-child(n+3) { animation: loam-write 360ms var(--ease-out) both; }
+  :hover > .loam-anim-write path:nth-child(4) { animation-delay: 110ms; }
+  :hover > .loam-anim-write path:nth-child(5) { animation-delay: 220ms; }
+
+  /* loam-anim-hop: the "i" dot hops, the stem and "n" give a little squash (linkedin icon) */
+  @keyframes loam-hop { 0%, 100% { transform: translateY(0); } 35% { transform: translateY(-4px); } 60% { transform: translateY(0.5px); } 80% { transform: translateY(-1px); } }
+  @keyframes loam-squash { 0%, 100% { transform: scaleY(1); } 30% { transform: scaleY(.88); } 60% { transform: scaleY(1.04); } }
+  .loam-anim-hop rect, .loam-anim-hop path { transform-box: fill-box; transform-origin: 50% 100%; }
+  :hover > .loam-anim-hop circle, :focus-visible > .loam-anim-hop circle { animation: loam-hop 520ms var(--ease-out); }
+  :hover > .loam-anim-hop rect, :focus-visible > .loam-anim-hop rect { animation: loam-squash 420ms var(--ease-bounce); }
+  :hover > .loam-anim-hop path, :focus-visible > .loam-anim-hop path { animation: loam-squash 420ms var(--ease-bounce) 70ms; }
+
+  /* loam-anim-dash: arrow dashes off to the right and slides back in from the left (arrow-right icon) */
+  @keyframes loam-dash { 0% { transform: translateX(0); opacity: 1; } 28% { transform: translateX(9px); opacity: 0; } 29% { transform: translateX(-9px); opacity: 0; } 55% { transform: translateX(4px); opacity: 1; } 72% { transform: translateX(-2px); } 86% { transform: translateX(1px); } 100% { transform: translateX(0); } }
+  :hover > .loam-anim-dash svg, :focus-visible > .loam-anim-dash svg { animation: loam-dash 640ms var(--ease-out); }
+
+  @media (prefers-reduced-motion: reduce) { .loam-anim-write svg, .loam-anim-write path, .loam-anim-hop circle, .loam-anim-hop rect, .loam-anim-hop path, .loam-anim-dash svg { animation: none !important; } }
+}

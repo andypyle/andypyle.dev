@@ -5,24 +5,30 @@ import { getSite } from '../lib/data';
 
 const site = await getSite();
 ---
-<footer class="site-footer">
-  <div class="inner">
-    <div class="stack" style="gap:4px">
-      <span class="name">{site.name}</span>
-      <span class="line">{site.role} · Built with love on the Central Coast of California · © {new Date().getFullYear()}</span>
+<footer class="mt-28 bg-footer text-footer-fg">
+  <div class="mx-auto flex max-w-page flex-wrap items-center justify-between gap-5 px-6 py-9 max-md:pb-10">
+    <div class="flex flex-col gap-1">
+      <span class="font-display text-2xl font-semibold">{site.name}</span>
+      <span class="text-sm text-footer-muted">{site.role} · Built with love on the Central Coast of California · © {new Date().getFullYear()}</span>
     </div>
-    <div class="row" style="gap:12px;align-self:flex-end">
-      <span class="loam-tooltip"><IconButton icon="linkedin" label="LinkedIn" size="sm" href={site.links.linkedin} external iconClass="loam-anim-hop" /><span class="loam-tooltip-bubble" role="tooltip">LinkedIn</span></span>
+    <div class="flex flex-wrap gap-3 self-end">
+      <span class="group/tip relative inline-flex">
+        <IconButton icon="linkedin" label="LinkedIn" size="sm" href={site.links.linkedin} external iconClass="loam-anim-hop" />
+        <span
+          class="pointer-events-none absolute bottom-[calc(100%+12px)] left-1/2 z-20 -translate-x-1/2 translate-y-1 rounded-[8px] bg-inverse px-[11px] py-[7px] font-body text-[13px] leading-[1.3] font-semibold whitespace-nowrap text-fg-inverse opacity-0 transition-[opacity,translate] duration-200 ease-bounce group-focus-within/tip:translate-y-0 group-focus-within/tip:opacity-100 group-hover/tip:translate-y-0 group-hover/tip:opacity-100 after:absolute after:top-full after:left-1/2 after:size-2.5 after:-translate-x-1/2 after:-translate-y-1.5 after:rotate-45 after:rounded-[2px] after:bg-inverse"
+          role="tooltip"
+        >LinkedIn</span>
+      </span>
     </div>
   </div>
 </footer>
 
-<div class="toast-wrap" data-toast hidden>
-  <div class="loam-toast loam-toast--success" role="status">
-    <span class="loam-toast-icon"><Icon name="check" size={18} /></span>
-    <div class="loam-toast-text">
-      <div class="loam-toast-title">Email copied</div>
-      <div class="loam-toast-msg">{site.email}</div>
+<div class="fixed right-6 bottom-6 z-120 max-md:inset-x-4 max-md:bottom-26" data-toast hidden>
+  <div class="flex w-full max-w-95 animate-slide-in items-start gap-3 rounded-lg border-3 border-line bg-surface py-3.5 pr-3.5 pl-4 shadow-md" role="status">
+    <span class="grid size-8.5 flex-none place-items-center rounded-full border-2 border-line bg-moss-300 text-on-fill"><Icon name="check" size={18} /></span>
+    <div class="min-w-0 flex-1 pt-0.5">
+      <div class="text-[15px] leading-[1.3] font-bold">Email copied</div>
+      <div class="mt-0.5 text-sm leading-[1.45] text-fg-2">{site.email}</div>
     </div>
   </div>
 </div>
