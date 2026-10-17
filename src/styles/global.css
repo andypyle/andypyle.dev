@@ -101,5 +101,9 @@
   @keyframes loam-dash { 0% { transform: translateX(0); opacity: 1; } 28% { transform: translateX(9px); opacity: 0; } 29% { transform: translateX(-9px); opacity: 0; } 55% { transform: translateX(4px); opacity: 1; } 72% { transform: translateX(-2px); } 86% { transform: translateX(1px); } 100% { transform: translateX(0); } }
   :hover > .loam-anim-dash svg, :focus-visible > .loam-anim-dash svg { animation: loam-dash 640ms var(--ease-out); }
 
-  @media (prefers-reduced-motion: reduce) { .loam-anim-write svg, .loam-anim-write path, .loam-anim-hop circle, .loam-anim-hop rect, .loam-anim-hop path, .loam-anim-dash svg { animation: none !important; } }
+  /* loam-anim-dash-back: mirror of loam-anim-dash — dashes off to the left, slides back in from the right (arrow-left icon) */
+  @keyframes loam-dash-back { 0% { transform: translateX(0); opacity: 1; } 28% { transform: translateX(-9px); opacity: 0; } 29% { transform: translateX(9px); opacity: 0; } 55% { transform: translateX(-4px); opacity: 1; } 72% { transform: translateX(2px); } 86% { transform: translateX(-1px); } 100% { transform: translateX(0); } }
+  :hover > .loam-anim-dash-back svg, :focus-visible > .loam-anim-dash-back svg { animation: loam-dash-back 640ms var(--ease-out); }
+
+  @media (prefers-reduced-motion: reduce) { .loam-anim-write svg, .loam-anim-write path, .loam-anim-hop circle, .loam-anim-hop rect, .loam-anim-hop path, .loam-anim-dash svg, .loam-anim-dash-back svg { animation: none !important; } }
 }

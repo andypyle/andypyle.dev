@@ -1,12 +1,12 @@
 ---
 // Routed to /case-studies/[slug]/ via injectRoute in astro.config.mjs
-import { getCollection, render } from 'astro:content';
 import { Image } from 'astro:assets';
-import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
 import Button from '../components/ui/Button.astro';
 import Card from '../components/ui/Card.astro';
 import Placeholder from '../components/ui/Placeholder.astro';
 import { buttonClass } from '../components/ui/button';
+import BaseLayout from '../layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
   const cases = (await getCollection('case-studies')).sort((a, b) => a.data.order - b.data.order);
@@ -30,7 +30,7 @@ const meta = [
 ---
 <BaseLayout title={d.title} description={d.summary} image={d.hero} type="article">
   <article class="mx-auto max-w-220">
-    <Button variant="ghost" size="sm" icon="arrow-left" href="/case-studies/">All case studies</Button>
+    <Button variant="ghost" size="sm" icon="arrow-left" iconClass="loam-anim-dash-back" href="/case-studies/">All case studies</Button>
     <h1 class="mt-7">{d.title}</h1>
     <p class="mt-4 max-w-content text-[21px] text-fg-2">{d.summary}</p>
 
@@ -59,9 +59,9 @@ const meta = [
           loading="eager"
           class:list={[
             // Layout
-            'block',
+            'block object-cover',
             // Sizing
-            'h-auto w-full',
+            'aspect-[16/8] w-full',
             // Spacing
             'mt-10',
             // Borders
@@ -70,7 +70,7 @@ const meta = [
             'shadow-lg',
           ]}
         />
-      : <Placeholder label="hero shot · before / after" ratio="16/9" framed class="mt-10 shadow-lg" />}
+      : <Placeholder label="hero shot · before / after" ratio="16/8" framed class="mt-10 shadow-lg" />}
 
     <div class="loam-prose mx-auto mt-12">
       <Content />
@@ -93,9 +93,9 @@ const meta = [
 
     {next.id !== entry.id && (
       <Card class="mt-18" href={'/case-studies/' + next.id + '/'} interactive>
-        <div class="flex items-center justify-between gap-4">
-          <div class="font-display text-2xl font-semibold">{next.data.title}</div>
-          <span class={buttonClass({ size: 'sm' })}>Next case study</span>
+        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div class="font-display text-2xl font-medium">{next.data.title}</div>
+          <span class:list={[buttonClass({ size: 'sm' }), 'self-end md:self-auto shrink-0 rounded-md']}>Next case study</span>
         </div>
       </Card>
     )}

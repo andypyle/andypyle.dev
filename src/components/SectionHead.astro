@@ -5,5 +5,5 @@ const { title, action, href } = Astro.props;
 ---
 <div class="mb-7 flex items-end justify-between gap-4">
   <h2>{title}</h2>
-  {action && href && <Button variant="ghost" iconRight="arrow-right" href={href}>{action}</Button>}
+  {action && href && <Button variant="ghost" iconRight="arrow-right" iconRightClass="loam-anim-dash" href={href}>{action}</Button>}
 </div>
