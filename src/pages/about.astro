@@ -52,19 +52,21 @@ const schema = [await profilePage(Astro.site!, new URL(Astro.url.pathname, Astro
       <p class="text-lg text-fg-2">When I'm not at a keyboard, you'll find me at a campsite, tending a barbecue, or making music. I live on the Central Coast of California with my wife and our cat, who has strong opinions about my work-from-home setup.</p>
       <div class="mt-3">
         <h2 class="mb-4 text-h3">Experience</h2>
-        <Card padding="none" class="divide-y-2 divide-dashed divide-subtle">
-          {experience.map((x) => (
-            <div class="grid grid-cols-[130px_1fr] gap-4 px-5.5 py-4">
-              <span class="pt-0.75 font-mono text-[13px] text-fg-3">{x.when}</span>
-              <div><div class="font-display text-xl font-semibold">{x.role}</div><div class="text-[15px] text-fg-2">{x.org}</div></div>
-            </div>
-          ))}
+        <Card padding="none">
+          <ul class="divide-y-2 divide-dashed divide-subtle">
+            {experience.map((x) => (
+              <li class="grid grid-cols-[130px_1fr] gap-4 px-5.5 py-4">
+                <span class="pt-0.75 font-mono text-[13px] text-fg-3">{x.when}</span>
+                <div><div class="font-display text-xl font-semibold">{x.role}</div><div class="text-[15px] text-fg-2">{x.org}</div></div>
+              </li>
+            ))}
+          </ul>
         </Card>
       </div>
 
       <div class="mt-3">
         <h2 class="mb-4 text-h3">What I work with</h2>
-        <div class="flex flex-wrap gap-2.5">{skills.map((s) => <Tag>{s}</Tag>)}</div>
+        <ul class="flex flex-wrap gap-2.5">{skills.map((s) => <li><Tag>{s}</Tag></li>)}</ul>
       </div>
 
       <div class="flex flex-wrap gap-3.5 pt-3">

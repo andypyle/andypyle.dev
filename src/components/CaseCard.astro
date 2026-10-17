@@ -10,7 +10,8 @@ const { entry, headingLevel = 3 } = Astro.props;
 const d = entry.data;
 const Heading = `h${headingLevel}` as const;
 ---
-<Card href={'/case-studies/' + entry.id + '/'} interactive padding="none" class="group">
+{/* Only the title is a link (so screen readers announce just the title); its ::after stretches over the whole card */}
+<Card interactive padding="none" class="group relative has-focus-visible:outline-3 has-focus-visible:outline-offset-3 has-focus-visible:outline-focus">
   <div class="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))]">
     {d.hero
       ? <Image
@@ -26,7 +27,7 @@ const Heading = `h${headingLevel}` as const;
             // Effects (dimmed in dark mode only)
             'grayscale-50 dark:brightness-80',
             'group-hover:grayscale-0 group-hover:brightness-100',
-            'group-focus-visible:grayscale-0 group-focus-visible:brightness-100',
+            'group-has-focus-visible:grayscale-0 group-has-focus-visible:brightness-100',
             // Transitions
             'transition-[filter] duration-300 ease-out',
           ]}
@@ -40,7 +41,21 @@ const Heading = `h${headingLevel}` as const;
         'px-6.5 py-6',
       ]}
     >
-      <Heading class="text-h3">{d.title}</Heading>
+      <Heading class="text-h3">
+        <a
+          href={'/case-studies/' + entry.id + '/'}
+          class:list={[
+            // Colors
+            'text-fg-1 hover:text-fg-1',
+            // Typography
+            'font-[inherit] no-underline',
+            // Focus (the card draws the ring)
+            'focus-visible:outline-none',
+            // ::after: covers the card so it's all clickable
+            'after:absolute after:inset-0',
+          ]}
+        >{d.title}</a>
+      </Heading>
       <p class="text-base text-fg-2">{d.summary}</p>
       <span class="font-mono text-[13px] text-fg-3">{d.company} · {d.year}</span>
       <span
@@ -54,6 +69,7 @@ const Heading = `h${headingLevel}` as const;
           // Typography
           'text-[15px] font-bold',
         ]}
+        aria-hidden="true"
       >Read case study <Icon name="arrow-right" size={18} /></span>
     </div>
   </div>

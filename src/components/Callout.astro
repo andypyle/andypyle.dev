@@ -3,7 +3,8 @@
 interface Props { title?: string; class?: string }
 const { title, class: cls } = Astro.props;
 ---
-<aside
+<div
+  role="note"
   class:list={[
     // Spacing
     'px-6 py-5',
@@ -19,4 +20,4 @@ const { title, class: cls } = Astro.props;
 >
   {title && <div class="mb-1.5 font-display text-lg leading-[1.3] font-semibold">{title}</div>}
   <div class="[&>*+*]:mt-[.8em]"><slot /></div>
-</aside>
+</div>

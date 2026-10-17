@@ -36,20 +36,22 @@ const meta = [
     <h1 class="mt-7">{d.title}</h1>
     <p class="mt-4 max-w-content text-[21px] text-fg-2">{d.summary}</p>
 
-    <Card tone="sunken" flat class="mt-8 grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-5">
-      {meta.map(([k, v]) => (
-        <div>
-          <div
-            class:list={[
-              // Colors
-              'text-fg-3',
-              // Typography
-              'font-body text-xs leading-none font-bold tracking-caps uppercase',
-            ]}
-          >{k}</div>
-          <div class="mt-2 font-semibold">{v}</div>
-        </div>
-      ))}
+    <Card tone="sunken" flat class="mt-8">
+      <dl class="grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-5">
+        {meta.map(([k, v]) => (
+          <div>
+            <dt
+              class:list={[
+                // Colors
+                'text-fg-3',
+                // Typography
+                'font-body text-xs leading-none font-bold tracking-caps uppercase',
+              ]}
+            >{k}</dt>
+            <dd class="mt-2 font-semibold">{v}</dd>
+          </div>
+        ))}
+      </dl>
     </Card>
 
     {d.hero

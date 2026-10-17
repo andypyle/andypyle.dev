@@ -26,4 +26,5 @@ const attrs = href ? { href, ...(external ? { target: '_blank', rel: 'noopener n
   {icon && <Icon name={icon} size={is} class={iconClass} />}
   <slot />
   {iconRight && <Icon name={iconRight} size={is} class={iconRightClass} />}
+  {external && <span class="sr-only"> (opens in new tab)</span>}
 </Tag>
