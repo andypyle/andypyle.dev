@@ -42,6 +42,65 @@ const bar = 'absolute left-px h-[3px] w-4.5 rounded-[2px] bg-current transition-
     ]}
     data-mnav-close
   ></div>
+  <button
+    type="button"
+    class:list={[
+      // Base
+      buttonBase,
+      buttonRaised.md,
+      // Layout
+      'fixed inset-x-0 bottom-8 z-42',
+      // Sizing
+      'h-13.5 w-fit min-w-31',
+      // Spacing
+      'mx-auto px-5',
+      // Borders
+      'border-3 border-line',
+      // Colors
+      'bg-slate-700 text-slate-50 hover:bg-slate-500',
+      // Typography
+      'text-body',
+    ]}
+    aria-expanded="false"
+    aria-controls="mnav-menu"
+    data-mnav-toggle
+  >
+    <span class="relative inline-block size-5 flex-none" aria-hidden="true">
+      <span
+        class:list={[
+          // Base
+          bar,
+          // Layout
+          'top-0.75',
+          // Transforms
+          'group-data-[state=open]/mnav:translate-y-1.5 group-data-[state=open]/mnav:rotate-45',
+        ]}
+      ></span>
+      <span
+        class:list={[
+          // Base
+          bar,
+          // Layout
+          'top-2.25',
+          // Effects
+          'group-data-[state=open]/mnav:opacity-0',
+          // Transforms
+          'group-data-[state=open]/mnav:scale-x-0',
+        ]}
+      ></span>
+      <span
+        class:list={[
+          // Base
+          bar,
+          // Layout
+          'top-3.75',
+          // Transforms
+          'group-data-[state=open]/mnav:-translate-y-1.5 group-data-[state=open]/mnav:-rotate-45',
+        ]}
+      ></span>
+    </span>
+    <span data-mnav-label>Menu</span>
+  </button>
   <nav
     class:list={[
       // Layout
@@ -60,6 +119,7 @@ const bar = 'absolute left-px h-[3px] w-4.5 rounded-[2px] bg-current transition-
       'group-data-[state=open]/mnav:animate-pop-in group-data-[state=closing]/mnav:animate-pop-out motion-reduce:animate-none!',
     ]}
     aria-label="Main"
+    id="mnav-menu"
   >
     {nav.map((n, i) => (
       <a
@@ -102,72 +162,15 @@ const bar = 'absolute left-px h-[3px] w-4.5 rounded-[2px] bg-current transition-
       <Button class="w-full rounded-lg!" variant="secondary" href={site.links.linkedin} external icon="linkedin" iconClass="loam-anim-hop">LinkedIn</Button>
     </div>
   </nav>
-  <button
-    type="button"
-    class:list={[
-      // Base
-      buttonBase,
-      buttonRaised.md,
-      // Layout
-      'fixed inset-x-0 bottom-8 z-42',
-      // Sizing
-      'h-13.5 w-fit min-w-31',
-      // Spacing
-      'mx-auto px-5',
-      // Borders
-      'border-3 border-line',
-      // Colors
-      'bg-slate-700 text-slate-50 hover:bg-slate-500',
-      // Typography
-      'text-body',
-    ]}
-    aria-expanded="false"
-    aria-label="Open menu"
-    data-mnav-toggle
-  >
-    <span class="relative inline-block size-5 flex-none" aria-hidden="true">
-      <span
-        class:list={[
-          // Base
-          bar,
-          // Layout
-          'top-0.75',
-          // Transforms
-          'group-data-[state=open]/mnav:translate-y-1.5 group-data-[state=open]/mnav:rotate-45',
-        ]}
-      ></span>
-      <span
-        class:list={[
-          // Base
-          bar,
-          // Layout
-          'top-2.25',
-          // Effects
-          'group-data-[state=open]/mnav:opacity-0',
-          // Transforms
-          'group-data-[state=open]/mnav:scale-x-0',
-        ]}
-      ></span>
-      <span
-        class:list={[
-          // Base
-          bar,
-          // Layout
-          'top-3.75',
-          // Transforms
-          'group-data-[state=open]/mnav:-translate-y-1.5 group-data-[state=open]/mnav:-rotate-45',
-        ]}
-      ></span>
-    </span>
-    <span data-mnav-label>Menu</span>
-  </button>
 </div>
 
 <script>
   const root = document.querySelector<HTMLElement>('[data-mnav]');
   if (root) {
-    const btn = root.querySelector('[data-mnav-toggle]')!;
+    const btn = root.querySelector<HTMLElement>('[data-mnav-toggle]')!;
     const label = root.querySelector('[data-mnav-label]')!;
+    // While open, the page behind the menu is inert so focus stays on the toggle and menu links
+    const page = document.querySelectorAll<HTMLElement>('body > header, body > main, body > footer');
     let timer: number | undefined;
     const set = (open: boolean) => {
       window.clearTimeout(timer);
@@ -177,12 +180,16 @@ const bar = 'absolute left-px h-[3px] w-4.5 rounded-[2px] bg-current transition-
         root.dataset.state = 'closing';
         timer = window.setTimeout(() => delete root.dataset.state, 260);
       }
+      page.forEach((el) => { el.inert = open; });
       btn.setAttribute('aria-expanded', String(open));
-      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       label.textContent = open ? 'Close' : 'Menu';
     };
     btn.addEventListener('click', () => set(root.dataset.state !== 'open'));
     root.querySelector('[data-mnav-close]')?.addEventListener('click', () => set(false));
-    window.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+    window.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape' || root.dataset.state !== 'open') return;
+      set(false);
+      btn.focus();
+    });
   }
 </script>

@@ -4,6 +4,9 @@
 
 /* Element defaults. Utilities in markup always win over these. */
 @layer base {
+  /* Keep focused elements and anchor targets clear of the sticky header (and the phone menu button) */
+  html { scroll-padding-top: 7rem; }
+  @media (width < 721px) { html { scroll-padding-bottom: 6.5rem; } }
   body {
     background: var(--color-page);
     color: var(--color-fg-1);

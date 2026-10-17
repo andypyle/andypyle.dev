@@ -64,11 +64,11 @@ chroma/
             └── HeaderLogoLockup.tsx
 ```
 
-#### One source of truth across three tools
+### One source of truth across three tools
 
 I worked in lockstep with Design to keep Figma specs, Storybook documentation, and Builder.io CMS components in parity, and overhauled our Storybook setup so it reflected exactly what designers specified and what marketers could use. I championed a test-driven approach, writing component tests directly in Storybook stories and running them with Storybook's built-in test runner. That made the documentation and the test suite the same artifact: every documented state was also a tested one, so the two could never drift apart.
 
-#### Decisions that keep a system healthy
+### Decisions that keep a system healthy
 
 Some of the most important work was deciding what not to do. As a team, we discussed whether to use barrel exports, since they make import paths much cleaner. Because Chroma lived in a monorepo, though, we decided against them over concerns about circular dependencies and bundle size, and relied on monorepo path aliases instead to keep imports readable. We added an ESLint rule to catch barrel exports early, so the decision would hold as more contributors joined.
 
@@ -98,17 +98,17 @@ import { Icon } from '..' // resolves to atoms/index.ts, which re-exports Button
 
 <small style="margin-top:-8px">Path aliases</small>
 
-#### Scaling the people, not just the code
+### Scaling the people, not just the code
 
 As other engineers joined, I onboarded them, guided them through component implementation, and served as the technical point of contact for the initiative.
 
-#### Bringing AI into the workflow
+### Bringing AI into the workflow
 
 Later, I integrated the Figma MCP server so components could be scaffolded directly from design files, tightening design-engineering parity further. I also authored Claude Code rules files that encoded our coding standards, so AI-assisted contributions followed the same conventions as everything else in the system.
 
 <Figure src={chromaFlow} alt="Workflow diagram: the Figma MCP server reads a Figma file for Claude Code, and a CLAUDE.md rule requires the Plop scaffolder, so every new component lands in Chroma the same way" />
 
-#### Governance built into creation
+### Governance built into creation
 
 As more people, and more agents, contributed to Chroma, consistency couldn't depend on everyone remembering the conventions. I set up a Plop.js generator that scaffolded every new component the same way: placing it in the right atomic tier, creating its Storybook stories file, and generating the registration file that made it available in the CMS. To make sure AI contributions followed the same path, our CLAUDE.md rules file required agents to use the scaffolder rather than creating files by hand. Whether an engineer or an agent started a component, it was correct from the first commit, which kept code review focused on the component itself instead of catching drift.
 

@@ -12,6 +12,6 @@ const cases = (await getCollection('case-studies')).sort((a, b) => a.data.order 
   <h1>Case studies</h1>
   <p class="mt-4 max-w-155 text-xl text-fg-2">Longer write-ups of work I've led: what the problem was, what I built, and what changed.</p>
   <div class="mt-10 flex flex-col gap-7">
-    {cases.map((entry) => <CaseCard entry={entry} />)}
+    {cases.map((entry) => <CaseCard entry={entry} headingLevel={2} />)}
   </div>
 </BaseLayout>
