@@ -5,10 +5,29 @@ import { defineConfig } from 'astro/config'
 import { readFileSync } from 'node:fs'
 import { parse } from 'yaml'
 
-import expressiveCode from 'astro-expressive-code'
-import mermaid from 'astro-mermaid'
+import expressiveCode, { createRenderer } from 'astro-expressive-code'
 
 const siteFile = new URL('./src/data/site.yaml', import.meta.url)
+
+// Expressive Code adds an external <script> before the first code block on a page. If it's still downloading
+// when Chrome first paints, Chrome skips the page transition (the nav pill morph), so strip it. The script
+// only made horizontally scrollable code blocks keyboard-focusable; a static tabindex covers that instead.
+const noScripts = {
+  name: 'no-scripts',
+  hooks: {
+    postprocessRenderedBlockGroup: ({ renderData }) => {
+      const walk = (node) => {
+        if (node.tagName === 'pre') node.properties.tabindex = '0'
+        node.children = node.children?.filter((child) => child.tagName !== 'script')
+        node.children?.forEach(walk)
+      }
+      walk(renderData.groupAst)
+    },
+  },
+}
+// Runs after astro-expressive-code's own plugin, which is what inserts the script
+const createRendererWithoutScripts = (options) =>
+  createRenderer({ ...options, plugins: [...options.plugins, noScripts] })
 
 // Routes kept in src/routes/: case study detail pages, plus pages that can be switched off via `features` in site.yaml
 const routes = {
@@ -34,13 +53,12 @@ const routes = {
 
 export default defineConfig({
   integrations: [
-    mermaid({
-      theme: 'default',
-      autoTheme: true,
-    }),
     expressiveCode({
       themes: ['catppuccin-frappe'],
       langs: [],
+      // The copy button needs the script stripped below
+      frames: { showCopyToClipboardButton: false },
+      customCreateRenderer: createRendererWithoutScripts,
     }),
     mdx(),
     sitemap(),
