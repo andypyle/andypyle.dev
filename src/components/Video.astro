@@ -1,0 +1,60 @@
+---
+// Muted, looping video with optional caption for case-study MDX, styled to match <Figure>.
+// Plays while in view and pauses (dimmed) when scrolled away. With reduced motion it waits for the viewer to press play.
+interface Props { src: string; label: string; caption?: string; poster?: string; containerClassName?: string; class?: string }
+const { src, label, caption, poster, containerClassName, class: cls } = Astro.props;
+---
+<figure class:list={[containerClassName, cls]}>
+  <video
+    data-autoplay-video
+    src={src}
+    poster={poster}
+    aria-label={label}
+    muted
+    loop
+    playsinline
+    preload="metadata"
+    class:list={[
+      // Layout
+      'block',
+      // Sizing
+      'h-auto w-full',
+      // Borders
+      'rounded-lg border-3 border-line',
+      // Colors
+      'bg-surface',
+      // Effects
+      'shadow-md brightness-70 data-playing:brightness-100',
+      // Transitions
+      'transition-[filter] duration-700 ease-out',
+    ]}
+  />
+  {caption && <figcaption class="mt-3 text-center text-sm leading-[1.4] text-fg-2">{caption}</figcaption>}
+</figure>
+
+<script>
+  const videos = document.querySelectorAll<HTMLVideoElement>('[data-autoplay-video]')
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  // Dimmed while paused, brightens once it's actually playing
+  videos.forEach((video) => {
+    video.addEventListener('playing', () => (video.dataset.playing = ''))
+    video.addEventListener('pause', () => delete video.dataset.playing)
+  })
+
+  if (reduceMotion) {
+    videos.forEach((video) => (video.controls = true))
+  } else {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const { target, isIntersecting } of entries) {
+          const video = target as HTMLVideoElement
+          if (isIntersecting) video.play().catch(() => {})
+          else video.pause()
+        }
+      },
+      { threshold: 0.5 },
+    )
+    videos.forEach((video) => observer.observe(video))
+  }
+</script>
