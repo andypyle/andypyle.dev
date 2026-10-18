@@ -8,7 +8,7 @@ const { src, alt, caption, containerClassName, class: cls } = Astro.props;
 <figure class:list={[containerClassName, cls]}>
   <Image
     src={src}
-    alt={''}
+    alt={alt}
     widths={[480, 880, 1760]}
     sizes="(max-width: 880px) 100vw, 880px"
     class:list={[
