@@ -35,17 +35,50 @@ const settle = 'transition-[border-color,background-color,box-shadow] duration-2
     // Transitions
     settle,
   ]}>
-    <a
-      class:list={[
-        // Spacing
-        'mr-auto max-md:mr-0',
-        // Colors
-        'text-fg-1',
-        // Typography
-        'font-display text-h3 leading-none font-semibold tracking-display no-underline',
-      ]}
-      href="/"
-    >{site.name}</a>
+    <div class:list={[
+      // Layout
+      'flex items-center gap-4 max-md:flex-col max-md:gap-3',
+      // Spacing
+      'mr-auto max-md:mr-0',
+    ]}>
+      <a
+        class:list={[
+          // Colors
+          'text-fg-1',
+          // Typography
+          'font-display text-h3 leading-none font-semibold tracking-display no-underline',
+        ]}
+        href="/"
+      >{site.name}</a>
+      {site.availability && (
+        <a
+          class:list={[
+            // Layout
+            'inline-flex items-center gap-1.75',
+            // Sizing
+            'h-6.5',
+            // Spacing
+            'px-2.5 translate-y-px',
+            // Borders
+            'rounded-full border-2 border-line group-data-scrolled/header:border-transparent',
+            // Colors
+            'bg-surface text-fg-1 hover:bg-sunken group-data-scrolled/header:bg-transparent group-data-scrolled/header:hover:bg-sunken',
+            // Typography
+            'font-body text-xs leading-none font-bold tracking-caps uppercase whitespace-nowrap no-underline',
+            // Effects
+            'shadow-md group-data-scrolled/header:shadow-none',
+            // Transitions
+            settle,
+          ]}
+          href={site.links.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="size-2 rounded-full bg-moss-500" aria-hidden="true" />
+          {site.availability}
+        </a>
+      )}
+    </div>
     <nav class:list={[
       // Layout
       'inline-flex gap-1 max-md:hidden',

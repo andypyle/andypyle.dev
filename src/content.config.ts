@@ -23,6 +23,8 @@ const site = defineCollection({
     role: z.string(),
     description: z.string(),
     email: z.string().email().optional(),
+    // Header status badge; omit to hide it
+    availability: z.string().optional(),
     links: z.object({ linkedin: z.string(), github: z.string().optional() }),
     nav: z.array(z.object({ id: z.string(), label: z.string(), href: z.string() })),
     features: z.object({ projects: z.boolean().default(true) }).default({}),

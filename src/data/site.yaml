@@ -2,6 +2,8 @@
 name: Andy Pyle
 role: Frontend Engineer
 description: Andy Pyle is a frontend engineer building careful, considered interfaces in React and TypeScript, with a focus on design systems and accessibility.
+# Status badge next to the name in the header. Comment out to hide it.
+availability: Open to full-time roles
 links:
   linkedin: https://www.linkedin.com/in/andrew-pyle-dev
 
