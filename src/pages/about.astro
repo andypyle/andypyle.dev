@@ -41,7 +41,7 @@ const schema = [await profilePage(Astro.site!, new URL(Astro.url.pathname, Astro
       />
       <Card tone="lichen">
         <h2 class="text-h4">Get in touch</h2>
-        <p class="mt-2 mb-4 text-[15px] text-fg-2">The best way to reach me is a message on LinkedIn.</p>
+        <p class="mt-2 mb-4 text-base text-fg-2">The best way to reach me is a message on LinkedIn.</p>
         <Button class="rounded-md!" href={site.links.linkedin} external icon="linkedin" iconClass="loam-anim-hop">Message me on LinkedIn</Button>
       </Card>
     </div>
@@ -56,8 +56,8 @@ const schema = [await profilePage(Astro.site!, new URL(Astro.url.pathname, Astro
           <ul class="divide-y-2 divide-dashed divide-subtle">
             {experience.map((x) => (
               <li class="grid grid-cols-[130px_1fr] gap-4 px-5.5 py-4">
-                <span class="pt-0.75 font-mono text-[13px] text-fg-3">{x.when}</span>
-                <div><div class="font-display text-xl font-semibold">{x.role}</div><div class="text-[15px] text-fg-2">{x.org}</div></div>
+                <span class="pt-0.75 font-mono text-sm text-fg-3">{x.when}</span>
+                <div><div class="font-display text-xl font-semibold">{x.role}</div><div class="text-base text-fg-2">{x.org}</div></div>
               </li>
             ))}
           </ul>

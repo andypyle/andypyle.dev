@@ -9,53 +9,53 @@
   --color-black: #000;
 
   /* Neutrals — cool slate, paper to ink */
-  --color-slate-50: #F7F8F9;
-  --color-slate-100: #EDEFF1;
-  --color-slate-200: #DFE3E7;
-  --color-slate-300: #C3CAD1;
-  --color-slate-400: #8A949E;
-  --color-slate-500: #56616B;
-  --color-slate-700: #363F48;
-  --color-ink-900: #1A1F24;
+  --color-slate-50: #f7f8f9;
+  --color-slate-100: #edeff1;
+  --color-slate-200: #dfe3e7;
+  --color-slate-300: #c3cad1;
+  --color-slate-400: #8a949e;
+  --color-slate-500: #56616b;
+  --color-slate-700: #363f48;
+  --color-ink-900: #1a1f24;
 
   /* Sage — primary accent */
-  --color-sage-100: #DFEADB;
-  --color-sage-300: #ADC9A1;
-  --color-sage-500: #7FA56F;
-  --color-sage-700: #4A6E3D;
+  --color-sage-100: #dfeadb;
+  --color-sage-300: #adc9a1;
+  --color-sage-500: #7fa56f;
+  --color-sage-700: #4a6e3d;
 
   /* Mist — pale slate-blue, active/selected highlight */
-  --color-mist-100: #DEE5EC;
-  --color-mist-300: #ABBCCD;
-  --color-mist-500: #8EA4BB;
-  --color-mist-700: #4C627A;
+  --color-mist-100: #dee5ec;
+  --color-mist-300: #abbccd;
+  --color-mist-500: #8ea4bb;
+  --color-mist-700: #4c627a;
 
   /* Moss — sea green, "on" + success */
-  --color-moss-100: #DAE8E1;
-  --color-moss-300: #9CC3B0;
-  --color-moss-500: #578F75;
-  --color-moss-700: #35614D;
+  --color-moss-100: #dae8e1;
+  --color-moss-300: #9cc3b0;
+  --color-moss-500: #578f75;
+  --color-moss-700: #35614d;
 
   /* Lichen — soft grey-green tint */
-  --color-lichen-100: #E2E9DD;
-  --color-lichen-300: #BCCBB2;
-  --color-lichen-500: #8DA383;
+  --color-lichen-100: #e2e9dd;
+  --color-lichen-300: #bccbb2;
+  --color-lichen-500: #8da383;
 
   /* Dusk — slate blue, info */
-  --color-dusk-100: #DDE3EE;
-  --color-dusk-300: #A5B4CE;
+  --color-dusk-100: #dde3ee;
+  --color-dusk-300: #a5b4ce;
   --color-dusk-500: #607397;
-  --color-dusk-700: #3F4E6D;
+  --color-dusk-700: #3f4e6d;
 
   /* Amber — warnings only */
-  --color-amber-100: #F5E4BC;
-  --color-amber-300: #EBC273;
-  --color-amber-500: #D9A13B;
+  --color-amber-100: #f5e4bc;
+  --color-amber-300: #ebc273;
+  --color-amber-500: #d9a13b;
 
   /* Rust — errors only */
-  --color-rust-100: #F3D3CB;
-  --color-rust-300: #E0907E;
-  --color-rust-500: #B33A24;
+  --color-rust-100: #f3d3cb;
+  --color-rust-300: #e0907e;
+  --color-rust-500: #b33a24;
 
   /* Semantic — prefer these in markup; dark mode swaps them below */
   --color-page: var(--color-slate-100);
@@ -67,8 +67,10 @@
   --color-fg-2: var(--color-slate-700);
   --color-fg-3: var(--color-slate-500);
   --color-fg-inverse: var(--color-slate-50);
-  --color-line: var(--color-ink-900);     /* every outline + offset shadow */
-  --color-on-fill: var(--color-ink-900);  /* text/icons on mid-tone fills (sage-500, mist-500, -300 tints) */
+  --color-line: var(--color-ink-900); /* every outline + offset shadow */
+  --color-on-fill: var(
+    --color-ink-900
+  ); /* text/icons on mid-tone fills (sage-500, mist-500, -300 tints) */
   --color-subtle: var(--color-slate-300); /* dashed dividers, quiet borders */
   --color-accent: var(--color-sage-500);
   --color-accent-strong: var(--color-sage-700);
@@ -82,7 +84,7 @@
   --color-footer: var(--color-ink-900);
   --color-footer-fg: var(--color-slate-50);
   --color-footer-muted: var(--color-slate-300);
-  --color-overlay: rgba(26, 31, 36, .5);
+  --color-overlay: rgba(26, 31, 36, 0.5);
 
   --color-success: var(--color-moss-500);
   --color-success-soft: var(--color-moss-100);
@@ -95,9 +97,10 @@
 
   /* Type */
   --font-*: initial;
-  --font-display: 'Fredoka', ui-rounded, 'Arial Rounded MT Bold', system-ui, sans-serif;
+  --font-display:
+    'Fredoka', ui-rounded, 'Arial Rounded MT Bold', system-ui, sans-serif;
   --font-body: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, monospace;
+  --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, monospace;
 
   /* Sizes only set font-size (no paired line-height), so text-* never changes leading */
   --text-*: initial;
@@ -109,8 +112,8 @@
   --text-2xl: 24px;
   --text-3xl: 30px;
   --text-4xl: 36px;
-  --text-body: 17px;   /* page body copy */
-  --text-prose: 19px;  /* long-form case study copy */
+  --text-body: var(--text-lg); /* page body copy */
+  --text-prose: var(--text-xl); /* long-form case study copy */
   --text-h4: 22px;
   --text-h3: 28px;
   --text-h2: 38px;
@@ -139,8 +142,8 @@
   --shadow-xl: 8px 8px 0 0 var(--color-line);
 
   /* Motion */
-  --ease-out: cubic-bezier(.2, .8, .2, 1);
-  --ease-bounce: cubic-bezier(.34, 1.56, .64, 1);
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 
   /* Layout widths: max-w-content, max-w-page */
   --container-content: 680px;
@@ -156,16 +159,68 @@
   --animate-fade-in: fade-in 200ms var(--ease-out);
   --animate-fade-out: fade-out 240ms var(--ease-out) both;
   --animate-pop-in: pop-in 320ms var(--ease-bounce);
-  --animate-pop-out: pop-out 220ms cubic-bezier(.5, 0, .75, 0) 40ms both;
-  --animate-slide-in: slide-in 320ms var(--ease-bounce) var(--stagger-in, 0ms) both;
-  --animate-slide-out: slide-out 160ms var(--ease-out) var(--stagger-out, 0ms) both;
+  --animate-pop-out: pop-out 220ms cubic-bezier(0.5, 0, 0.75, 0) 40ms both;
+  --animate-slide-in: slide-in 320ms var(--ease-bounce) var(--stagger-in, 0ms)
+    both;
+  --animate-slide-out: slide-out 160ms var(--ease-out) var(--stagger-out, 0ms)
+    both;
 
-  @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
-  @keyframes pop-in { from { opacity: 0; transform: scale(.9) translateY(8px); } to { opacity: 1; transform: none; } }
-  @keyframes pop-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: scale(.9) translateY(12px); } }
-  @keyframes slide-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
-  @keyframes slide-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(10px); } }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: scale(0.9) translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes pop-out {
+    from {
+      opacity: 1;
+      transform: none;
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.9) translateY(12px);
+    }
+  }
+  @keyframes slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes slide-out {
+    from {
+      opacity: 1;
+      transform: none;
+    }
+    to {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
 }
 
 /* Durations for hand-written CSS (in markup use duration-120 / duration-200 / duration-320) */
@@ -177,11 +232,14 @@
 
 /* dark: variant for one-off tweaks. Matches the token swap below: OS setting unless data-theme forces it. */
 @custom-variant dark {
-  &:where([data-theme="dark"], [data-theme="dark"] *) {
+  &:where([data-theme='dark'], [data-theme='dark'] *) {
     @slot;
   }
   @media (prefers-color-scheme: dark) {
-    &:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *) {
+    &:where(
+      :root:not([data-theme='light']),
+      :root:not([data-theme='light']) *
+    ) {
       @slot;
     }
   }
@@ -190,82 +248,82 @@
 /* Dark mode. Follows the OS setting (prefers-color-scheme) automatically.
    Force a mode with data-theme="dark" or data-theme="light" on <html>.
    Surfaces lift off a deep slate page; outlines + offset shadows stay near-black. */
-[data-theme="dark"] {
+[data-theme='dark'] {
   color-scheme: dark;
 
   /* 100-level tints become deep, low-light versions of each hue */
   --color-sage-100: #253222;
-  --color-mist-100: #222C37;
-  --color-moss-100: #1F3029;
-  --color-lichen-100: #262D24;
-  --color-dusk-100: #232A3A;
-  --color-amber-100: #3A2F17;
-  --color-rust-100: #3D211B;
+  --color-mist-100: #222c37;
+  --color-moss-100: #1f3029;
+  --color-lichen-100: #262d24;
+  --color-dusk-100: #232a3a;
+  --color-amber-100: #3a2f17;
+  --color-rust-100: #3d211b;
 
-  --color-page: #14181C;
-  --color-surface: #1D2227;
-  --color-sunken: #262C32;
-  --color-inverse: #E6EAEE;
-  --color-inverse-hover: #C3CAD1;
-  --color-fg-1: #E9EDF0;
-  --color-fg-2: #B6BFC8;
-  --color-fg-3: #8D97A1;
-  --color-fg-inverse: #14181C;
-  --color-subtle: #353D45;
-  --color-line: #07090B;
-  --color-on-fill: #1A1F24;
+  --color-page: #14181c;
+  --color-surface: #1d2227;
+  --color-sunken: #262c32;
+  --color-inverse: #e6eaee;
+  --color-inverse-hover: #c3cad1;
+  --color-fg-1: #e9edf0;
+  --color-fg-2: #b6bfc8;
+  --color-fg-3: #8d97a1;
+  --color-fg-inverse: #14181c;
+  --color-subtle: #353d45;
+  --color-line: #07090b;
+  --color-on-fill: #1a1f24;
 
   --color-accent-strong: var(--color-sage-300);
   --color-link: var(--color-sage-300);
-  --color-link-hover: #E9EDF0;
+  --color-link-hover: #e9edf0;
   --color-focus: var(--color-dusk-300);
   --color-selection: var(--color-mist-500);
 
-  --color-code: #0C0F12;
-  --color-code-fg: #DFE3E7;
-  --color-footer: #0C0F12;
-  --color-footer-fg: #E9EDF0;
-  --color-footer-muted: #8D97A1;
-  --color-overlay: rgba(5, 7, 9, .6);
+  --color-code: #0c0f12;
+  --color-code-fg: #dfe3e7;
+  --color-footer: #0c0f12;
+  --color-footer-fg: #e9edf0;
+  --color-footer-muted: #8d97a1;
+  --color-overlay: rgba(5, 7, 9, 0.6);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
+  :root:not([data-theme='light']) {
     color-scheme: dark;
 
     /* 100-level tints become deep, low-light versions of each hue */
     --color-sage-100: #253222;
-    --color-mist-100: #222C37;
-    --color-moss-100: #1F3029;
-    --color-lichen-100: #262D24;
-    --color-dusk-100: #232A3A;
-    --color-amber-100: #3A2F17;
-    --color-rust-100: #3D211B;
+    --color-mist-100: #222c37;
+    --color-moss-100: #1f3029;
+    --color-lichen-100: #262d24;
+    --color-dusk-100: #232a3a;
+    --color-amber-100: #3a2f17;
+    --color-rust-100: #3d211b;
 
-    --color-page: #14181C;
-    --color-surface: #1D2227;
-    --color-sunken: #262C32;
-    --color-inverse: #E6EAEE;
-    --color-inverse-hover: #C3CAD1;
-    --color-fg-1: #E9EDF0;
-    --color-fg-2: #B6BFC8;
-    --color-fg-3: #8D97A1;
-    --color-fg-inverse: #14181C;
-    --color-subtle: #353D45;
-    --color-line: #07090B;
-    --color-on-fill: #1A1F24;
+    --color-page: #14181c;
+    --color-surface: #1d2227;
+    --color-sunken: #262c32;
+    --color-inverse: #e6eaee;
+    --color-inverse-hover: #c3cad1;
+    --color-fg-1: #e9edf0;
+    --color-fg-2: #b6bfc8;
+    --color-fg-3: #8d97a1;
+    --color-fg-inverse: #14181c;
+    --color-subtle: #353d45;
+    --color-line: #07090b;
+    --color-on-fill: #1a1f24;
 
     --color-accent-strong: var(--color-sage-300);
     --color-link: var(--color-sage-300);
-    --color-link-hover: #E9EDF0;
+    --color-link-hover: #e9edf0;
     --color-focus: var(--color-dusk-300);
     --color-selection: var(--color-mist-500);
 
-    --color-code: #0C0F12;
-    --color-code-fg: #DFE3E7;
-    --color-footer: #0C0F12;
-    --color-footer-fg: #E9EDF0;
-    --color-footer-muted: #8D97A1;
-    --color-overlay: rgba(5, 7, 9, .6);
+    --color-code: #0c0f12;
+    --color-code-fg: #dfe3e7;
+    --color-footer: #0c0f12;
+    --color-footer-fg: #e9edf0;
+    --color-footer-muted: #8d97a1;
+    --color-overlay: rgba(5, 7, 9, 0.6);
   }
 }

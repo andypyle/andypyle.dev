@@ -48,7 +48,7 @@ const Heading = `h${headingLevel}` as const;
             // Colors
             'text-fg-1 hover:text-fg-1',
             // Typography
-            'font-[inherit] no-underline',
+            'font-[inherit] font-medium no-underline',
             // Focus (the card draws the ring)
             'focus-visible:outline-none',
             // ::after: covers the card so it's all clickable
@@ -57,7 +57,7 @@ const Heading = `h${headingLevel}` as const;
         >{d.title}</a>
       </Heading>
       <p class="text-base text-fg-2">{d.summary}</p>
-      <span class="font-mono text-[13px] text-fg-3">{d.company} · {d.year}</span>
+      <span class="font-mono text-sm text-fg-3">{d.company} · {d.year}</span>
       <span
         class:list={[
           // Layout
@@ -67,7 +67,7 @@ const Heading = `h${headingLevel}` as const;
           // Colors
           'text-link',
           // Typography
-          'text-[15px] font-bold',
+          'text-base font-bold',
         ]}
         aria-hidden="true"
       >Read case study <Icon name="arrow-right" size={18} /></span>

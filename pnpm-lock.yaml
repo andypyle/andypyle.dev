@@ -20,6 +20,9 @@ importers:
       '@fontsource/fredoka':
         specifier: ^5.1.0
         version: 5.3.0
+      '@fontsource/geist-mono':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@tailwindcss/vite':
         specifier: ^4.3.3
         version: 4.3.3(vite@6.4.4(@types/node@24.19.2)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.1))
@@ -646,6 +649,9 @@ packages:
 
   '@fontsource/fredoka@5.3.0':
     resolution: {integrity: sha512-s2IhjQ50wDnKkkaKmjhtL0rxQg6ITsVusiipM3m7zUwVZZbbCKsscNDkngwp28xVzfIt7neWrkgU1qKqyTycQg==}
+
+  '@fontsource/geist-mono@5.3.0':
+    resolution: {integrity: sha512-UtJ1BBBCVpMYdIcW7nEB45UAoAw5M53ZXs2t0ciPW+IokuAAIc56M8+kW5tXbRJCTpDw4XTtU7proT6NdQAHTg==}
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -3077,6 +3083,8 @@ snapshots:
   '@fontsource/figtree@5.3.0': {}
 
   '@fontsource/fredoka@5.3.0': {}
+
+  '@fontsource/geist-mono@5.3.0': {}
 
   '@img/colour@1.1.0': {}
 
