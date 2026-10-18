@@ -26,8 +26,16 @@ import Callout from '../../components/Callout.astro'
 
 Vimeo needed a redesigned global navigation as part of a broader UX overhaul. Navigation sits at the top of every marketing page and has a direct relationship with conversion, so the stakes for getting it right were high, both visually and technically.
 
-<Figure src={oldNavOpen} alt="Old Vimeo navigation with the Product menu open: a plain list of links with small icons, grouped under headings like Hosting and Player, Creation and Editing, and Platform" caption="Before" />
-<Figure src={newNavOpen} alt="New Vimeo navigation with the Features menu open: the same groups, now with an icon tile and a one-line description for each item, plus a See all features link" caption="After" />
+<Figure
+  src={oldNavOpen}
+  alt="Old Vimeo navigation with the Product menu open: a plain list of links with small icons, grouped under headings like Hosting and Player, Creation and Editing, and Platform"
+  caption="Before"
+/>
+<Figure
+  src={newNavOpen}
+  alt="New Vimeo navigation with the Features menu open: the same groups, now with an icon tile and a one-line description for each item, plus a See all features link"
+  caption="After"
+/>
 
 ## Approach
 
@@ -48,7 +56,7 @@ I built the navigation as one of the first major components within Vimeo's [new 
 
 We launched as a controlled A/B test, starting with roughly 10% of traffic to limit risk. A stakeholder monitoring the results flagged a significant drop in mobile traffic to Vimeo's join page. I was brought into the cross-functional response, organizing a brainstorm sync with the UX designer, UI designer, and project manager. Rather than debating a single fix, we rapidly generated three distinct design directions to narrow faster. I implemented the winning approach, making the join button significantly more prominent on mobile, which not only recovered the lost traffic but produced a net lift to traffic on the primary conversion page.
 
-Separately, after launch, a stakeholder flagged a performance issue: hovering over top-level navigation items caused a noticeable delay before dropdown menus appeared. I used Chrome's performance monitor to record and trace the interaction down the component tree. The culprit was a `useWindowResize` hook relying on a resize event handler, with many instances mounted simultaneously throughout the navigation. I replaced it with a new hook built on the browser's native `matchMedia` API, hoisted the listener to a single point higher in the tree, and passed the result down via React Context. This eliminated the delay entirely.
+Separately, after launch, I noticed a performance issue: hovering over top-level navigation items caused a noticeable delay before dropdown menus appeared. Nobody had reported it yet, but on a component this visible, I didn’t want to wait until someone did. I used Chrome's performance monitor to record and trace the interaction down the component tree. The culprit was a `useWindowResize` hook relying on a resize event handler, with many instances mounted simultaneously throughout the navigation. I replaced it with a new hook built on the browser's native `matchMedia` API, hoisted the listener to a single point higher in the tree, and passed the result down via React Context. This eliminated the delay entirely.
 
 <Callout title="Did you know?">
   You can export the Chrome Performance profile and hand it to your AI tool of
@@ -58,4 +66,4 @@ Separately, after launch, a stakeholder flagged a performance issue: hovering ov
 
 ## Outcome
 
-The navigation launched successfully and now serves as a foundational piece of Vimeo's marketing UX. The A/B test process kept the initial blast radius small, the cross-functional collaboration turned a regression into a measurable win, and the performance fix removed a user-facing latency issue across the entire navigation surface.
+The navigation now sits at the top of every page on Vimeo’s marketing site, one of its highest-traffic surfaces. Starting the A/B test at roughly 10% of traffic kept the blast radius small when the mobile regression surfaced, and the fix shipped within two days. It didn’t just recover the lost mobile traffic to the join page. It finished above the original baseline, turning the regression into a measurable gain on the site’s primary conversion page. Separately, the performance fix replaced many per-instance resize listeners with a single shared one, removing a visible hover delay across every dropdown in the navigation.
