@@ -64,7 +64,7 @@
   --color-inverse: var(--color-ink-900);
   --color-inverse-hover: var(--color-slate-700);
   --color-fg-1: var(--color-ink-900);
-  --color-fg-2: #DDDDDD;
+  --color-fg-2: var(--color-slate-700);
   --color-fg-3: var(--color-slate-500);
   --color-fg-inverse: var(--color-slate-50);
   --color-line: var(--color-ink-900);     /* every outline + offset shadow */
