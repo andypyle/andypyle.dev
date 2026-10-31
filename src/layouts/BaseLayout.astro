@@ -68,9 +68,9 @@ const jsonLd = schema.length > 0 && JSON.stringify({ '@context': 'https://schema
     <meta name="twitter:description" content={description} />
     {jsonLd && <script is:inline type="application/ld+json" set:html={jsonLd} />}
   </head>
-  <body>
+  <body class="flex min-h-dvh flex-col">
     <Header />
-    <main class="mx-auto max-w-page px-6 pt-14 max-md:pt-9">
+    <main class="mx-auto w-full max-w-page flex-1 px-6 pt-14 max-md:pt-9">
       <slot />
     </main>
     <Footer />
