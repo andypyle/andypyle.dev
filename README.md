@@ -1,7 +1,6 @@
-# andypyle.com
+# andypyle.dev
 
-Static portfolio built with [Astro](https://astro.build) and [Tailwind CSS v4](https://tailwindcss.com) on the **Loam** design system (sage & slate, thick ink outlines, Fredoka + Figtree).
-
+Static portfolio built with [Astro](https://astro.build) and [Tailwind CSS v4](https://tailwindcss.com) on the **Keyline** design system.
 ## Getting started
 
 ```bash
