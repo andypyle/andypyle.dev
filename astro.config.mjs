@@ -30,6 +30,7 @@ const createRendererWithoutScripts = (options) =>
   createRenderer({ ...options, plugins: [...options.plugins, noScripts] })
 
 // Routes kept in src/routes/: case study detail pages, plus pages that can be switched off via `features` in site.yaml
+// (projects index and project detail pages)
 const routes = {
   name: 'routes',
   hooks: {
@@ -45,6 +46,10 @@ const routes = {
         injectRoute({
           pattern: '/projects',
           entrypoint: './src/routes/projects.astro',
+        })
+        injectRoute({
+          pattern: '/projects/[slug]',
+          entrypoint: './src/routes/project.astro',
         })
       }
     },

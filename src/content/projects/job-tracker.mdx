@@ -1,0 +1,75 @@
+---
+title: 'Job Tracker'
+kind: App
+year: '2026'
+blurb: 'Tracks job applications from applied to offer, with a dashboard for response and interview rates. Paste a job link and it fills in the details.'
+stack: ['React', 'FastAPI', 'Supabase']
+image: './job-tracker/dashboard-light.png'
+imageAlt: 'Job Tracker dashboard showing response rate, interview rate and applications per week'
+code: 'https://github.com/andypyle/job-tracker'
+live: 'https://jobtracker.andypyle.dev'
+design: 'https://www.figma.com/design/ajjKIbesu4oY79EfQIX7Ov/JobTracker?node-id=0-1'
+order: 0
+---
+
+import Figure from '../../components/Figure.astro'
+import FigureGroup from '../../components/FigureGroup.astro'
+import detail from './job-tracker/detail-light.png'
+import phone from './job-tracker/active-phone.png'
+import phoneDark from './job-tracker/active-phone-dark.png'
+import dashboardDark from './job-tracker/dashboard-dark.png'
+
+## Why I built it
+
+I was tracking my job search in a spreadsheet, and keeping the spreadsheet working started to take more time than the search itself: columns, formulas, conditional formatting. I wanted something that kept itself up to date so I could focus on applying.
+
+It was also a chance to try Python on the backend, so the API is written in FastAPI. And I'd already built an AI-driven interview prep app, so this gives that work a natural place to land later.
+
+## What it does
+
+Each application moves through a clear lifecycle: Applied, Interviewing, then Offer, Rejected or Role Eliminated. Every status change goes on a timeline, so you can see how long each step took.
+
+- **Paste a link to fill in the details.** The backend reads the job post's OpenGraph and JSON-LD data for the title, company, logo and compensation.
+- **Stale applications clean themselves up.** A nightly job moves anything with no movement to Unlikely, so the active list stays honest. The wait is 14 days by default, adjustable from 7 to 60, or off.
+- **Résumé and cover letter attachments.** PDFs are stored per application, and downloads use short-lived signed URLs.
+- **A dashboard for the search as a whole.** Response rate, interview rate, average response time, and applications per week and by status.
+
+<Figure src={detail} alt="An application's detail page, with its details, attached documents and a timeline of status changes" caption="Each application keeps its documents and a timeline of every status change." />
+
+## How it's built
+
+The frontend is React 18 and TypeScript on Vite, with Tailwind CSS 4, TanStack Query for server state, and React Hook Form with Zod for forms. The backend is FastAPI, with APScheduler for the nightly job and Beautiful Soup for reading job posts. Supabase provides Postgres, Auth and Storage, and everything runs on Railway in Docker.
+
+A few decisions I'd point to:
+
+### Supabase for auth, not for data access
+
+The browser never queries the database directly. Every request goes through the FastAPI backend, which verifies the user's Supabase token before talking to Postgres or Storage. Queries still run with that token, so Postgres row-level security applies as a second line of defence. If a backend route ever forgot to scope a query to the current user, the database would still refuse to return someone else's data.
+
+### Design system first, in Figma
+
+Colors, type, spacing and motion are tokens that map one-to-one to Figma variables. Dark mode uses CSS `light-dark()` on those tokens instead of a second set of styles, so every component supports it without extra work. The app also has its own phone layout and navigation, not a squeezed desktop view.
+
+<FigureGroup caption="The active applications list on a phone, in light and dark mode.">
+  <Figure src={phone} alt="Active applications list on a phone in light mode" />
+  <Figure src={phoneDark} alt="Active applications list on a phone in dark mode" />
+</FigureGroup>
+
+### Accessibility enforced by the build
+
+Every Storybook story runs as a test in a real browser, including axe accessibility checks. A violation fails the build, so accessibility can't quietly regress.
+
+### Testing in layers
+
+- Backend unit tests with a mocked Supabase.
+- Frontend unit tests against a mocked API, using MSW.
+- Story tests for every component and screen, with interaction tests in their `play` functions.
+- End-to-end tests with Playwright against the real stack: a local Supabase, the API and a production build.
+
+CI runs all of them on every pull request, and production deploys wait for them to pass.
+
+<Figure src={dashboardDark} alt="Job Tracker dashboard in dark mode" caption="The dashboard in dark mode, driven by the same tokens as light mode." />
+
+## What's next
+
+I plan to add error monitoring and observability with Sentry. I may also bring in the AI interview prep from my earlier project.

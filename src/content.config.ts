@@ -43,16 +43,22 @@ const skills = defineCollection({
 
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projects' }),
-  schema: z.object({
-    title: z.string(),
-    kind: z.enum(['App', 'Library', 'Experiment']),
-    year: z.string(),
-    blurb: z.string(),
-    stack: z.array(z.string()),
-    code: z.string().optional(),
-    live: z.string().optional(),
-    order: z.number().default(0),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      kind: z.enum(['App', 'Library', 'Experiment']),
+      year: z.string(),
+      blurb: z.string(),
+      stack: z.array(z.string()),
+      // Card screenshot, 16:10
+      image: image().optional(),
+      imageAlt: z.string().optional(),
+      code: z.string().optional(),
+      live: z.string().optional(),
+      // Figma (or other) design file; shown on the detail page only
+      design: z.string().url().optional(),
+      order: z.number().default(0),
+    }),
 });
 
 const caseStudies = defineCollection({

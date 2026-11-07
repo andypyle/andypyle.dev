@@ -1,0 +1,73 @@
+---
+// Project detail page links (live app, code, design file) as rows: icon, label, and where the link goes.
+import type { Project } from '../lib/data';
+import Card from './ui/Card.astro';
+import Icon from './ui/Icon.astro';
+interface Props { p: Project['data']; class?: string }
+const { p, class: cls } = Astro.props;
+
+// GitHub shows owner/repo since the domain alone says little; other links show just the host
+const where = (href: string) => {
+  const url = new URL(href);
+  const host = url.host.replace(/^www\./, '');
+  return host === 'github.com' ? host + url.pathname.replace(/\/$/, '') : host;
+};
+
+const links = [
+  p.live && { href: p.live, label: 'Live app', icon: 'app-window' },
+  p.code && { href: p.code, label: 'Source code', icon: 'github' },
+  p.design && { href: p.design, label: 'Design file', icon: 'figma' },
+].filter((l) => !!l);
+---
+{links.length > 0 && (
+  <Card padding="none" class={cls}>
+    <nav aria-label="Project links">
+      <ul class="divide-y-3 divide-line">
+        {links.map((l) => (
+          <li>
+            <a
+              href={l.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class:list={[
+                // Layout
+                'group flex items-center gap-4',
+                // Spacing
+                'px-5 py-4',
+                // Colors
+                'text-fg-1 hover:bg-sunken hover:text-fg-1',
+                // Typography
+                'no-underline',
+                // Focus
+                'focus-visible:outline-3 focus-visible:-outline-offset-6 focus-visible:outline-focus',
+                // Transitions
+                'transition-colors duration-150',
+              ]}
+            >
+              <span
+                class:list={[
+                  // Layout
+                  'grid size-10 flex-none place-items-center',
+                  // Borders
+                  'rounded-md border-3 border-line',
+                  // Colors
+                  'bg-accent-soft text-fg-1',
+                ]}
+              ><Icon name={l.icon} size={20} /></span>
+              <span class="flex min-w-0 flex-1 flex-col gap-0.5">
+                <span class="font-semibold">{l.label}</span>
+                <span class="truncate font-mono text-sm text-fg-3">{where(l.href)}</span>
+              </span>
+              <Icon
+                name="arrow-up-right"
+                size={20}
+                class="text-fg-2 transition-transform duration-150 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
+              <span class="sr-only"> (opens in new tab)</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </Card>
+)}

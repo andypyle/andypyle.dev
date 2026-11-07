@@ -18,3 +18,6 @@ export const getExperience = async () => (await getCollection('experience')).sor
 export const getSkills = async () => (await getCollection('skills')).sort(byOrder).map((e) => e.data.name);
 
 export const getProjects = async () => (await getCollection('projects')).sort(byOrder);
+
+/** Only projects with MDX body content get a detail page; the rest are card-only. */
+export const hasProjectPage = (p: Project) => Boolean(p.body?.trim());

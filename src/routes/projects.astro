@@ -6,21 +6,27 @@ import { getProjects } from '../lib/data';
 
 const projects = await getProjects();
 
-const filters = [
-  { id: 'All', label: 'All' },
+// Only offer filters for kinds that have projects; with a single kind, skip the bar
+const kinds = [
   { id: 'App', label: 'Apps' },
   { id: 'Library', label: 'Libraries' },
   { id: 'Experiment', label: 'Experiments' },
-];
+].filter((k) => projects.some((p) => p.data.kind === k.id));
+const filters = kinds.length > 1 ? [{ id: 'All', label: 'All' }, ...kinds] : [];
 ---
-<BaseLayout title="Projects">
+<BaseLayout
+  title="Projects"
+  description="Side projects, open-source bits, and experiments by frontend engineer Andy Pyle. Smaller, faster, and where I try new things."
+>
   <h1>Projects</h1>
   <p class="mt-4 max-w-155 text-xl text-fg-2">Side projects, open-source bits, and experiments. Smaller, faster, and where I try new things.</p>
-  <div class="my-8 flex flex-wrap gap-2.5" data-filters>
-    {filters.map((f, i) => <Tag as="button" type="button" selected={i === 0} data-filter={f.id}>{f.label}</Tag>)}
-  </div>
-  <div class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-7" data-projects>
-    {projects.map((p) => <ProjectCard p={p} />)}
+  {filters.length > 0 && (
+    <div class="my-8 flex flex-wrap gap-2.5" data-filters>
+      {filters.map((f, i) => <Tag as="button" type="button" selected={i === 0} data-filter={f.id}>{f.label}</Tag>)}
+    </div>
+  )}
+  <div class:list={['grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-7', filters.length === 0 && 'mt-10']} data-projects>
+    {projects.map((p) => <ProjectCard p={p} headingLevel={2} />)}
   </div>
 </BaseLayout>
 

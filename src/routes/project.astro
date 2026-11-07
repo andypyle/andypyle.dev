@@ -1,0 +1,79 @@
+---
+// Routed to /projects/[slug]/ via injectRoute in astro.config.mjs. Only built for projects with body content.
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
+import ProjectLinks from '../components/ProjectLinks.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getProjects, hasProjectPage } from '../lib/data';
+import { softwareApplication } from '../lib/schema';
+
+export async function getStaticPaths() {
+  const projects = (await getProjects()).filter(hasProjectPage);
+  return projects.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+const schema = [await softwareApplication(entry, Astro.site!, new URL(Astro.url.pathname, Astro.site))];
+const meta = [
+  ['Type', d.kind],
+  ['Year', d.year],
+  ['Stack', d.stack.join(', ')],
+];
+---
+<BaseLayout title={d.title} description={d.blurb} image={d.image} schema={schema}>
+  <article class="mx-auto max-w-220">
+    <Button variant="ghost" size="sm" icon="arrow-left" iconClass="loam-anim-dash-back" href="/projects/">All projects</Button>
+    <h1 class="mt-7">{d.title}</h1>
+    <p class="mt-4 max-w-content text-2xl text-fg-2">{d.blurb}</p>
+
+    <Card tone="sunken" flat class="mt-8">
+      <dl class="grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-5">
+        {meta.map(([k, v]) => (
+          <div>
+            <dt
+              class:list={[
+                // Colors
+                'text-fg-3',
+                // Typography
+                'font-body text-xs leading-none font-bold tracking-caps uppercase',
+              ]}
+            >{k}</dt>
+            <dd class="mt-2 font-semibold">{v}</dd>
+          </div>
+        ))}
+      </dl>
+    </Card>
+
+    <ProjectLinks p={d} class="mt-5" />
+
+    {d.image && (
+      <Image
+        src={d.image}
+        alt={d.imageAlt ?? ''}
+        widths={[880, 1760]}
+        sizes="(max-width: 880px) 100vw, 880px"
+        loading="eager"
+        class:list={[
+          // Layout
+          'block object-cover object-top-left',
+          // Sizing
+          'aspect-16/10 w-full',
+          // Spacing
+          'mt-10',
+          // Borders
+          'rounded-lg border-3 border-line',
+          // Effects
+          'shadow-lg',
+        ]}
+      />
+    )}
+
+    <div class="loam-prose mx-auto mt-12">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

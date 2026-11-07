@@ -43,6 +43,29 @@ export async function profilePage(site: URL, url: URL): Promise<Schema> {
   };
 }
 
+/** Project detail page. Google won't show an app rich result without ratings or price; this links the app to its author. */
+export async function softwareApplication(entry: CollectionEntry<'projects'>, site: URL, url: URL): Promise<Schema> {
+  const d = entry.data;
+  const { name } = await getSite();
+  const image = d.image ? await getImage({ src: d.image, width: 1200, format: 'jpg' }) : undefined;
+  return {
+    '@type': 'SoftwareApplication',
+    name: d.title,
+    description: d.blurb,
+    // The live app if there is one, otherwise this page
+    url: d.live ?? url.href,
+    mainEntityOfPage: url.href,
+    applicationCategory: 'WebApplication',
+    operatingSystem: 'Web',
+    image: absolute(image?.src ?? '/og.png', site),
+    keywords: d.stack,
+    sameAs: d.code ? [d.code] : undefined,
+    // Google doesn't resolve @id across pages, so the author needs its own name and url
+    author: { '@type': 'Person', '@id': absolute('/#person', site), name, url: site.href },
+    isPartOf: { '@id': absolute('/#website', site) },
+  };
+}
+
 export async function article(entry: CollectionEntry<'case-studies'>, site: URL, url: URL): Promise<Schema> {
   const d = entry.data;
   const { name } = await getSite();

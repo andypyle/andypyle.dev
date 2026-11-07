@@ -9,7 +9,7 @@ links:
 
 # Switch whole sections of the site on/off. A disabled feature's page isn't built and its nav item is hidden.
 features:
-  projects: false
+  projects: true
 
 nav:
   - { id: home, label: Home, href: / }
