@@ -42,8 +42,8 @@ const featured = cases.filter((c) => c.data.featured).slice(0, 2);
   {site.features.projects && (
     <section class="mt-24">
       <SectionHead title="Projects" action="All projects" href="/projects/" />
-      <div class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-7">
-        {projects.slice(0, 3).map((p) => <ProjectCard p={p} />)}
+      <div class="grid gap-7 md:grid-cols-2">
+        {projects.slice(0, 2).map((p) => <ProjectCard p={p} />)}
       </div>
     </section>
   )}
