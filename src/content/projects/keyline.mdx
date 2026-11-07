@@ -1,0 +1,67 @@
+---
+title: 'Keyline'
+kind: Library
+year: '2026'
+blurb: 'A React component library with outlined controls and hard offset shadows, built on Tailwind v4 and designed in Figma alongside the code.'
+stack: ['React', 'Tailwind CSS', 'Storybook']
+image: './keyline/cover.png'
+imageAlt: 'Keyline cover page in Figma: the Keyline wordmark next to a card, a date picker and a toast built from its components'
+code: 'https://github.com/andypyle/keyline'
+live: 'https://keyline.andypyle.dev'
+liveLabel: 'Storybook'
+design: 'https://www.figma.com/design/gVJvJJAOtJkcdeBHk61Ivb/Keyline-Design-System?node-id=0-1'
+order: 1
+---
+
+import Figure from '../../components/Figure.astro'
+import FigureGroup from '../../components/FigureGroup.astro'
+import sample from './keyline/sample-light.png'
+import formsLight from './keyline/forms-light.png'
+import formsDark from './keyline/forms-dark.png'
+
+## Why I built it
+
+Keyline is an experiment in a Claude to Figma to code workflow. I wanted to see how far a design system could go when the design file and the code are kept in step on every component, with AI doing the repetitive parts on both sides and me making the design calls.
+
+It has 30 components so far, from buttons and form controls to date pickers, menus, modals, toasts and a video player. It isn't published to npm, and its APIs and visuals can still change.
+
+## The workflow
+
+Every component goes through the same loop:
+
+1. **Claude designs it in Figma.** Using the Figma connector, Claude lays out the component on its own page, with fills, strokes, radii and spacing bound to variables that mirror the code's tokens.
+2. **I adjust it by hand.** The design decisions happen here, in Figma.
+3. **Claude Code builds it.** It reads the adjusted design through the Figma MCP server, scaffolds the component with the repo's generator, builds it to match, and writes stories that test its behavior. Each story links back to its Figma page from the Storybook toolbar.
+
+The repo's `CLAUDE.md` holds the conventions Claude follows: file structure, class ordering, tokens and testing. Keeping those written down is what makes the output consistent from one component to the next.
+
+<Figure src={sample} alt="A household budget page built from Keyline: navigation, summary cards, a budget table, a filters panel, an accordion, an open dropdown menu and a toast" caption="A sample page in the Figma file, built from Keyline components." />
+
+## How it's built
+
+Keyline is a pnpm and Turborepo monorepo. The library, `@keyline/ui`, is React 19 and TypeScript, built with tsdown, with styles from the Tailwind v4 CLI and variants defined with class-variance-authority. Storybook lives in its own app and loads the stories that sit next to each component.
+
+### One structure for every component
+
+Components are only ever created with a Plop generator, never by hand. Each one gets the same files: the component, its types, its variants and its stories. If the structure needs to change, the templates change, not individual components. Compound components like `Card` are built from parts made by the same generator, and the parts read their parent's settings through CSS custom properties.
+
+### Tokens shared with Figma
+
+Variables, styles and components in Figma use the same names as the code. Components only use semantic tokens like `surface`, `fg-1` and `line`, never the raw palette, so dark mode is a matter of swapping those tokens.
+
+<FigureGroup caption="Form components in light and dark mode, with their open states.">
+  <Figure src={formsLight} alt="A workshop sign-up form built from Keyline in light mode, with open select, combobox, date picker and date range picker menus beside it" />
+  <Figure src={formsDark} alt="The same workshop sign-up form in dark mode" />
+</FigureGroup>
+
+### Safe to drop into an app
+
+Every utility class carries a `kl:` prefix, and the whole stylesheet sits in a `keyline` cascade layer. It doesn't reset the host app's styles, and declaring the layer first lets the app's own styles win.
+
+### Tested in three ways
+
+- **Behavior.** Every story runs as a test in headless Chromium, and `play` functions check what consumers rely on: keyboard access, focus, accessible names and handlers firing (or not, when disabled).
+- **Accessibility.** Every story is checked with axe, and components with colored fills get a dark mode story so contrast is checked there too.
+- **Visual regression.** Every story is screenshotted and compared with a baseline rendered on GitHub's Linux runners.
+
+All three run in CI as a required check on `main`, and Storybook only deploys once they pass.

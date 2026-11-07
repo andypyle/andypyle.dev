@@ -14,7 +14,7 @@ const where = (href: string) => {
 };
 
 const links = [
-  p.live && { href: p.live, label: 'Live app', icon: 'app-window' },
+  p.live && { href: p.live, label: p.liveLabel ?? 'Live app', icon: 'app-window' },
   p.code && { href: p.code, label: 'Source code', icon: 'github' },
   p.design && { href: p.design, label: 'Design file', icon: 'figma' },
 ].filter((l) => !!l);

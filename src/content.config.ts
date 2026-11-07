@@ -55,6 +55,8 @@ const projects = defineCollection({
       imageAlt: z.string().optional(),
       code: z.string().optional(),
       live: z.string().optional(),
+      // Label for the live link; defaults to "Live" on the card and "Live app" on the detail page
+      liveLabel: z.string().optional(),
       // Figma (or other) design file; shown on the detail page only
       design: z.string().url().optional(),
       order: z.number().default(0),

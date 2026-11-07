@@ -14,7 +14,7 @@ const href = hasProjectPage(entry) ? '/projects/' + entry.id + '/' : undefined;
 ---
 <Card
   class:list={[
-    'relative flex flex-col',
+    'group relative flex flex-col',
     href && 'has-focus-visible:outline-3 has-focus-visible:outline-offset-3 has-focus-visible:outline-focus',
   ]}
   padding="none"
@@ -27,7 +27,22 @@ const href = hasProjectPage(entry) ? '/projects/' + entry.id + '/' : undefined;
         alt={p.imageAlt ?? ''}
         widths={[400, 800]}
         sizes="(max-width: 600px) 100vw, 400px"
-        class="block aspect-16/10 w-full border-b-3 border-line object-cover object-top-left"
+        class:list={[
+          // Layout
+          'block object-cover object-top-left',
+          // Sizing
+          'aspect-16/10 w-full',
+          // Borders
+          'border-b-3 border-line',
+          // Effects (matches CaseCard; only cards with a detail page respond to hover, so only they start dimmed)
+          href && [
+            'grayscale-50 dark:brightness-80',
+            'group-hover:grayscale-0 group-hover:brightness-100',
+            'group-has-focus-visible:grayscale-0 group-has-focus-visible:brightness-100',
+          ],
+          // Transitions
+          'transition-[filter] duration-300 ease-out',
+        ]}
       />
     : <Placeholder label={p.title.toLowerCase() + ' · screenshot'} ratio="16/10" class="border-b-3 border-line" />}
   <div
@@ -63,7 +78,7 @@ const href = hasProjectPage(entry) ? '/projects/' + entry.id + '/' : undefined;
     {(p.code || p.live) && (
       <div class="relative z-1 mt-3 flex flex-wrap gap-2">
         {p.code && <Button size="sm" variant="secondary" icon="github" href={p.code} external>Code</Button>}
-        {p.live && <Button size="sm" iconRight="arrow-up-right" href={p.live} external>Live</Button>}
+        {p.live && <Button size="sm" iconRight="arrow-up-right" href={p.live} external>{p.liveLabel ?? 'Live'}</Button>}
       </div>
     )}
   </div>
