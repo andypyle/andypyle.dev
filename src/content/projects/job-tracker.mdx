@@ -3,7 +3,7 @@ title: 'Job Tracker'
 kind: App
 year: '2026'
 blurb: 'Tracks job applications from applied to offer, with a dashboard for response and interview rates. Paste a job link and it fills in the details.'
-stack: ['React', 'FastAPI', 'Supabase']
+stack: ['React', 'FastAPI', 'Neon']
 image: './job-tracker/dashboard-light.png'
 imageAlt: 'Job Tracker dashboard showing response rate, interview rate and applications per week'
 code: 'https://github.com/andypyle/job-tracker'
@@ -33,18 +33,23 @@ Each application moves through a clear lifecycle: Applied, Interviewing, then Of
 - **Stale applications clean themselves up.** A nightly job moves anything with no movement to Unlikely, so the active list stays honest. The wait is 14 days by default, adjustable from 7 to 60, or off.
 - **Résumé and cover letter attachments.** PDFs are stored per application, and downloads use short-lived signed URLs.
 - **A dashboard for the search as a whole.** Response rate, interview rate, average response time, and applications per week and by status.
+- **Accounts you control.** Sign up with an email and password, reset a forgotten password by email, change your name and password in Settings, or delete your account and everything in it.
 
 <Figure src={detail} alt="An application's detail page, with its details, attached documents and a timeline of status changes" caption="Each application keeps its documents and a timeline of every status change." />
 
 ## How it's built
 
-The frontend is React 18 and TypeScript on Vite, with Tailwind CSS 4, TanStack Query for server state, and React Hook Form with Zod for forms. The backend is FastAPI, with APScheduler for the nightly job and Beautiful Soup for reading job posts. Supabase provides Postgres, Auth and Storage, and everything runs on Railway in Docker.
+The frontend is React 18 and TypeScript on Vite, with Tailwind CSS 4, TanStack Query for server state, and React Hook Form with Zod for forms. The backend is FastAPI, with APScheduler for the nightly job and Beautiful Soup for reading job posts. Neon provides Postgres, Auth and Object Storage, with dbmate for migrations, and everything runs on Railway in Docker.
 
 A few decisions I'd point to:
 
-### Supabase for auth, not for data access
+### Neon Auth for sign-in, not for data access
 
-The browser never queries the database directly. Every request goes through the FastAPI backend, which verifies the user's Supabase token before talking to Postgres or Storage. Queries still run with that token, so Postgres row-level security applies as a second line of defence. If a backend route ever forgot to scope a query to the current user, the database would still refuse to return someone else's data.
+The browser never queries the database directly. Every request goes through the FastAPI backend, which verifies the user's Neon Auth token against the branch's public keys, then talks to Postgres and Object Storage itself, scoping every query to that user.
+
+### A branch for every environment
+
+Neon branches the database, the auth users and the file storage together. Local development, CI smoke tests and end-to-end tests each get their own copy, and the throwaway ones are deleted when the run ends. Migrations are rehearsed on a copy of production before they run against the real thing.
 
 ### Design system first, in Figma
 
@@ -61,12 +66,13 @@ Every Storybook story runs as a test in a real browser, including axe accessibil
 
 ### Testing in layers
 
-- Backend unit tests with a mocked Supabase.
+- Backend tests that run real SQL against a disposable Postgres.
 - Frontend unit tests against a mocked API, using MSW.
 - Story tests for every component and screen, with interaction tests in their `play` functions.
-- End-to-end tests with Playwright against the real stack: a local Supabase, the API and a production build.
+- Live smoke tests on a throwaway copy of production: real sign-in tokens, storage and migrations.
+- End-to-end tests with Playwright against the real stack on a throwaway Neon branch: the API and a production build.
 
-CI runs all of them on every pull request, and production deploys wait for them to pass.
+Pull requests run the backend, unit and story tests. The Neon-backed suites run on `main` and on demand.
 
 <Figure src={dashboardDark} alt="Job Tracker dashboard in dark mode" caption="The dashboard in dark mode, driven by the same tokens as light mode." />
 
