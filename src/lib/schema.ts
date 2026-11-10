@@ -55,8 +55,9 @@ export async function softwareApplication(entry: CollectionEntry<'projects'>, si
     // The live app if there is one, otherwise this page
     url: d.live ?? url.href,
     mainEntityOfPage: url.href,
-    applicationCategory: 'WebApplication',
-    operatingSystem: 'Web',
+    // Tools are developer software (CLIs, plugins) that run locally, not in a browser
+    applicationCategory: d.kind === 'Tool' ? 'DeveloperApplication' : 'WebApplication',
+    operatingSystem: d.kind === 'Tool' ? 'Cross-platform' : 'Web',
     image: absolute(image?.src ?? '/og.png', site),
     keywords: d.stack,
     sameAs: d.code ? [d.code] : undefined,

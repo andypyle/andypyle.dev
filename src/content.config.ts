@@ -46,12 +46,14 @@ const projects = defineCollection({
   schema: ({ image }) =>
     z.object({
       title: z.string(),
-      kind: z.enum(['App', 'Library', 'Experiment']),
+      kind: z.enum(['App', 'Library', 'Tool', 'Experiment']),
       year: z.string(),
       blurb: z.string(),
       stack: z.array(z.string()),
       // Card screenshot, 16:10
       image: image().optional(),
+      // Optional dark-mode version of `image`, shown on the detail page in dark mode (cards always use `image`)
+      imageDark: image().optional(),
       imageAlt: z.string().optional(),
       code: z.string().optional(),
       live: z.string().optional(),

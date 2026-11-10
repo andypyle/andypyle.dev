@@ -1,0 +1,63 @@
+---
+title: 'token-parity'
+kind: Tool
+year: '2026'
+blurb: 'Checks that the design tokens in Figma and in code match, and syncs drift in either direction. Runs as a Claude Code plugin, or as an npm CLI in CI.'
+stack: ['TypeScript', 'Node.js', 'Claude Code']
+image: './token-parity/cover.png'
+imageDark: './token-parity/cover-dark.png'
+imageAlt: 'A Tailwind @theme block and the Figma variables panel side by side, with the page color token highlighted in both: slate-100 in code, slate/300 in Figma'
+code: 'https://github.com/andypyle/token-parity'
+live: 'https://www.npmjs.com/package/token-parity'
+liveLabel: 'npm package'
+order: 2
+---
+
+import Figure from '../../components/Figure.astro'
+import threeWay from './token-parity/three-way.png'
+import threeWayDark from './token-parity/three-way-dark.png'
+import ciFail from './token-parity/parity-check-fail-gha.jpg'
+
+## Why I built it
+
+Design tokens are supposed to be the link between Figma and code, but nothing checks that the two still match. A color gets nudged in Figma, a spacing value changes in CSS, and the drift goes unnoticed until a screen looks slightly off.
+
+I built token-parity to make that link stronger and drift easy to see. It uses AI, but the results are deterministic: Claude handles the conversation and the trip to Figma, while a tested engine does every comparison and decides every value. The same tokens always produce the same report.
+
+## What it does
+
+Ask Claude Code to "check our tokens against Figma" and it exports the Figma variables, compares them with the `@theme` block in your CSS, and reports every difference with the direction it should go. It changes nothing until you ask it to sync.
+
+- **Three-way compare.** A lock file records the state at the last sync. Each side is compared against it, so token-parity knows whether Figma changed, code changed, or both. Both is a conflict, and you decide.
+- **Syncs both ways.** Figma changes are written into your CSS without touching formatting or comments. Code changes are pushed to Figma as variables, named and grouped like their closest neighbors.
+- **Modes and aliases.** Light and dark modes map to `.dark` overrides. Aliases compare by the value they resolve to, and `color-mix()` is evaluated.
+- **Exact colors.** If Figma shows `#0000FF`, the CSS has to hold that value, so searching code for what you see in Figma finds it.
+- **Runs in CI.** `npx token-parity check` fails a pull request when someone edits a token in CSS without syncing, and names the tokens.
+
+<Figure src={threeWay} srcDark={threeWayDark} alt="Figma variables, the lock file and code feed into token-parity. For each token: unchanged on both sides is in sync, a change in Figma goes to code, a change in code goes to Figma, and a change on both sides is a conflict you decide." caption="Comparing each side with the last sync is what tells token-parity which way a change should go." />
+
+<Figure src={ciFail} alt="A failed GitHub Actions step running token-parity check on a Keyline pull request: drift found, 3 errors and 0 warnings, with 126 tokens compared and 123 in sync" caption="token-parity failing a Keyline pull request after three tokens drifted." />
+
+## How it's built
+
+A pnpm monorepo with two parts: the engine and CLI (TypeScript, built with tsdown, tested with Vitest), and a Claude Code skill that connects it to Figma through the Figma MCP server. The plugin ships the engine bundled into a single file, so there's nothing else to install.
+
+### The engine never talks to Figma
+
+The engine only reads and writes files. The skill moves data in and out of Figma, running Plugin API code that the engine generates, never code Claude writes. Every hand-off is checksummed, so a value copied wrong is caught instead of synced.
+
+### Nothing changes without approval
+
+A sync runs in separate steps: `check` reports, `plan` shows exactly what would change, `apply` edits the CSS, and `commit` confirms Figma really holds the new values before the lock moves. Deletes need a separate yes. Claude never picks or edits a token value itself; values always come from Figma or from code.
+
+### Changing my mind on colors
+
+My first design treated OKLCH in code as the source of truth and compared colors perceptually. In practice that meant a designer could see `#3B82F6` in Figma, search the codebase for it, and find nothing. I switched the default to exact 8-bit parity written as hex or `rgb()`, and kept perceptual matching as an option for teams that prefer OKLCH.
+
+### Tested against a mock Figma
+
+Development was test-first: a fixture for every kind of drift, written before the logic. The Figma code the engine generates runs against a mock Figma in tests, and write-then-read tests generate different project shapes, sync them, and check the result reads back in sync. CI runs typecheck, tests and build on every pull request, and fails if the bundled plugin engine is out of date.
+
+## What's next
+
+More code formats (plain CSS custom properties, Sass, W3C design token JSON), a one-way mode for teams where Figma is the only source of truth, and support for variables from published Figma libraries.

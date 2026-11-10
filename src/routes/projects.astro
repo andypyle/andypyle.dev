@@ -10,6 +10,7 @@ const projects = await getProjects();
 const kinds = [
   { id: 'App', label: 'Apps' },
   { id: 'Library', label: 'Libraries' },
+  { id: 'Tool', label: 'Tools' },
   { id: 'Experiment', label: 'Experiments' },
 ].filter((k) => projects.some((p) => p.data.kind === k.id));
 const filters = kinds.length > 1 ? [{ id: 'All', label: 'All' }, ...kinds] : [];
