@@ -50,9 +50,9 @@ const meta = [
 
     <ProjectLinks p={d} class="mt-5" />
 
-    {d.image && [d.image, d.imageDark].map((src, i) => src && (
+    {d.image && (
       <Image
-        src={src}
+        src={d.image}
         alt={d.imageAlt ?? ''}
         widths={[880, 1760]}
         sizes="(max-width: 880px) 100vw, 880px"
@@ -68,11 +68,9 @@ const meta = [
           'rounded-lg border-3 border-line',
           // Effects
           'shadow-lg',
-          // Theme: with a dark version, show one per color scheme
-          d.imageDark && (i === 0 ? 'dark:hidden' : 'hidden dark:block'),
         ]}
       />
-    ))}
+    )}
 
     <div class="loam-prose mx-auto mt-12">
       <Content />

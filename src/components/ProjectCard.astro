@@ -22,7 +22,6 @@ const href = hasProjectPage(entry) ? '/projects/' + entry.id + '/' : undefined;
   data-kind={p.kind}
 >
   {p.image
-    // Cards always show the light image, like the other project cards; imageDark is for the detail page
     ? <Image
         src={p.image}
         alt={p.imageAlt ?? ''}
