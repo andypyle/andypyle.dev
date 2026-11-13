@@ -98,8 +98,8 @@
   /* Type */
   --font-*: initial;
   --font-display:
-    'Fredoka', ui-rounded, 'Arial Rounded MT Bold', system-ui, sans-serif;
-  --font-body: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    'Fredoka', 'Fredoka Fallback', ui-rounded, 'Arial Rounded MT Bold', system-ui, sans-serif;
+  --font-body: 'Figtree', 'Figtree Fallback', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, monospace;
 
   /* Sizes only set font-size (no paired line-height), so text-* never changes leading */

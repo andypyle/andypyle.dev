@@ -2,6 +2,26 @@
 @import "tailwindcss";
 @import "./theme.css";
 
+/* Arial scaled to match each web font's width and vertical metrics, so text keeps its size and line breaks while
+   the real font loads and the swap doesn't shift the layout. Values come from the fonts' hhea tables and average
+   glyph widths; recompute them if the fonts change. */
+@font-face {
+  font-family: 'Figtree Fallback';
+  src: local('Arial'), local('ArialMT'), local('Liberation Sans');
+  size-adjust: 101.54%;
+  ascent-override: 93.56%;
+  descent-override: 24.62%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Fredoka Fallback';
+  src: local('Arial'), local('ArialMT'), local('Liberation Sans');
+  size-adjust: 102.91%;
+  ascent-override: 94.65%;
+  descent-override: 22.93%;
+  line-gap-override: 0%;
+}
+
 /* Element defaults. Utilities in markup always win over these. */
 @layer base {
   /* Keep focused elements and anchor targets clear of the sticky header (and the phone menu button) */
