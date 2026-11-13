@@ -12,6 +12,7 @@ import '@fontsource/geist-mono/500.css';
 // Preload the latin faces used above the fold so they arrive with the CSS instead of after it, which usually
 // lets them land before first paint. Keep this list short: every preload competes with the page's own requests.
 import figtree400 from '@fontsource/figtree/files/figtree-latin-400-normal.woff2?url';
+import figtree700 from '@fontsource/figtree/files/figtree-latin-700-normal.woff2?url';
 import fredoka500 from '@fontsource/fredoka/files/fredoka-latin-500-normal.woff2?url';
 import fredoka600 from '@fontsource/fredoka/files/fredoka-latin-600-normal.woff2?url';
 import Footer from '../components/Footer.astro';
@@ -51,7 +52,7 @@ const jsonLd = schema.length > 0 && JSON.stringify({ '@context': 'https://schema
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
-    {[figtree400, fredoka500, fredoka600].map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
+    {[figtree400, figtree700, fredoka500, fredoka600].map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}

@@ -13,6 +13,16 @@
   descent-override: 24.62%;
   line-gap-override: 0%;
 }
+/* Figtree Bold is narrower relative to Arial Bold than the regular weights are, so bold text gets its own face */
+@font-face {
+  font-family: 'Figtree Fallback';
+  font-weight: 700;
+  src: local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold');
+  size-adjust: 96.57%;
+  ascent-override: 98.37%;
+  descent-override: 25.89%;
+  line-gap-override: 0%;
+}
 @font-face {
   font-family: 'Fredoka Fallback';
   src: local('Arial'), local('ArialMT'), local('Liberation Sans');
