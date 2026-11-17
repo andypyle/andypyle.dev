@@ -1,0 +1,62 @@
+---
+title: 'Gnome Watch'
+kind: Experiment
+year: '2026'
+blurb: 'A screen-edge drawer that shows each Claude Code agent as a little gnome with task progress, and lets you answer its prompts without switching to VS Code.'
+stack: ['TypeScript', 'Electron', 'Claude Code']
+image: './gnome-watch/character-packs.png'
+imageAlt: 'Five rows of cartoon characters, eight each: gnomes, capybaras, bats, cats and Bigfoot, each holding a tool like a hammer, watering can or paintbrush'
+code: 'https://github.com/andypyle/gnome-watch'
+order: 3
+---
+
+import Figure from '../../components/Figure.astro'
+import drawer from './gnome-watch/drawer.png'
+import prompts from './gnome-watch/prompts.png'
+
+## Why I built it
+
+I often have several Claude Code agents running across different projects, and the only way to see which one is waiting on me is to click back into VS Code and check each one. I wanted something I could glance at from the corner of my eye, and I wanted it to be a little fun.
+
+Gnome Watch is a side project and still early. It works well on macOS, but expect rough edges.
+
+## What it does
+
+While VS Code is in front, Gnome Watch tucks into a slim tab on the right edge of the screen. Switch to another app and it slides out into a full panel with one character per agent.
+
+- **A gnome per agent.** Each one works its own tool while the agent is busy, waves when it needs you, and naps after 20 quiet minutes. A project folder always gets the same gnome, so you learn who's who.
+- **Real progress.** The bar fills as the agent finishes items on its task list, with the model it's running and a status line next to it.
+- **Helpers, too.** Subagents show up as smaller characters under the agent that started them.
+- **Character packs.** Gnomes, capybaras, bats, cats or Bigfoot. Bats hang upside down to nap, and Bigfoot hides behind a pine tree.
+
+<Figure src={drawer} alt="Gnome Watch minimized to a narrow strip of gnomes and expanded into a panel, in light and dark mode. Four agents are listed: website is working at 3 of 5 tasks with two helper agents, api-server needs you, docs is done, and scratch is napping." caption="Minimized while VS Code is in front, expanded when you switch away." />
+
+## Answer without switching
+
+When an agent asks for permission or asks a multiple-choice question, the panel shows it right under the character. Allow or deny, pick an option, or type your own answer. **Use VS Code** hands the prompt back to Claude Code's normal dialog.
+
+<Figure src={prompts} alt="The expanded panel with two agents waiting: api-server asks permission to run npx prisma migrate deploy, with Allow and Deny buttons, and docs asks which docs framework to use, offering Docusaurus, VitePress or a custom answer." caption="A permission prompt and a question, answered from the panel." />
+
+## How it's built
+
+An Electron app written in TypeScript, with a plain HTML, CSS and TypeScript UI and no framework. Claude Code hooks run a small script on session events like starting, using a tool, finishing or asking a question. The script passes each event to the app over a local connection.
+
+For permission prompts and questions, the app holds the request until you answer and sends your answer back as the hook's decision. Everything else returns right away, so it never slows Claude down. If the app isn't running, the hooks exit as if they weren't installed.
+
+Everything stays on your machine. The server only listens on localhost and requires a random token that changes every launch.
+
+Each character pack is one file that draws eight characters as SVG. Packs share part names for heads, eyes and arms, so every pack gets the same animations for free.
+
+## Try it
+
+You need macOS (Windows and Linux mostly work), Node.js 18 or later, and Claude Code.
+
+```bash
+git clone https://github.com/andypyle/gnome-watch.git
+cd gnome-watch
+npm install
+npm run install-hooks
+npm start
+```
+
+Restart any open Claude Code sessions so they pick up the hooks. To build the app and run it from the menu bar, use `npm run install:mac`.

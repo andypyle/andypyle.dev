@@ -46,6 +46,7 @@ export async function profilePage(site: URL, url: URL): Promise<Schema> {
 /** Project detail page. Google won't show an app rich result without ratings or price; this links the app to its author. */
 export async function softwareApplication(entry: CollectionEntry<'projects'>, site: URL, url: URL): Promise<Schema> {
   const d = entry.data;
+  const local = d.kind === 'Tool' || d.kind === 'Experiment';
   const { name } = await getSite();
   const image = d.image ? await getImage({ src: d.image, width: 1200, format: 'jpg' }) : undefined;
   return {
@@ -55,9 +56,9 @@ export async function softwareApplication(entry: CollectionEntry<'projects'>, si
     // The live app if there is one, otherwise this page
     url: d.live ?? url.href,
     mainEntityOfPage: url.href,
-    // Tools are developer software (CLIs, plugins) that run locally, not in a browser
-    applicationCategory: d.kind === 'Tool' ? 'DeveloperApplication' : 'WebApplication',
-    operatingSystem: d.kind === 'Tool' ? 'Cross-platform' : 'Web',
+    // Tools and experiments are developer software (CLIs, plugins, desktop apps) that run locally, not in a browser
+    applicationCategory: local ? 'DeveloperApplication' : 'WebApplication',
+    operatingSystem: local ? 'Cross-platform' : 'Web',
     image: absolute(image?.src ?? '/og.png', site),
     keywords: d.stack,
     sameAs: d.code ? [d.code] : undefined,
@@ -69,6 +70,7 @@ export async function softwareApplication(entry: CollectionEntry<'projects'>, si
 
 export async function article(entry: CollectionEntry<'case-studies'>, site: URL, url: URL): Promise<Schema> {
   const d = entry.data;
+  const local = d.kind === 'Tool' || d.kind === 'Experiment';
   const { name } = await getSite();
   const hero = d.hero ? await getImage({ src: d.hero, width: 1200, format: 'jpg' }) : undefined;
   return {
