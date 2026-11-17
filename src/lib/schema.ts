@@ -2,7 +2,7 @@
 import { getImage } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import headshot from '../assets/andy-pyle-headshot.jpg';
-import { getSite } from './data';
+import { getExperience, getSite, getSkills } from './data';
 
 export type Schema = Record<string, unknown>;
 
@@ -12,6 +12,8 @@ const absolute = (path: string, site: URL) => new URL(path, site).href;
 export async function person(site: URL): Promise<Schema> {
   const { name, role, links } = await getSite();
   const photo = await getImage({ src: headshot, width: 600, format: 'jpg' });
+  // Past employers; the career break isn't an organization
+  const orgs = [...new Set((await getExperience()).map((e) => e.org).filter((o) => !o.startsWith('Career Break')))];
   return {
     '@type': 'Person',
     '@id': absolute('/#person', site),
@@ -19,6 +21,8 @@ export async function person(site: URL): Promise<Schema> {
     jobTitle: role,
     url: site.href,
     image: absolute(photo.src, site),
+    knowsAbout: await getSkills(),
+    alumniOf: orgs.map((name) => ({ '@type': 'Organization', name })),
     sameAs: [links.linkedin, links.github].filter((l) => l && l.startsWith('http')),
   };
 }
@@ -81,6 +85,7 @@ export async function article(entry: CollectionEntry<'case-studies'>, site: URL,
     mainEntityOfPage: url.href,
     // Full ISO timestamp; Google flags a bare date as missing a timezone
     datePublished: d.published.toISOString(),
+    dateModified: (d.updated ?? d.published).toISOString(),
     image: absolute(hero?.src ?? '/og.png', site),
     keywords: d.tags,
     // Google doesn't resolve @id across pages, so the author needs its own name and url

@@ -76,6 +76,8 @@ const caseStudies = defineCollection({
       timeline: z.string(),
       // When the case study was published (not when the work happened; that's `year`)
       published: z.coerce.date(),
+      // Set when the case study is meaningfully revised; feeds dateModified
+      updated: z.coerce.date().optional(),
       stack: z.array(z.string()).optional(),
       tags: z.array(z.string()).optional(),
       hero: image().optional(),
